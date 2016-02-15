@@ -13,6 +13,7 @@ import reducer from './reducers/reducer';
 import UhOh from './views/uhoh';
 import App from './views/app';
 import Home from './views/home';
+import Country from './views/countries';
 
 // Sync dispatched route actions to the history
 const reduxRouterMiddleware = syncHistory(hashHistory);
@@ -32,6 +33,7 @@ render((
   <Provider store={store}>
     <Router history={hashHistory}>
       <Route path='/' component={App}>
+        <Route path='countries/:country' component={Country} />
         <IndexRoute component={Home}/>
       </Route>
       <Route path='*' component={App}>

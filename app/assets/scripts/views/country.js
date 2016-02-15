@@ -1,13 +1,13 @@
 'use strict';
 import React from 'react';
 import { connect } from 'react-redux';
-// import { Link } from 'react-router';
 
-var Home = React.createClass({
-  displayName: 'Home',
+var Country = React.createClass({
+  displayName: 'Country',
 
   propTypes: {
-    dispatch: React.PropTypes.func
+    dispatch: React.PropTypes.func,
+    params: React.PropTypes.object
   },
 
   render: function () {
@@ -23,7 +23,9 @@ var Home = React.createClass({
         <div className='page__body'>
           <div className='inner'>
             <div className='page__content'>
-
+              <pre>
+                {JSON.stringify(this.props.params, null, ' ')}
+              </pre>
             </div>
           </div>
         </div>
@@ -45,4 +47,5 @@ function dispatcher (dispatch) {
   };
 }
 
-module.exports = connect(selector, dispatcher)(Home);
+module.exports = connect(selector, dispatcher)(Country);
+
