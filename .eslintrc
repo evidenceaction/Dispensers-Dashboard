@@ -7,10 +7,8 @@
   "plugins": [
     "react"
   ],
-  "parserOptions": {
-    "ecmaFeatures": {
-      "jsx": true
-    }
+  "ecmaFeatures": {
+    "jsx": true
   },
   rules: {
     'react/display-name': 2,

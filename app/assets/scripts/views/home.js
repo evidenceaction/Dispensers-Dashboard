@@ -16,16 +16,70 @@ var Home = React.createClass({
         <header className='page__header'>
           <div className='inner'>
             <div className='page__headline'>
-              <h1 className='page-title'>page title</h1>
+              <h1 className='page-title'>Home Page</h1>
             </div>
           </div>
         </header>
         <div className='page__body'>
-          <div className='inner'>
-            <div className='page__content'>
 
+          <section className='page__content section--stats'>
+            <div className='inner'>
+              <h1 className='section__title'>Stats</h1>
+              <div className='stats__entry'>
+                <h2 className='stats__title'>52!<small>seconds</small></h2>
+                <p className='stats__description'>A number so unfathomably big that's impossible to put in perspective.</p>
+              </div>
+              <div className='stats__entry'>
+                <h2 className='stats__title'>3.1415926<small>Some pie</small></h2>
+                <p className='stats__description'>The flavor... pie flavor</p>
+              </div>
+              <div className='stats__entry'>
+                <h2 className='stats__title'>100.000.000<small>Title</small></h2>
+                <p className='stats__description'>That's a lot of zeros, and a poor one at the front</p>
+              </div>
+              <div className='stats__entry'>
+                <h2 className='stats__title'>159<small>Title</small></h2>
+                <p className='stats__description'>I just need a somewhat long sentence to see what happens to this text.</p>
+              </div>
             </div>
-          </div>
+          </section>
+
+          <section className='page__content section--access'>
+            <div className='inner'>
+              <div className='col--main'>
+                <h1 className='section__title'>Section Title</h1>
+                <p>This is a pararaph and goes a little something like this... consectetur adipisicing elit.</p>
+                <p>This is another ipsum iste, facere ab consequuntur animi corporis culpa ratione
+                sequi quaerat deleniti distinctio ducimus, dolorem possimus, sit blanditiis odio harum quos minus.</p>
+              </div>
+              <div className='col--sec'>A viz of some sort</div>
+            </div>
+          </section>
+
+          <section className='page__content section--usage'>
+            <div className='inner'>
+              <div className='col--main'>
+                <h1 className='section__title'>Section Title</h1>
+                <p>This is a pararaph and goes a little something like this... consectetur adipisicing elit.</p>
+                <p>This is another ipsum iste, facere ab consequuntur animi corporis culpa ratione
+                sequi quaerat deleniti distinctio ducimus, dolorem possimus, sit blanditiis odio harum quos minus.</p>
+              </div>
+              <div className='col--sec'>A viz of some sort</div>
+            </div>
+          </section>
+
+          <section className='page__content section--carbon'>
+            <div className='inner'>
+              <div className='col--main'>
+                <h1 className='section__title'>Section Title</h1>
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                Ipsum iste, facere ab consequuntur animi corporis culpa ratione
+                sequi quaerat deleniti distinctio ducimus, dolorem possimus, sit blanditiis odio harum quos minus.</p>
+              </div>
+              <div className='col--sec'>A viz of some sort</div>
+            </div>
+          </section>
+
         </div>
       </section>
     );
