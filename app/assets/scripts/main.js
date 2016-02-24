@@ -1,4 +1,6 @@
 'use strict';
+/* global L */
+require('mapbox.js');
 import 'babel-polyfill';
 import React from 'react';
 import { render } from 'react-dom';
@@ -7,8 +9,10 @@ import { Router, Route, IndexRoute, hashHistory } from 'react-router';
 import { createStore, applyMiddleware, compose } from 'redux';
 import thunkMiddleware from 'redux-thunk';
 import { syncHistory } from 'react-router-redux';
-
 import reducer from './reducers/reducer';
+import config from './config';
+
+L.mapbox.accessToken = config.mbToken;
 
 import UhOh from './views/uhoh';
 import App from './views/app';

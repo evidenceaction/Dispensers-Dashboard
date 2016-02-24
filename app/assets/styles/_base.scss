@@ -259,6 +259,37 @@ a:active {
   .col--sec {
     @include col(6/12);
   }
+
+  .map-wrapper {
+    position: relative;
+    height: 20rem;
+
+    .map-container {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      width: 100%;
+    }
+  }
+
+  .area-chart-wrapper {
+    min-height: 20rem;
+
+    .area {
+      fill: blue;
+    }
+
+    .area-line {
+      fill: none;
+      stroke: red;
+    }
+
+    .focus-line {
+      fill: none;
+      stroke: green;
+      stroke-width: 2px;
+    }
+  }
 }
 
 .section--usage {

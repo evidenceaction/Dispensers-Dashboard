@@ -1,38 +1,13 @@
 'use strict';
 import React from 'react';
 import { connect } from 'react-redux';
-import Rcslider from 'rc-slider';
-import d3 from 'd3';
+import SectionAccess from '../components/section-access';
 
 var Home = React.createClass({
   displayName: 'Home',
 
   propTypes: {
     dispatch: React.PropTypes.func
-  },
-
-  getInitialState: function () {
-    return {
-      accessCurrDate: this.startDate
-    };
-  },
-
-  sliderChangeHandler: function (value) {
-    let sartingDate = new Date(this.startDate);
-    let nDate = d3.time.day.offset(sartingDate, value);
-
-    this.setState({accessCurrDate: nDate});
-
-    console.log('ndate', nDate);
-  },
-
-  startDate: new Date('2014/01/01'),
-  endDate: new Date('2015/09/28'),
-
-  computeSliderMax: function () {
-    let sTime = this.startDate.getTime() / 1000;
-    let eTime = this.endDate.getTime() / 1000;
-    return Math.ceil((eTime - sTime) / (60 * 60 * 24));
   },
 
   render: function () {
@@ -69,29 +44,7 @@ var Home = React.createClass({
             </div>
           </section>
 
-          <section className='page__content section--access'>
-            <div className='inner'>
-              <div className='col--main'>
-                <h1 className='section__title'>Section Title</h1>
-                <p>This is a pararaph and goes a little something like this... consectetur adipisicing elit.</p>
-                <p>This is another ipsum iste, facere ab consequuntur animi corporis culpa ratione
-                sequi quaerat deleniti distinctio ducimus, dolorem possimus, sit blanditiis odio harum quos minus.</p>
-
-                <div className='infographic'>A viz of some sort - {d3.time.format('%Y-%m-%d')(this.state.accessCurrDate)}</div>
-
-                <Rcslider
-                  onChange={this.sliderChangeHandler}
-                  max={this.computeSliderMax()}
-                  tipFormatter={null}
-                  marks={{
-                    0: d3.time.format('%Y-%m-%d')(this.startDate),
-                    [this.computeSliderMax()]: d3.time.format('%Y-%m-%d')(this.endDate)
-                  }} />
-
-              </div>
-              <div className='col--sec'>A viz of some sort</div>
-            </div>
-          </section>
+          <SectionAccess />
 
           <section className='page__content section--usage'>
             <div className='inner'>
