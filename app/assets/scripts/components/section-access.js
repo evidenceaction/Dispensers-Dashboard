@@ -23,7 +23,7 @@ var SectionAccess = React.createClass({
   },
 
   getEndData: function () {
-    return moment('2015/09/28', 'YYYY-MM-DD');
+    return moment('2014/05/01', 'YYYY-MM-DD');
   },
 
   interval: null,
@@ -32,7 +32,7 @@ var SectionAccess = React.createClass({
       let v = this.state.currentSliderPos;
       v = ++v > this.computeSliderMax() ? 0 : v;
       this.setState({currentSliderPos: v});
-    }, 100);
+    }, 300);
   },
 
   pause: function () {
@@ -48,6 +48,34 @@ var SectionAccess = React.createClass({
     } else {
       this.play();
     }
+  },
+
+  wasIntervalRunning: false,
+  chartMouseoverHandler: function () {
+    if (this.interval) {
+      this.wasIntervalRunning = true;
+    }
+    this.pause();
+  },
+
+  chartMouseoutHandler: function () {
+    if (this.wasIntervalRunning) {
+      this.wasIntervalRunning = false;
+      this.play();
+    }
+  },
+
+  chartPopoverHandler: function (data, index) {
+    return (
+      <dl>
+        {data.map(o => {
+          return [
+            <dd>{o.country}</dd>,
+            <dt>{o.values[index].value}</dt>
+          ];
+        })}
+      </dl>
+    );
   },
 
   getCurrentDate: function () {
@@ -76,7 +104,9 @@ var SectionAccess = React.createClass({
         values: [
           { date: new Date('2014/01/01'), value: 10, cumulative: 10 },
           { date: new Date('2014/02/01'), value: 20, cumulative: 30 },
-          { date: new Date('2014/03/01'), value: 2, cumulative: 32 }
+          { date: new Date('2014/03/01'), value: 2, cumulative: 32 },
+          { date: new Date('2014/04/01'), value: 20, cumulative: 52 },
+          { date: new Date('2014/05/01'), value: 22, cumulative: 74 }
         ]
       },
 
@@ -85,7 +115,9 @@ var SectionAccess = React.createClass({
         values: [
           { date: new Date('2014/01/01'), value: 60, cumulative: 60 },
           { date: new Date('2014/02/01'), value: 84, cumulative: 144 },
-          { date: new Date('2014/03/01'), value: 22, cumulative: 166 }
+          { date: new Date('2014/03/01'), value: 22, cumulative: 166 },
+          { date: new Date('2014/04/01'), value: 55, cumulative: 221 },
+          { date: new Date('2014/05/01'), value: 30, cumulative: 251 }
         ]
       },
 
@@ -94,7 +126,9 @@ var SectionAccess = React.createClass({
         values: [
           { date: new Date('2014/01/01'), value: 1, cumulative: 1 },
           { date: new Date('2014/02/01'), value: 0, cumulative: 1 },
-          { date: new Date('2014/03/01'), value: 4, cumulative: 5 }
+          { date: new Date('2014/03/01'), value: 4, cumulative: 5 },
+          { date: new Date('2014/04/01'), value: 15, cumulative: 20 },
+          { date: new Date('2014/05/01'), value: 40, cumulative: 60 }
         ]
       }
     ];
@@ -112,6 +146,10 @@ var SectionAccess = React.createClass({
 
             <div className='infographic'>
               <ChartArea
+                mouseover={this.chartMouseoverHandler}
+                mouseout={this.chartMouseoutHandler}
+                popoverContentFn={this.chartPopoverHandler}
+                xHighlight={this.getCurrentDate().toDate()}
                 className='area-chart-wrapper'
                 series={series} />
             </div>

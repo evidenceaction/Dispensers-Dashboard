@@ -52,6 +52,8 @@ var Chart = function (el, data) {
   this.data = null;
   this.stages = null;
 
+  var _this = this;
+
   // Var declaration.
   var margin = {top: 64, right: 32, bottom: 48, left: 32};
   // width and height refer to the data canvas. To know the svg size the margins
@@ -75,6 +77,9 @@ var Chart = function (el, data) {
   this.setData = function (data) {
     var _data = _.cloneDeep(data);
     this.popoverContentFn = _data.popoverContentFn;
+    this.mouseoverFn = _data.mouseover || _.noop;
+    this.mouseoutFn = _data.mouseout || _.noop;
+    this.xHighlight = _data.xHighlight || null;
     this.data = stack(_data.series);
     this.update();
   };
@@ -98,7 +103,7 @@ var Chart = function (el, data) {
       .x(d => d.date)
       // Where to get the y value. This will be used by the
       // area function as y0 (which is used to stack.)
-      .y(d => d.value);
+      .y(d => d.cumulative);
 
     // Area definition function.
     area = d3.svg.area()
@@ -122,6 +127,7 @@ var Chart = function (el, data) {
 
     yAxis = d3.svg.axis()
       .scale(y)
+      .tickSize(0)
       .orient('left');
 
     // Chart elements
@@ -157,15 +163,6 @@ var Chart = function (el, data) {
     // Focus elements.
     // Focus line and circles show on hover.
 
-    // Add focus rectangle. Will be responsible to trigger the events.
-    dataCanvas.append('rect')
-      .attr('class', 'trigger-rect')
-      .style('fill', 'none')
-      .style('pointer-events', 'all')
-      .on('mouseover', function () { focus.style('display', null); })
-      .on('mouseout', function () { focus.style('display', 'none'); })
-      .on('mousemove', this.onMouseMove);
-
     // Group to hold the focus elements.
     var focus = dataCanvas.append('g')
       .attr('class', 'focus-elements')
@@ -174,6 +171,19 @@ var Chart = function (el, data) {
     // Vertical focus line.
     focus.append('line')
      .attr('class', 'focus-line');
+
+    // Groups to hold the focus circles.
+    focus.append('g')
+      .attr('class', 'focus-circles');
+
+    // Add focus rectangle. Will be responsible to trigger the events.
+    dataCanvas.append('rect')
+      .attr('class', 'trigger-rect')
+      .style('fill', 'none')
+      .style('pointer-events', 'all')
+      .on('mouseover', this._onMouseOver)
+      .on('mouseout', this._onMouseOut)
+      .on('mousemove', this._onMouseMove);
   };
 
   this.update = function () {
@@ -193,8 +203,10 @@ var Chart = function (el, data) {
     // highest values)
     let yMax = d3.max(_.last(this.data).values.map(d => d.y0 + d.y));
     y
-      .domain([0, yMax])
+      .domain([0, yMax + yMax * 0.1])
       .range([_height, 0]);
+
+    xAxis.ticks(this.data[0].values.length);
 
     svg
       .attr('width', _width + margin.left + margin.right)
@@ -204,10 +216,9 @@ var Chart = function (el, data) {
       .attr('width', _width)
       .attr('height', _height);
 
-    // Set the data to be get the correct index.
-    // The x values are common throughout the data so we only need one.
+    // Set the data to use to get the correct index.
     dataCanvas.select('.trigger-rect')
-      .datum(this.data[0])
+      .datum(this.data)
       .attr('width', _width)
       .attr('height', _height);
 
@@ -263,6 +274,40 @@ var Chart = function (el, data) {
     svg.select('.y.axis .label')
       .text('a value');
 
+    // ------------------------------
+    // Focus line used for highlight.
+    dataCanvas.select('.focus-elements')
+      .style('display', null);
+
+    dataCanvas.select('.focus-line')
+      .transition()
+      .duration(100)
+      .attr('x1', x(this.xHighlight))
+      .attr('y1', _height)
+      .attr('x2', x(this.xHighlight))
+      .attr('y2', 0);
+
+    let focusCirc = dataCanvas.select('.focus-circles')
+      .selectAll('circle.circle')
+      .data(this.data);
+
+    focusCirc.enter()
+      .append('circle')
+        .attr('r', 4)
+        .attr('class', 'circle');
+
+    focusCirc
+      .transition()
+      .duration(100)
+      .attr('cx', x(this.xHighlight))
+      .attr('cy', d => {
+        let val = _.find(d.values, {'date': this.xHighlight});
+        return y(val.y0 + val.y);
+      });
+
+    focusCirc.exit()
+      .remove();
+
       // .selectAll('.tick text')
       //   .call(wrap, 100);
 
@@ -287,28 +332,69 @@ var Chart = function (el, data) {
     chartPopover.hide();
   };
 
-  this.onMouseMove = function (datum) {
-    let data = datum.values;
+  this._onMouseOver = function () {
+    dataCanvas.select('.focus-elements').style('display', null);
+    _this.mouseoverFn();
+  };
+
+  this._onMouseOut = function () {
+    dataCanvas.select('.focus-elements').style('display', 'none');
+    _this.mouseoutFn();
+    chartPopover.hide();
+  };
+
+  this._onMouseMove = function (data) {
+    let datum = data[0].values;
     // Define bisector function. Is used to find the closest year
     // to the mouse position.
     let bisect = d3.bisector(d => d.date).left;
     let mouseDate = x.invert(d3.mouse(this)[0]);
 
     // Returns the index to the current data item.
-    let i = bisect(data, mouseDate);
+    let i = bisect(datum, mouseDate);
 
-    let d0 = data[i - 1];
-    let d1 = data[i];
-    // work out which date value is closest to the mouse
-    let d = mouseDate - d0.date > d1.date - mouseDate ? d1 : d0;
-
-    console.log('x(d.date)', x(d.date));
+    let doc;
+    if (i === 0) {
+      doc = datum[i];
+    } else {
+      let d0 = datum[i - 1];
+      let d1 = datum[i];
+      // Work out which date value is closest to the mouse
+      if (mouseDate - d0.date > d1.date - mouseDate) {
+        doc = d1;
+      } else {
+        doc = d0;
+        i = i - 1;
+      }
+    }
 
     dataCanvas.select('.focus-line')
-      .attr('x1', x(d.date))
+      .transition()
+      .duration(50)
+      .attr('x1', x(doc.date))
       .attr('y1', _height)
-      .attr('x2', x(d.date))
+      .attr('x2', x(doc.date))
       .attr('y2', 0);
+
+    dataCanvas.select('.focus-circles')
+      .selectAll('.circle')
+      .transition()
+      .duration(50)
+      .attr('cx', x(doc.date))
+      .attr('cy', d => {
+        let val = _.find(d.values, {'date': doc.date});
+        return y(val.y0 + val.y);
+      });
+
+    if (_this.popoverContentFn) {
+      let matrix = dataCanvas.node().getScreenCTM()
+        .translate(x(doc.date), 0);
+
+      var posX = window.pageXOffset + matrix.e;
+      var posY = window.pageYOffset + matrix.f - 16;
+
+      chartPopover.setContent(_this.popoverContentFn(data, i)).show(posX, posY);
+    }
   };
 
   // ------------------------------------------------------------------------ //

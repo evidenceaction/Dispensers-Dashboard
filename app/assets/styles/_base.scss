@@ -275,13 +275,25 @@ a:active {
   .area-chart-wrapper {
     min-height: 20rem;
 
+    .chart {
+      display: block;
+    }
+
     .area {
-      fill: blue;
+      &:nth-child(1) {
+        fill: rgba($primary-color, 0.9);
+      }
+      &:nth-child(2) {
+        fill: rgba($primary-color, 0.7);
+      }
+      &:nth-child(3) {
+        fill: rgba($primary-color, 0.5);
+      }
     }
 
     .area-line {
       fill: none;
-      stroke: red;
+      stroke: $secondary-color;
     }
 
     .focus-line {
