@@ -2,6 +2,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import SectionAccess from '../components/section-access';
+import SectionReliability from '../components/section-reliability';
 
 var Home = React.createClass({
   displayName: 'Home',
@@ -46,17 +47,7 @@ var Home = React.createClass({
 
           <SectionAccess />
 
-          <section className='page__content section--usage'>
-            <div className='inner'>
-              <div className='col--main'>
-                <h1 className='section__title'>Section Title</h1>
-                <p>This is a pararaph and goes a little something like this... consectetur adipisicing elit.</p>
-                <p>This is another ipsum iste, facere ab consequuntur animi corporis culpa ratione
-                sequi quaerat deleniti distinctio ducimus, dolorem possimus, sit blanditiis odio harum quos minus.</p>
-              </div>
-              <div className='col--sec'>A viz of some sort</div>
-            </div>
-          </section>
+          <SectionReliability />
 
           <section className='page__content section--carbon'>
             <div className='inner'>

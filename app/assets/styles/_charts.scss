@@ -1,0 +1,64 @@
+/* Footer
+   ========================================================================== */
+svg.chart {
+  // Avoids that the chart grows because of the gap left by inline elements.
+  display: block;
+}
+
+//
+// NOTE: All the styles below are temporary
+//
+
+// .section--access
+.area-chart-wrapper {
+  min-height: 20rem;
+
+  .area {
+    &:nth-child(1) {
+      fill: rgba($primary-color, 0.9);
+    }
+    &:nth-child(2) {
+      fill: rgba($primary-color, 0.7);
+    }
+    &:nth-child(3) {
+      fill: rgba($primary-color, 0.5);
+    }
+  }
+
+  .area-line {
+    fill: none;
+    stroke: $secondary-color;
+  }
+
+  .focus-line {
+    fill: none;
+    stroke: green;
+    stroke-width: 2px;
+  }
+}
+
+// .section--reliability
+.reliability-chart-wrapper {
+  min-height: 20rem;
+  .x.axis {
+  }
+
+  .y.axis {
+    .axis-line {
+      stroke: red;
+    }
+  }
+
+  .grid-elements {
+    .mid-line {
+      stroke: red;
+    }
+    .avg-line {
+      stroke: grey;
+      stroke-dasharray: 5 5;
+    }
+    .date-line {
+      stroke: grey;
+    }
+  }
+}

@@ -251,7 +251,6 @@ a:active {
 
 
 /* Sections */
-
 .section--access {
   .col--main {
     @include col(6/12);
@@ -271,41 +270,6 @@ a:active {
       width: 100%;
     }
   }
-
-  .area-chart-wrapper {
-    min-height: 20rem;
-
-    .chart {
-      display: block;
-    }
-
-    .area {
-      &:nth-child(1) {
-        fill: rgba($primary-color, 0.9);
-      }
-      &:nth-child(2) {
-        fill: rgba($primary-color, 0.7);
-      }
-      &:nth-child(3) {
-        fill: rgba($primary-color, 0.5);
-      }
-    }
-
-    .area-line {
-      fill: none;
-      stroke: $secondary-color;
-    }
-
-    .focus-line {
-      fill: none;
-      stroke: green;
-      stroke-width: 2px;
-    }
-  }
-}
-
-.section--usage {
-  background: #eee;
 }
 
 .section--stats {
@@ -324,6 +288,16 @@ a:active {
     }
   }
 }
+
+// VV Temporary colors
+.section--usage {
+  background: #eee;
+}
+
+.section--reliability {
+  background: #eee;
+}
+
 
 /* Footer
    ========================================================================== */
