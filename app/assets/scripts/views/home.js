@@ -3,12 +3,22 @@ import React from 'react';
 import { connect } from 'react-redux';
 import SectionAccess from '../components/section-access';
 import SectionReliability from '../components/section-reliability';
+import { fetchSectionAccess } from '../actions/action-creators';
 
 var Home = React.createClass({
   displayName: 'Home',
 
   propTypes: {
-    dispatch: React.PropTypes.func
+    _fetchSectionAccess: React.PropTypes.func,
+    sectionAccess: React.PropTypes.shape({
+      fetched: React.PropTypes.bool,
+      fetching: React.PropTypes.bool,
+      data: React.PropTypes.object
+    })
+  },
+
+  componentDidMount: function () {
+    this.props._fetchSectionAccess();
   },
 
   render: function () {
@@ -45,9 +55,14 @@ var Home = React.createClass({
             </div>
           </section>
 
-          <SectionAccess />
+          <SectionAccess
+            fetched={this.props.sectionAccess.fetched}
+            fetching={this.props.sectionAccess.fetching}
+            data={this.props.sectionAccess.data} />
 
-          <SectionReliability />
+          <SectionReliability
+            fetched
+            fetching />
 
           <section className='page__content section--carbon'>
             <div className='inner'>
@@ -72,11 +87,13 @@ var Home = React.createClass({
 
 function selector (state) {
   return {
+    sectionAccess: state.sectionAccess
   };
 }
 
 function dispatcher (dispatch) {
   return {
+    _fetchSectionAccess: () => dispatch(fetchSectionAccess())
   };
 }
 

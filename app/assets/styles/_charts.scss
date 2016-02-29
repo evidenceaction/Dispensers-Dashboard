@@ -13,6 +13,12 @@ svg.chart {
 .area-chart-wrapper {
   min-height: 20rem;
 
+  .axis {
+    .tick text {
+      font-size: 0.875rem;
+    }
+  }
+
   .area {
     &:nth-child(1) {
       fill: rgba($primary-color, 0.9);

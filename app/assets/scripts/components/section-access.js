@@ -3,13 +3,19 @@
 import React from 'react';
 import Rcslider from 'rc-slider';
 import moment from 'moment';
+import _ from 'lodash';
 import ChartArea from './charts/chart-area';
 
 var SectionAccess = React.createClass({
   displayName: 'SectionAccess',
 
   propTypes: {
-    dispatch: React.PropTypes.func
+    fetched: React.PropTypes.bool,
+    fetching: React.PropTypes.bool,
+    data: React.PropTypes.shape({
+      data: React.PropTypes.array,
+      geo: React.PropTypes.array
+    })
   },
 
   getInitialState: function () {
@@ -19,11 +25,13 @@ var SectionAccess = React.createClass({
   },
 
   getStartData: function () {
-    return moment('2014/01/01', 'YYYY-MM-DD');
+    let d = this.props.data.data[0].values[0].installation;
+    return moment(d);
   },
 
   getEndData: function () {
-    return moment('2014/05/01', 'YYYY-MM-DD');
+    let d = _.last(this.props.data.data[0].values);
+    return moment(d);
   },
 
   interval: null,
@@ -71,7 +79,7 @@ var SectionAccess = React.createClass({
         {data.map(o => {
           return [
             <dd>{o.country}</dd>,
-            <dt>{o.values[index].value}</dt>
+            <dt>{o.values[index].new_people_served}</dt>
           ];
         })}
       </dl>
@@ -92,80 +100,94 @@ var SectionAccess = React.createClass({
     return months;
   },
 
-  componentDidMount: function () {
+  prepareChartData: _.memoize(function () {
+    return _(this.props.data.data)
+      .groupBy(o => o.iso.substr(0, 2))
+      .map((o, key) => {
+        // Use he first as base.
+        let res = _.cloneDeep(o[0]);
+        res.country = key;
+
+        // Loop over all the districts except the first.
+        for (let i = 1; i < o.length; i++) {
+          // Loop over all the values. Ordered arrays are expected.
+          for (let j = 0; j < o[i].values.length; j++) {
+            res.values[j].dispenser_total += o[i].values[j].dispenser_total;
+            res.values[j].dispensers_installed += o[i].values[j].dispensers_installed;
+            res.values[j].new_people_served += o[i].values[j].new_people_served;
+            res.values[j].people_total += o[i].values[j].people_total;
+          }
+        }
+        _.forEach(res.values, d => {
+          d.installation = new Date(d.installation);
+        });
+        return res;
+      })
+      .value();
+  }),
+
+  setupMap: function () {
     L.mapbox.map(this.refs.map, 'mapbox.streets')
       .setView([40, -74.50], 9);
   },
 
+  componentDidMount: function () {
+    this.setupMap();
+  },
+
+  renderLoading: function () {
+    return (
+      <div className='col--main'>
+        <p>Data is loading!</p>
+      </div>
+    );
+  },
+
+  renderContent: function () {
+    let series = this.prepareChartData();
+
+    return (
+      <div className='col--main'>
+        <h1 className='section__title'>Section Title</h1>
+        <p>This is a pararaph and goes a little something like this... consectetur adipisicing elit.</p>
+        <p>This is another ipsum iste, facere ab consequuntur animi corporis culpa ratione
+        sequi quaerat deleniti distinctio ducimus, dolorem possimus, sit blanditiis odio harum quos minus.</p>
+
+        <button onClick={this.playToggleHandler}>play toggle</button>
+
+        <div className='infographic'>
+          <ChartArea
+            mouseover={this.chartMouseoverHandler}
+            mouseout={this.chartMouseoutHandler}
+            popoverContentFn={this.chartPopoverHandler}
+            xHighlight={this.getCurrentDate().toDate()}
+            className='area-chart-wrapper'
+            series={series} />
+        </div>
+        <div>date -- {this.getCurrentDate().format('YYYY-MM-DD')}</div>
+
+        <Rcslider
+          onChange={this.sliderChangeHandler}
+          max={this.computeSliderMax()}
+          value={this.state.currentSliderPos}
+          tipFormatter={null}
+          marks={{
+            0: this.getStartData().format('YYYY-MM-DD'),
+            [this.computeSliderMax()]: this.getEndData().format('YYYY-MM-DD')
+          }} />
+
+      </div>
+    );
+  },
+
   render: function () {
-    let series = [
-      {
-        country: 'uganda',
-        values: [
-          { date: new Date('2014/01/01'), value: 10, cumulative: 10 },
-          { date: new Date('2014/02/01'), value: 20, cumulative: 30 },
-          { date: new Date('2014/03/01'), value: 2, cumulative: 32 },
-          { date: new Date('2014/04/01'), value: 20, cumulative: 52 },
-          { date: new Date('2014/05/01'), value: 22, cumulative: 74 }
-        ]
-      },
-
-      {
-        country: 'malawi',
-        values: [
-          { date: new Date('2014/01/01'), value: 60, cumulative: 60 },
-          { date: new Date('2014/02/01'), value: 84, cumulative: 144 },
-          { date: new Date('2014/03/01'), value: 22, cumulative: 166 },
-          { date: new Date('2014/04/01'), value: 55, cumulative: 221 },
-          { date: new Date('2014/05/01'), value: 30, cumulative: 251 }
-        ]
-      },
-
-      {
-        country: 'kenya',
-        values: [
-          { date: new Date('2014/01/01'), value: 1, cumulative: 1 },
-          { date: new Date('2014/02/01'), value: 0, cumulative: 1 },
-          { date: new Date('2014/03/01'), value: 4, cumulative: 5 },
-          { date: new Date('2014/04/01'), value: 15, cumulative: 20 },
-          { date: new Date('2014/05/01'), value: 40, cumulative: 60 }
-        ]
-      }
-    ];
-
     return (
       <section className='page__content section--access'>
         <div className='inner'>
-          <div className='col--main'>
-            <h1 className='section__title'>Section Title</h1>
-            <p>This is a pararaph and goes a little something like this... consectetur adipisicing elit.</p>
-            <p>This is another ipsum iste, facere ab consequuntur animi corporis culpa ratione
-            sequi quaerat deleniti distinctio ducimus, dolorem possimus, sit blanditiis odio harum quos minus.</p>
+          {this.props.fetched ? (
+            this.props.fetching ? this.renderLoading() : this.renderContent()
+          ) : null}
 
-            <button onClick={this.playToggleHandler}>play toggle</button>
-
-            <div className='infographic'>
-              <ChartArea
-                mouseover={this.chartMouseoverHandler}
-                mouseout={this.chartMouseoutHandler}
-                popoverContentFn={this.chartPopoverHandler}
-                xHighlight={this.getCurrentDate().toDate()}
-                className='area-chart-wrapper'
-                series={series} />
-            </div>
-            <div>date -- {this.getCurrentDate().format('YYYY-MM-DD')}</div>
-
-            <Rcslider
-              onChange={this.sliderChangeHandler}
-              max={this.computeSliderMax()}
-              value={this.state.currentSliderPos}
-              tipFormatter={null}
-              marks={{
-                0: this.getStartData().format('YYYY-MM-DD'),
-                [this.computeSliderMax()]: this.getEndData().format('YYYY-MM-DD')
-              }} />
-
-          </div>
           <div className='col--sec'>
             <div className='map-wrapper'>
               <div ref='map' className='map-container'>{/* Map renders here */}</div>

@@ -55,7 +55,7 @@ var Chart = function (el, data) {
   var _this = this;
 
   // Var declaration.
-  var margin = {top: 64, right: 32, bottom: 48, left: 32};
+  var margin = {top: 64, right: 32, bottom: 48, left: 64};
   // width and height refer to the data canvas. To know the svg size the margins
   // must be added.
   var _width, _height;
@@ -100,14 +100,14 @@ var Chart = function (el, data) {
     stack = d3.layout.stack()
       // Define where to get the values from.
       .values(d => d.values)
-      .x(d => d.date)
+      .x(d => d.installation)
       // Where to get the y value. This will be used by the
       // area function as y0 (which is used to stack.)
-      .y(d => d.cumulative);
+      .y(d => d.people_total);
 
     // Area definition function.
     area = d3.svg.area()
-      .x(d => x(d.date))
+      .x(d => x(d.installation))
       // The y0 and y1 define the upper and lower positions for the
       // area. This will be used to stack the areas.
       .y0(d => y(d.y0))
@@ -115,7 +115,7 @@ var Chart = function (el, data) {
 
     // Line function for the delimit the area.
     line = d3.svg.line()
-      .x(d => x(d.date))
+      .x(d => x(d.installation))
       .y(d => y(d.y0 + d.y));
 
     // Define xAxis function.
@@ -123,12 +123,13 @@ var Chart = function (el, data) {
       .scale(x)
       .orient('bottom')
       .tickSize(0)
-      .tickFormat(d3.time.format('%Y-%m'));
+      .tickFormat(d3.time.format('%b %y'));
 
     yAxis = d3.svg.axis()
       .scale(y)
       .tickSize(0)
-      .orient('left');
+      .orient('left')
+      .tickFormat(d => `${(d / 1e6)}M`);
 
     // Chart elements
     dataCanvas = svg.append('g')
@@ -193,8 +194,8 @@ var Chart = function (el, data) {
     this._calcSize();
 
     // Update scale ranges
-    let sDate = _.first(this.data[0].values).date;
-    let eDate = _.last(this.data[0].values).date;
+    let sDate = _.first(this.data[0].values).installation;
+    let eDate = _.last(this.data[0].values).installation;
     x
       .domain([sDate, eDate])
       .range([0, _width]);
@@ -206,7 +207,8 @@ var Chart = function (el, data) {
       .domain([0, yMax + yMax * 0.1])
       .range([_height, 0]);
 
-    xAxis.ticks(this.data[0].values.length);
+    // xAxis.ticks(this.data[0].values.length);
+    xAxis.ticks(5);
 
     svg
       .attr('width', _width + margin.left + margin.right)
@@ -301,7 +303,7 @@ var Chart = function (el, data) {
       .duration(100)
       .attr('cx', x(this.xHighlight))
       .attr('cy', d => {
-        let val = _.find(d.values, {'date': this.xHighlight});
+        let val = _.find(d.values, {'installation': this.xHighlight});
         return y(val.y0 + val.y);
       });
 
@@ -347,7 +349,7 @@ var Chart = function (el, data) {
     let datum = data[0].values;
     // Define bisector function. Is used to find the closest year
     // to the mouse position.
-    let bisect = d3.bisector(d => d.date).left;
+    let bisect = d3.bisector(d => d.installation).left;
     let mouseDate = x.invert(d3.mouse(this)[0]);
 
     // Returns the index to the current data item.
@@ -360,7 +362,7 @@ var Chart = function (el, data) {
       let d0 = datum[i - 1];
       let d1 = datum[i];
       // Work out which date value is closest to the mouse
-      if (mouseDate - d0.date > d1.date - mouseDate) {
+      if (mouseDate - d0.installation > d1.installation - mouseDate) {
         doc = d1;
       } else {
         doc = d0;
@@ -371,24 +373,24 @@ var Chart = function (el, data) {
     dataCanvas.select('.focus-line')
       .transition()
       .duration(50)
-      .attr('x1', x(doc.date))
+      .attr('x1', x(doc.installation))
       .attr('y1', _height)
-      .attr('x2', x(doc.date))
+      .attr('x2', x(doc.installation))
       .attr('y2', 0);
 
     dataCanvas.select('.focus-circles')
       .selectAll('.circle')
       .transition()
       .duration(50)
-      .attr('cx', x(doc.date))
+      .attr('cx', x(doc.installation))
       .attr('cy', d => {
-        let val = _.find(d.values, {'date': doc.date});
+        let val = _.find(d.values, {'installation': doc.installation});
         return y(val.y0 + val.y);
       });
 
     if (_this.popoverContentFn) {
       let matrix = dataCanvas.node().getScreenCTM()
-        .translate(x(doc.date), 0);
+        .translate(x(doc.installation), 0);
 
       var posX = window.pageXOffset + matrix.e;
       var posY = window.pageYOffset + matrix.f - 16;

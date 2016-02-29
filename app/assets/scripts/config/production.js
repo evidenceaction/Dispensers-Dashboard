@@ -6,6 +6,7 @@ var logo = require('./logo');
 module.exports = {
   environment: 'production',
   consoleMessage: logo,
-  mbToken: 'pk.eyJ1IjoiZGV2c2VlZCIsImEiOiJnUi1mbkVvIn0.018aLhX0Mb0tdtaT2QNe2Q'
+  mbToken: 'pk.eyJ1IjoiZGV2c2VlZCIsImEiOiJnUi1mbkVvIn0.018aLhX0Mb0tdtaT2QNe2Q',
+  api: 'http://localhost:4000'
 };
 
