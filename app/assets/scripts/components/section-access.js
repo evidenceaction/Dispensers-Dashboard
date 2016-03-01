@@ -1,10 +1,10 @@
 'use strict';
-/* global L */
 import React from 'react';
 import Rcslider from 'rc-slider';
 import moment from 'moment';
 import _ from 'lodash';
 import ChartArea from './charts/chart-area';
+import SectionMap from './section-access-map';
 
 var SectionAccess = React.createClass({
   displayName: 'SectionAccess',
@@ -24,14 +24,14 @@ var SectionAccess = React.createClass({
     };
   },
 
-  getStartData: function () {
-    let d = this.props.data.data[0].values[0].installation;
-    return moment(d);
+  getStartDate: function () {
+    let d = this.props.data.data[0].values[0].timestep;
+    return moment.utc(d);
   },
 
-  getEndData: function () {
+  getEndDate: function () {
     let d = _.last(this.props.data.data[0].values);
-    return moment(d);
+    return moment.utc(d);
   },
 
   interval: null,
@@ -87,7 +87,7 @@ var SectionAccess = React.createClass({
   },
 
   getCurrentDate: function () {
-    let nDate = this.getStartData().add(this.state.currentSliderPos, 'months');
+    let nDate = this.getStartDate().add(this.state.currentSliderPos, 'months');
     return nDate;
   },
 
@@ -96,7 +96,7 @@ var SectionAccess = React.createClass({
   },
 
   computeSliderMax: function () {
-    let months = this.getEndData().diff(this.getStartData(), 'months');
+    let months = this.getEndDate().diff(this.getStartDate(), 'months');
     return months;
   },
 
@@ -119,21 +119,16 @@ var SectionAccess = React.createClass({
           }
         }
         _.forEach(res.values, d => {
-          d.installation = new Date(d.installation);
+          // console.log('timestep before', d.timestep);
+          // d.timestep = new Date(d.timestep);
+          d.timestep = moment.utc(d.timestep);
+          // console.log('timestep after', d.timestep.toISOString());
+          // console.log('----');
         });
         return res;
       })
       .value();
   }),
-
-  setupMap: function () {
-    L.mapbox.map(this.refs.map, 'mapbox.streets')
-      .setView([40, -74.50], 9);
-  },
-
-  componentDidMount: function () {
-    this.setupMap();
-  },
 
   renderLoading: function () {
     return (
@@ -160,7 +155,7 @@ var SectionAccess = React.createClass({
             mouseover={this.chartMouseoverHandler}
             mouseout={this.chartMouseoutHandler}
             popoverContentFn={this.chartPopoverHandler}
-            xHighlight={this.getCurrentDate().toDate()}
+            xHighlight={this.getCurrentDate()}
             className='area-chart-wrapper'
             series={series} />
         </div>
@@ -172,8 +167,8 @@ var SectionAccess = React.createClass({
           value={this.state.currentSliderPos}
           tipFormatter={null}
           marks={{
-            0: this.getStartData().format('YYYY-MM-DD'),
-            [this.computeSliderMax()]: this.getEndData().format('YYYY-MM-DD')
+            0: this.getStartDate().format('YYYY-MM-DD'),
+            [this.computeSliderMax()]: this.getEndDate().format('YYYY-MM-DD')
           }} />
 
       </div>
@@ -181,6 +176,18 @@ var SectionAccess = React.createClass({
   },
 
   render: function () {
+    let g = [];
+    if (this.props.fetched) {
+      console.log('this.props.data', this.props.data);
+      let d = this.props.data;
+      g = d.geo.map(o => {
+        let countryData = _.find(this.props.data.data, {iso: o.iso});
+        // o.value = _.find(countryData.values, o => moment.utc(o.timestep).format('YYYY-MM-DD') === curr);
+        o.values = countryData.values;
+        return o;
+      });
+    }
+
     return (
       <section className='page__content section--access'>
         <div className='inner'>
@@ -189,9 +196,9 @@ var SectionAccess = React.createClass({
           ) : null}
 
           <div className='col--sec'>
-            <div className='map-wrapper'>
-              <div ref='map' className='map-container'>{/* Map renders here */}</div>
-            </div>
+            <SectionMap
+              activeDate={this.props.fetched ? this.getCurrentDate() : null}
+              data={g} />
           </div>
         </div>
       </section>

@@ -100,14 +100,14 @@ var Chart = function (el, data) {
     stack = d3.layout.stack()
       // Define where to get the values from.
       .values(d => d.values)
-      .x(d => d.installation)
+      .x(d => d.timestep)
       // Where to get the y value. This will be used by the
       // area function as y0 (which is used to stack.)
       .y(d => d.people_total);
 
     // Area definition function.
     area = d3.svg.area()
-      .x(d => x(d.installation))
+      .x(d => x(d.timestep))
       // The y0 and y1 define the upper and lower positions for the
       // area. This will be used to stack the areas.
       .y0(d => y(d.y0))
@@ -115,7 +115,7 @@ var Chart = function (el, data) {
 
     // Line function for the delimit the area.
     line = d3.svg.line()
-      .x(d => x(d.installation))
+      .x(d => x(d.timestep))
       .y(d => y(d.y0 + d.y));
 
     // Define xAxis function.
@@ -194,8 +194,8 @@ var Chart = function (el, data) {
     this._calcSize();
 
     // Update scale ranges
-    let sDate = _.first(this.data[0].values).installation;
-    let eDate = _.last(this.data[0].values).installation;
+    let sDate = _.first(this.data[0].values).timestep;
+    let eDate = _.last(this.data[0].values).timestep;
     x
       .domain([sDate, eDate])
       .range([0, _width]);
@@ -303,7 +303,7 @@ var Chart = function (el, data) {
       .duration(100)
       .attr('cx', x(this.xHighlight))
       .attr('cy', d => {
-        let val = _.find(d.values, {'installation': this.xHighlight});
+        let val = _.find(d.values, o => o.timestep.format('YYYY-MM-DD') === this.xHighlight.format('YYYY-MM-DD'));
         return y(val.y0 + val.y);
       });
 
@@ -349,7 +349,7 @@ var Chart = function (el, data) {
     let datum = data[0].values;
     // Define bisector function. Is used to find the closest year
     // to the mouse position.
-    let bisect = d3.bisector(d => d.installation).left;
+    let bisect = d3.bisector(d => d.timestep).left;
     let mouseDate = x.invert(d3.mouse(this)[0]);
 
     // Returns the index to the current data item.
@@ -362,7 +362,7 @@ var Chart = function (el, data) {
       let d0 = datum[i - 1];
       let d1 = datum[i];
       // Work out which date value is closest to the mouse
-      if (mouseDate - d0.installation > d1.installation - mouseDate) {
+      if (mouseDate - d0.timestep > d1.timestep - mouseDate) {
         doc = d1;
       } else {
         doc = d0;
@@ -373,24 +373,24 @@ var Chart = function (el, data) {
     dataCanvas.select('.focus-line')
       .transition()
       .duration(50)
-      .attr('x1', x(doc.installation))
+      .attr('x1', x(doc.timestep))
       .attr('y1', _height)
-      .attr('x2', x(doc.installation))
+      .attr('x2', x(doc.timestep))
       .attr('y2', 0);
 
     dataCanvas.select('.focus-circles')
       .selectAll('.circle')
       .transition()
       .duration(50)
-      .attr('cx', x(doc.installation))
+      .attr('cx', x(doc.timestep))
       .attr('cy', d => {
-        let val = _.find(d.values, {'installation': doc.installation});
+        let val = _.find(d.values, o => o.timestep.format('YYYY-MM-DD') === doc.timestep.format('YYYY-MM-DD'));
         return y(val.y0 + val.y);
       });
 
     if (_this.popoverContentFn) {
       let matrix = dataCanvas.node().getScreenCTM()
-        .translate(x(doc.installation), 0);
+        .translate(x(doc.timestep), 0);
 
       var posX = window.pageXOffset + matrix.e;
       var posY = window.pageYOffset + matrix.f - 16;
