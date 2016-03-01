@@ -2,6 +2,7 @@
 /* global L */
 import React from 'react';
 import _ from 'lodash';
+import d3 from 'd3';
 
 var SectionAccessMap = React.createClass({
   displayName: 'SectionAccessMap',
@@ -38,7 +39,7 @@ var SectionAccessMap = React.createClass({
           let f = {
             type: 'Feature',
             properties: {
-              value: o.value
+              values: o.values
             },
             geometry: {
               type: 'Point',
@@ -58,16 +59,28 @@ var SectionAccessMap = React.createClass({
         this.map.addLayer(this.maLayer);
       }
 
-console.log('this.p', this.props.activeDate);
+      let min = d3.min(this.props.data.map(d => d.values[0].dispenser_total));
+      let max = d3.max(this.props.data.map(d => _.last(d.values).dispenser_total));
+
+      let scale = d3.scale.linear()
+        .domain([min, max])
+        .range([8, 36]);
+
+      let activeDate = this.props.activeDate;
+
       this.maLayer.eachLayer(l => {
         let props = l.feature.properties;
-        
-        // if (props.dispensers_installed) {
 
-        // }
-        let klass = props.dispensers_installed ? 'my-div-icon active' : 'my-div-icon';
+        let m = _.find(props.values, {timestep: activeDate.toISOString()});
+
+        let klass = m.dispensers_installed ? 'my-div-icon active' : 'my-div-icon';
         console.log('klass', klass);
-        l.setIcon(L.divIcon({className: klass, html: props.dispensers_installed}));
+        l.setIcon(L.divIcon({
+          iconSize: [scale(m.dispenser_total), scale(m.dispenser_total)],
+          className: klass,
+          // html: "<div class='cont'>" + m.dispensers_installed + '</div>'
+          html: "<div class='cont'>&nbsp;</div>"
+        }));
       });
     }
   },

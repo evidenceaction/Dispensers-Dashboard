@@ -68,3 +68,51 @@ svg.chart {
     }
   }
 }
+
+
+
+
+
+
+
+
+
+
+
+.my-div-icon {
+  // background: red;
+  // width: 0.5rem;
+  // height: 0.5rem;
+  border-radius: 60rem;
+  transition: background 0.25s ease 0s;
+}
+.my-div-icon.active {
+  // background: blue;
+  // width: 1rem;
+  // height: 1rem;
+}
+
+.my-div-icon .cont {
+  opacity: 0.5;
+  background: red;
+  border-radius: 60rem;
+  width: 100%;
+  height: 100%;
+}
+
+.my-div-icon.active .cont {
+  background: blue;
+  animation: pulse 0.25s ease-in 0s;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.5);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
