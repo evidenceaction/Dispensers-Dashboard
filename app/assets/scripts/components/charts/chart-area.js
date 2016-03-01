@@ -281,13 +281,13 @@ var Chart = function (el, data) {
     dataCanvas.select('.focus-elements')
       .style('display', null);
 
-    dataCanvas.select('.focus-line')
-      .transition()
-      .duration(100)
-      .attr('x1', x(this.xHighlight))
-      .attr('y1', _height)
-      .attr('x2', x(this.xHighlight))
-      .attr('y2', 0);
+    // dataCanvas.select('.focus-line')
+    //   .transition()
+    //   .duration(100)
+    //   .attr('x1', x(this.xHighlight))
+    //   .attr('y1', _height)
+    //   .attr('x2', x(this.xHighlight))
+    //   .attr('y2', 0);
 
     let focusCirc = dataCanvas.select('.focus-circles')
       .selectAll('circle.circle')
@@ -298,14 +298,16 @@ var Chart = function (el, data) {
         .attr('r', 4)
         .attr('class', 'circle');
 
-    focusCirc
-      .transition()
-      .duration(100)
-      .attr('cx', x(this.xHighlight))
-      .attr('cy', d => {
-        let val = _.find(d.values, o => o.timestep.format('YYYY-MM-DD') === this.xHighlight.format('YYYY-MM-DD'));
-        return y(val.y0 + val.y);
-      });
+    // focusCirc
+    //   .transition()
+    //   .duration(100)
+    //   .attr('cx', x(this.xHighlight))
+    //   .attr('cy', d => {
+    //     let val = _.find(d.values, o => o.timestep.format('YYYY-MM-DD') === this.xHighlight.format('YYYY-MM-DD'));
+    //     return y(val.y0 + val.y);
+    //   });
+
+    this._positionFocusElements(this.xHighlight);
 
     focusCirc.exit()
       .remove();
@@ -334,13 +336,35 @@ var Chart = function (el, data) {
     chartPopover.hide();
   };
 
+  this._positionFocusElements = function (timestep) {
+    dataCanvas.select('.focus-line')
+      .transition()
+      .duration(50)
+      .attr('x1', x(timestep))
+      .attr('y1', _height)
+      .attr('x2', x(timestep))
+      .attr('y2', 0);
+
+    dataCanvas.select('.focus-circles')
+      .selectAll('.circle')
+      .transition()
+      .duration(50)
+      .attr('cx', x(timestep))
+      .attr('cy', d => {
+        let val = _.find(d.values, o => o.timestep.format('YYYY-MM-DD') === timestep.format('YYYY-MM-DD'));
+        return y(val.y0 + val.y);
+      });
+  };
+
   this._onMouseOver = function () {
-    dataCanvas.select('.focus-elements').style('display', null);
+    _this._positionFocusElements(_this.xHighlight);
+    // dataCanvas.select('.focus-elements').style('display', null);
     _this.mouseoverFn();
   };
 
   this._onMouseOut = function () {
-    dataCanvas.select('.focus-elements').style('display', 'none');
+    _this._positionFocusElements(_this.xHighlight);
+    // dataCanvas.select('.focus-elements').style('display', 'none');
     _this.mouseoutFn();
     chartPopover.hide();
   };
@@ -370,23 +394,7 @@ var Chart = function (el, data) {
       }
     }
 
-    dataCanvas.select('.focus-line')
-      .transition()
-      .duration(50)
-      .attr('x1', x(doc.timestep))
-      .attr('y1', _height)
-      .attr('x2', x(doc.timestep))
-      .attr('y2', 0);
-
-    dataCanvas.select('.focus-circles')
-      .selectAll('.circle')
-      .transition()
-      .duration(50)
-      .attr('cx', x(doc.timestep))
-      .attr('cy', d => {
-        let val = _.find(d.values, o => o.timestep.format('YYYY-MM-DD') === doc.timestep.format('YYYY-MM-DD'));
-        return y(val.y0 + val.y);
-      });
+    _this._positionFocusElements(doc.timestep);
 
     if (_this.popoverContentFn) {
       let matrix = dataCanvas.node().getScreenCTM()
