@@ -59,11 +59,8 @@ var Chart = function (el, data) {
   // width and height refer to the data canvas. To know the svg size the margins
   // must be added.
   var _width, _height;
-  var stack;
-  // Draw functions.
-  var area, line;
   // Scales, Axis.
-  var x, y, xAxis, yAxis;
+  var x, y, xAxis;
   // Elements.
   var svg, dataCanvas;
   // Init the popover.
@@ -76,10 +73,7 @@ var Chart = function (el, data) {
 
   this.setData = function (data) {
     var _data = _.cloneDeep(data);
-    // this.popoverContentFn = _data.popoverContentFn;
-    // this.mouseoverFn = _data.mouseover || _.noop;
-    // this.mouseoutFn = _data.mouseout || _.noop;
-    // this.xHighlight = _data.xHighlight || null;
+    this.popoverContentFn = _data.popoverContentFn;
     this.data = _data.data;
     this.update();
   };
@@ -101,7 +95,7 @@ var Chart = function (el, data) {
       .scale(x)
       .orient('bottom')
       .tickSize(0)
-      .tickFormat(d3.time.format('%Y-%m'));
+      .tickFormat((date) => date.format('YY-MM'));
 
     // Chart elements
     dataCanvas = svg.append('g')
@@ -128,18 +122,6 @@ var Chart = function (el, data) {
 
     gridElements.append('line')
       .attr('class', 'avg-line');
-
-      // Group to hold the areas.
-    // dataCanvas.append('g')
-    //   .attr('class', 'area-group');
-
-    // // Group to hold the area delimiter lines.
-    // dataCanvas.append('g')
-    //   .attr('class', 'area-line-group');
-
-    // // Group to hold the area delimiter line points.
-    // dataCanvas.append('g')
-    //   .attr('class', 'area-line-points-group');
   };
 
   this.update = function () {
@@ -148,22 +130,18 @@ var Chart = function (el, data) {
     }
     this._calcSize();
 
-    let yMax = _.last(this.data.values).installed;
-    yMax += Math.ceil(yMax * 0.1);
-
     x
-      .domain(_.map(this.data.values, 'date'))
+      // .domain(_.map(this.data.values, o => o.timestep.format('YYYY-MM-DD')))
+      .domain(_.map(this.data.values, 'timestep'))
       .rangeBands([0, _width], 1 / 4, 1 / 8);
 
     xAxis.ticks(this.data.values.length);
 
-    console.log('x', x(this.data.values[0].date));
-    console.log('x', x(this.data.values[1].date));
-    console.log('x', x(this.data.values[2].date));
-
     // // Since the data is stacked the last element will contain the
     // // highest values)
-    // let yMax = d3.max(_.last(this.data).values.map(d => d.y0 + d.y));
+    let yMax = _.last(this.data.values).dispenser_total;
+    yMax += Math.ceil(yMax * 0.1);
+
     y
       .domain([0, yMax])
       .range([_height / 2, 0]);
@@ -191,7 +169,7 @@ var Chart = function (el, data) {
       .append('g')
       .attr('class', 'bar-group')
       .attr('transform', d => {
-        return `translate(${x(d.date)},0)`;
+        return `translate(${x(d.timestep)},0)`;
       });
 
     let barsIntalled = barGroups.selectAll('rect.bar-installed')
@@ -199,40 +177,69 @@ var Chart = function (el, data) {
 
     barsIntalled.enter()
       .append('rect')
-      .attr('class', 'bar-installed')
+      .attr('class', 'bar-installed');
+
+    barsIntalled
       .style('fill', d => 'green')
       .attr('x', 0)
-      .attr('y', d => y(d.installed))
+      .attr('y', d => y(d.dispenser_total))
       .attr('width', x.rangeBand())
-      .attr('height', d => _height / 2 - y(d.installed));
+      .attr('height', d => _height / 2 - y(d.dispenser_total));
+
+    // barsIntalled.enter()
+    //   .append('rect')
+    //   .attr('class', 'bar-installed')
+    //   .style('fill', d => 'green')
+    //   .attr('x', 0)
+    //   .attr('y', _height / 2)
+    //   .attr('width', x.rangeBand())
+    //   .attr('height', 0);
 
     // barsIntalled
     //   .transition()
+    //   .delay(500)
     //   .duration(500)
-    //   .attr('y', d => y(d.installed))
-    //   .attr('width', d => x(d.value));
+    //   .attr('y', d => y(d.dispenser_total))
+    //   .attr('height', d => _height / 2 - y(d.dispenser_total));
 
     barsIntalled.exit()
       .remove();
-    // barsIntalled.exit()
-    //   .transition()
-    //   .duration(500)
-    //   .attr('x', 0)
-    //   .attr('width', 0);
 
     let barsOutages = barGroups.selectAll('rect.bar-outages')
       .data(d => [d]);
 
     barsOutages.enter()
       .append('rect')
-      .attr('class', 'bar-outages')
+      .attr('class', 'bar-outages');
+
+    barsOutages
       .style('fill', d => 'blue')
       .attr('x', 0)
       .attr('y', y(0))
       .attr('width', x.rangeBand())
-      .attr('height', d => _height / 2 - y(d.outages));
+      .attr('height', d => _height / 2 - y(d.outages.total));
 
     barsOutages.exit()
+      .remove();
+
+    let barGhost = barGroups.selectAll('rect.bar-ghost')
+      .data(d => [d]);
+
+    barGhost.enter()
+      .append('rect')
+      .attr('class', 'bar-ghost')
+      .style('pointer-events', 'all')
+      .on('mouseover', this._onMouseOver)
+      .on('mouseout', this._onMouseOut);
+
+    barGhost
+      .style('fill', 'none')
+      .attr('x', 0)
+      .attr('y', d => y(d.dispenser_total))
+      .attr('width', x.rangeBand())
+      .attr('height', d => _height - y(d.dispenser_total) - y(d.outages.total));
+
+    barGhost.exit()
       .remove();
 
     // ------------------------------
@@ -263,7 +270,7 @@ var Chart = function (el, data) {
       .attr('transform', `translate(${margin.left},${margin.top})`);
 
     yAxisG.select('.tick-top')
-      .text(yMax)
+      .text(Math.round(yMax / 1000) + 'k')
       .attr('x', -8)
       .attr('y', 0)
       .attr('dy', '1em')
@@ -277,7 +284,7 @@ var Chart = function (el, data) {
       .attr('text-anchor', 'end');
 
     yAxisG.select('.tick-bottom')
-      .text(yMax)
+      .text(Math.round(yMax / 1000) + 'k')
       .attr('x', -8)
       .attr('y', _height)
       .attr('dy', '-0.5em')
@@ -301,7 +308,7 @@ var Chart = function (el, data) {
       .attr('x2', _width)
       .attr('y2', Math.floor(_height / 2) + 0.5);
 
-    let avg = d3.mean(this.data.values, d => d.outages);
+    let avg = d3.mean(this.data.values, d => d.outages.total);
     gridElements.select('.avg-line')
       .attr('x1', 0)
       .attr('y1', y(0) + _height / 2 - y(avg))
@@ -320,10 +327,8 @@ var Chart = function (el, data) {
         break;
       }
       index += lineStep;
-      lineData.push(d.date);
+      lineData.push(d.timestep);
     }
-
-    console.log('lineData', lineData);
 
     let dateLines = gridElements.selectAll('.date-line')
       .data(lineData);
@@ -346,21 +351,19 @@ var Chart = function (el, data) {
     chartPopover.hide();
   };
 
-  this._onMouseOver = function () {
-    _this.mouseoverFn();
-    // if (_this.popoverContentFn) {
-    //   let matrix = dataCanvas.node().getScreenCTM()
-    //     .translate(x(doc.date), 0);
+  this._onMouseOver = function (d) {
+    if (_this.popoverContentFn) {
+      let matrix = this.getScreenCTM()
+        .translate(this.getAttribute('x') + x.rangeBand() / 2, this.getAttribute('y'));
 
-    //   var posX = window.pageXOffset + matrix.e;
-    //   var posY = window.pageYOffset + matrix.f - 16;
+      var posX = window.pageXOffset + matrix.e;
+      var posY = window.pageYOffset + matrix.f - 16;
 
-    //   chartPopover.setContent(_this.popoverContentFn(data, i)).show(posX, posY);
-    // }
+      chartPopover.setContent(_this.popoverContentFn(d)).show(posX, posY);
+    }
   };
 
   this._onMouseOut = function () {
-    _this.mouseoutFn();
     chartPopover.hide();
   };
 

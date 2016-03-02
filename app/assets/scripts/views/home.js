@@ -3,14 +3,20 @@ import React from 'react';
 import { connect } from 'react-redux';
 import SectionAccess from '../components/section-access';
 import SectionReliability from '../components/section-reliability';
-import { fetchSectionAccess } from '../actions/action-creators';
+import { fetchSectionAccess, fetchSectionReliability } from '../actions/action-creators';
 
 var Home = React.createClass({
   displayName: 'Home',
 
   propTypes: {
     _fetchSectionAccess: React.PropTypes.func,
+    _fetchSectionReliability: React.PropTypes.func,
     sectionAccess: React.PropTypes.shape({
+      fetched: React.PropTypes.bool,
+      fetching: React.PropTypes.bool,
+      data: React.PropTypes.object
+    }),
+    sectionReliability: React.PropTypes.shape({
       fetched: React.PropTypes.bool,
       fetching: React.PropTypes.bool,
       data: React.PropTypes.object
@@ -19,6 +25,7 @@ var Home = React.createClass({
 
   componentDidMount: function () {
     this.props._fetchSectionAccess();
+    this.props._fetchSectionReliability();
   },
 
   render: function () {
@@ -61,8 +68,9 @@ var Home = React.createClass({
             data={this.props.sectionAccess.data} />
 
           <SectionReliability
-            fetched
-            fetching />
+            fetched={this.props.sectionReliability.fetched}
+            fetching={this.props.sectionReliability.fetching}
+            data={this.props.sectionReliability.data} />
 
           <section className='page__content section--carbon'>
             <div className='inner'>
@@ -87,13 +95,15 @@ var Home = React.createClass({
 
 function selector (state) {
   return {
-    sectionAccess: state.sectionAccess
+    sectionAccess: state.sectionAccess,
+    sectionReliability: state.sectionReliability
   };
 }
 
 function dispatcher (dispatch) {
   return {
-    _fetchSectionAccess: () => dispatch(fetchSectionAccess())
+    _fetchSectionAccess: () => dispatch(fetchSectionAccess()),
+    _fetchSectionReliability: () => dispatch(fetchSectionReliability())
   };
 }
 

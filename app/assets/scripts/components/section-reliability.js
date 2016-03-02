@@ -1,6 +1,7 @@
 'use strict';
 import React from 'react';
-// import moment from 'moment';
+import moment from 'moment';
+import _ from 'lodash';
 import ChartReliability from './charts/chart-reliability';
 
 var SectionReliability = React.createClass({
@@ -8,18 +9,24 @@ var SectionReliability = React.createClass({
 
   propTypes: {
     fetched: React.PropTypes.bool,
-    fetching: React.PropTypes.bool
+    fetching: React.PropTypes.bool,
+    data: React.PropTypes.shape({
+      data: React.PropTypes.array,
+      meta: React.PropTypes.array
+    })
   },
 
-  chartPopoverHandler: function (data, index) {
+  chartPopoverHandler: function (d) {
     return (
       <dl>
-        {data.map(o => {
-          return [
-            <dd>{o.country}</dd>,
-            <dt>{o.values[index].value}</dt>
-          ];
-        })}
+        <dd>Timestep</dd>
+        <dt>{d.timestep.format('YY-MM')}</dt>
+        <dd>New dispensers</dd>
+        <dt>{d.dispensers_installed || 0}</dt>
+        <dd>Total dispensers</dd>
+        <dt>{d.dispenser_total}</dt>
+        <dd>Outages this timestep</dd>
+        <dt>{d.outages.total}</dt>
       </dl>
     );
   },
@@ -32,22 +39,21 @@ var SectionReliability = React.createClass({
     );
   },
 
-  renderContent: function () {
+  prepareChartData: _.memoize(function () {
     let data = {
-      values: [
-        { date: new Date('2014/01/01'), installed: 1000, outages: 40 },
-        { date: new Date('2014/02/01'), installed: 2000, outages: 100 },
-        { date: new Date('2014/03/01'), installed: 2200, outages: 20 },
-        { date: new Date('2014/04/01'), installed: 2700, outages: 168 },
-        { date: new Date('2014/05/01'), installed: 3000, outages: 74 }
-      ]
+      meta: this.props.data.meta,
+      values: this.props.data.data.map(o => {
+        o = _.cloneDeep(o);
+        o.timestep = moment.utc(o.timestep);
+        return o;
+      })
     };
 
-    // for (var i = 0; i < 12; i++) {
-    //   data.values.push(
-    //     { date: moment(data.values[data.values.length - 1].date).add(1, 'month').toDate(), installed: data.values[data.values.length - 1].installed + Math.floor(Math.random() * 500), outages: Math.floor(Math.random() * 500) }
-    //   );
-    // }
+    return data;
+  }),
+
+  renderContent: function () {
+    let data = this.prepareChartData();
 
     return (
       <div className='inner'>
@@ -61,7 +67,8 @@ var SectionReliability = React.createClass({
           <div className='infographic'>
             <ChartReliability
               className='reliability-chart-wrapper'
-              data={data} />
+              data={data}
+              popoverContentFn={this.chartPopoverHandler} />
           </div>
         </div>
       </div>
