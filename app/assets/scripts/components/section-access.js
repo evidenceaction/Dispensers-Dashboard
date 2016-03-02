@@ -142,9 +142,10 @@ var SectionAccess = React.createClass({
     let series = this.prepareChartData();
 
     return (
-      <div className='col--main'>
-        <button onClick={this.playToggleHandler}>play toggle</button>
-
+      <div className='col--clear'>
+        <h4 className='chart-title'>People Served By Dispensers</h4>
+        <div className='access-date'>{this.getCurrentDate().format('MM-DD-YYYY')}</div>
+        <div className='people-served-total'>129,023,023 people served</div>
         <div className='infographic'>
           <ChartArea
             mouseover={this.chartMouseoverHandler}
@@ -154,7 +155,8 @@ var SectionAccess = React.createClass({
             className='area-chart-wrapper'
             series={series} />
         </div>
-        <div>date -- {this.getCurrentDate().format('YYYY-MM-DD')}</div>
+
+        <button onClick={this.playToggleHandler}>play toggle</button>
 
         <Rcslider
           onChange={this.sliderChangeHandler}
@@ -197,6 +199,7 @@ var SectionAccess = React.createClass({
           ) : null}
 
           <div className='col--sec'>
+          <h4 className='chart-title'>Distribution of Dispensers by Country</h4>
             <SectionMap
               activeDate={this.props.fetched ? this.getCurrentDate() : null}
               data={g} />

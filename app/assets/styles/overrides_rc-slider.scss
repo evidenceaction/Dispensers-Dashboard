@@ -5,3 +5,17 @@
 .rc-slider {
   margin: 2rem 0;
 }
+
+.rc-slider-handle {
+	background-color: $primary-color;
+	border: none;
+}
+
+.rc-slider-track {
+	background-color: $primary-color;
+}
+
+.rc-slider-dot-active {
+  border: none;
+  background-color: $primary-color;
+}

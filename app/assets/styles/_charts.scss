@@ -8,10 +8,11 @@ svg.chart {
 //
 // NOTE: All the styles below are temporary
 //
-
-// .section--access
+  
+.section--access
 .area-chart-wrapper {
   min-height: 20rem;
+  width: 100%;
 
   .axis {
     .tick text {
@@ -61,28 +62,59 @@ svg.chart {
   }
 }
 
+  .access-date {
+    font-family: $display-font-family;
+    font-size: 0.875rem;
+  }
+
+  .people-served-total {
+    font-family: $display-font-family;
+    margin-top: ($global-spacing/2);
+    font-size: 1rem;
+    color: $infographic-b-color;
+  }
+
 // .section--reliability
 .reliability-chart-wrapper {
   min-height: 20rem;
   .x.axis {
   }
 
+  .axis {
+    .tick text {
+      font-size: 0.675rem;
+      fill: $primary-color;
+    }
+  }
+
   .y.axis {
     .axis-line {
-      stroke: red;
+      stroke: tint($base-color, 25%);
+    }
+    text {
+      font-size: 0.675rem;
+      fill: $primary-color;
     }
   }
 
   .grid-elements {
     .mid-line {
-      stroke: red;
+      stroke: tint($base-color, 25%);
     }
     .avg-line {
-      stroke: grey;
+      stroke: tint($base-color, 60%);
       stroke-dasharray: 5 5;
     }
     .date-line {
-      stroke: grey;
+      stroke: tint($base-color, 60%);
     }
+  }
+
+  .bar-installed {
+    fill: tint($highlight-color, 50%);
+  }
+
+  .bar-outages {
+    fill: tint($highlight-color, 10%);
   }
 }

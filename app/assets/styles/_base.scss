@@ -255,6 +255,12 @@ a:active {
 
 /* Sections */
 .section--access {
+  .col--clear {
+    float: left;
+    clear: none;
+    text-align: inherit;
+    width: 49.5%;
+  }
   .col--main {
     @include col(6/12);
   }
@@ -307,7 +313,7 @@ a:active {
 }
 
 .section--reliability {
-  background: #eee;
+  background: $secondary-color;
 }
 
 

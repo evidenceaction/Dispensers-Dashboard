@@ -200,7 +200,6 @@ var Chart = function (el, data) {
     barsIntalled.enter()
       .append('rect')
       .attr('class', 'bar-installed')
-      .style('fill', d => 'green')
       .attr('x', 0)
       .attr('y', d => y(d.installed))
       .attr('width', x.rangeBand())
@@ -226,7 +225,6 @@ var Chart = function (el, data) {
     barsOutages.enter()
       .append('rect')
       .attr('class', 'bar-outages')
-      .style('fill', d => 'blue')
       .attr('x', 0)
       .attr('y', y(0))
       .attr('width', x.rangeBand())
@@ -243,7 +241,7 @@ var Chart = function (el, data) {
       .call(xAxis);
 
     svg.select('.x.axis .label')
-      .text('date');
+      .text('');
 
     // Y axis is created manually.
     let yAxisG = svg.select('.y.axis');
