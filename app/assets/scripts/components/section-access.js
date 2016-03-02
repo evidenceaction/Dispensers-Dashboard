@@ -119,15 +119,21 @@ var SectionAccess = React.createClass({
           }
         }
         _.forEach(res.values, d => {
-          // console.log('timestep before', d.timestep);
-          // d.timestep = new Date(d.timestep);
           d.timestep = moment.utc(d.timestep);
-          // console.log('timestep after', d.timestep.toISOString());
-          // console.log('----');
         });
         return res;
       })
       .value();
+  }),
+
+  prepareMapData: _.memoize(function () {
+    // Add the values to the geo array.
+    let d = this.props.data;
+    return d.geo.map(o => {
+      let countryData = _.find(d.data, {iso: o.iso});
+      o.values = countryData.values;
+      return o;
+    });
   }),
 
   renderLoading: function () {
@@ -176,16 +182,9 @@ var SectionAccess = React.createClass({
   },
 
   render: function () {
-    let g = [];
+    let mapData = [];
     if (this.props.fetched) {
-      console.log('this.props.data', this.props.data);
-      let d = this.props.data;
-      g = d.geo.map(o => {
-        let countryData = _.find(this.props.data.data, {iso: o.iso});
-        // o.value = _.find(countryData.values, o => moment.utc(o.timestep).format('YYYY-MM-DD') === curr);
-        o.values = countryData.values;
-        return o;
-      });
+      mapData = this.prepareMapData();
     }
 
     return (
@@ -198,7 +197,7 @@ var SectionAccess = React.createClass({
           <div className='col--sec'>
             <SectionMap
               activeDate={this.props.fetched ? this.getCurrentDate() : null}
-              data={g} />
+              data={mapData} />
           </div>
         </div>
       </section>
