@@ -143,11 +143,6 @@ var SectionAccess = React.createClass({
 
     return (
       <div className='col--main'>
-        <h1 className='section__title'>Section Title</h1>
-        <p>This is a pararaph and goes a little something like this... consectetur adipisicing elit.</p>
-        <p>This is another ipsum iste, facere ab consequuntur animi corporis culpa ratione
-        sequi quaerat deleniti distinctio ducimus, dolorem possimus, sit blanditiis odio harum quos minus.</p>
-
         <button onClick={this.playToggleHandler}>play toggle</button>
 
         <div className='infographic'>
@@ -191,6 +186,12 @@ var SectionAccess = React.createClass({
     return (
       <section className='page__content section--access'>
         <div className='inner'>
+          <div className='col--full'>
+           <h1 className='section__title'>Section Title</h1>
+            <p>This is a pararaph and goes a little something like this... consectetur adipisicing elit.</p>
+            <p>This is another ipsum iste, facere ab consequuntur animi corporis culpa ratione
+            sequi quaerat deleniti distinctio ducimus, dolorem possimus, sit blanditiis odio harum quos minus.</p>
+          </div>
           {this.props.fetched ? (
             this.props.fetching ? this.renderLoading() : this.renderContent()
           ) : null}

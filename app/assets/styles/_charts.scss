@@ -15,30 +15,48 @@ svg.chart {
 
   .axis {
     .tick text {
-      font-size: 0.875rem;
+      font-size: 0.675rem;
+      fill: tint($primary-color, 45%);
     }
+  }
+
+  .x.axis {
+    .label {
+    display: none;
+    }
+  }
+
+  .label {
+    font-size: 0.875rem;
+    fill: $primary-color;
   }
 
   .area {
     &:nth-child(1) {
-      fill: rgba($primary-color, 0.9);
+      fill: rgba($infographic-b-color, 0.9);
     }
     &:nth-child(2) {
-      fill: rgba($primary-color, 0.7);
+      fill: rgba($infographic-b-color, 0.7);
     }
     &:nth-child(3) {
-      fill: rgba($primary-color, 0.5);
+      fill: rgba($infographic-b-color, 0.4);
     }
+  }
+
+  .focus-circles {
+    fill: $secondary-color;
+    stroke: $base-color;
+    stroke-width: 1px;
   }
 
   .area-line {
     fill: none;
-    stroke: $secondary-color;
+    stroke: #fff;
   }
 
   .focus-line {
     fill: none;
-    stroke: green;
+    stroke: $base-color;
     stroke-width: 2px;
   }
 }
