@@ -387,15 +387,13 @@ var Chart = function (el, data) {
     _this._positionFocusElements(doc.timestep);
 
     if (_this.popoverContentFn) {
-      let circle = svg.select('.focus-circles .circle').node();
-
-      let matrix = circle.getScreenCTM()
-        .translate(circle.getAttribute('cx'), circle.getAttribute('cy'));
+      let matrix = dataCanvas.node().getScreenCTM()
+        .translate(x(doc.timestep), y(doc.adoption));
 
       var posX = window.pageXOffset + matrix.e;
       var posY = window.pageYOffset + matrix.f - 16;
 
-      chartPopover.setContent(_this.popoverContentFn(data, i)).show(posX, posY);
+      chartPopover.setContent(_this.popoverContentFn(data, i), 'chart-popover').show(posX, posY);
     }
   };
 

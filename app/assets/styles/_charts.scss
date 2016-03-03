@@ -5,6 +5,10 @@ svg.chart {
   display: block;
 }
 
+.chart-popover {
+  transition: left 0.25s ease 0s, top 0.25s ease 0s;
+}
+
 //
 // NOTE: All the styles below are temporary
 //

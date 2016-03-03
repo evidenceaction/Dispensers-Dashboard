@@ -370,7 +370,7 @@ var Chart = function (el, data) {
   };
 
   this._onMouseMove = function (data) {
-    let datum = data[0].values;
+    let datum = _.last(data).values;
     // Define bisector function. Is used to find the closest year
     // to the mouse position.
     let bisect = d3.bisector(d => d.timestep).left;
@@ -398,12 +398,12 @@ var Chart = function (el, data) {
 
     if (_this.popoverContentFn) {
       let matrix = dataCanvas.node().getScreenCTM()
-        .translate(x(doc.timestep), 0);
+        .translate(x(doc.timestep), y(doc.y0 + doc.y));
 
       var posX = window.pageXOffset + matrix.e;
       var posY = window.pageYOffset + matrix.f - 16;
 
-      chartPopover.setContent(_this.popoverContentFn(data, i)).show(posX, posY);
+      chartPopover.setContent(_this.popoverContentFn(data, i), 'chart-popover').show(posX, posY);
     }
   };
 

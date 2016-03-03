@@ -26,6 +26,11 @@ function popover () {
   var _prev_x = null;
   var _prev_y = null;
 
+  $popover = document.createElement('div');
+  document.getElementById('site-canvas').appendChild($popover);
+  $popover.outerHTML = ReactDOMServer.renderToStaticMarkup(<div className='popover' id={_id} />);
+  $popover = document.getElementById(_id);
+
   /**
    * Sets the popover content.
    *
@@ -33,20 +38,16 @@ function popover () {
    * Content for the popover. Can be anything supported by react.
    */
   this.setContent = function (ReactElement, classes) {
-    classes = 'popover' + (classes ? ' ' + classes : '');
+    if (classes) {
+      $popover.classList.add(...classes.split(' '));
+    }
     _prev_content = _content;
-    _content = ReactDOMServer.renderToStaticMarkup(
-      <div className={classes} id={_id}>
-        {ReactElement}
-      </div>
-    );
+    _content = ReactDOMServer.renderToStaticMarkup(ReactElement);
     return this;
   };
 
   /**
-   * Appends the popover to #site-canvas positioning it absolutely
-   * at the specified coordinates.
-   * If the popover already exists it will be repositioned.
+   * Positions the popover in the correct place
    * The anchor point for the popover is the bottom center with 8px of offset.
    *
    * Note: The popover needs to have content before being shown.
@@ -71,23 +72,21 @@ function popover () {
 
     var changePos = !(_prev_x === _x && _prev_y === _y);
 
+    // Just to ensure the jump is not huge.
+    if (_prev_x === null && _prev_y === null) {
+      $popover.style.left = _x + 'px';
+      $popover.style.top = _y + 'px';
+    }
+
     // Different content?
     if (_content !== _prev_content) {
-      $popover = document.getElementById(_id);
-      if ($popover !== null) {
-        $popover.outerHTML = _content;
-      } else {
-        $popover = document.createElement('div');
-        document.getElementById('site-canvas').appendChild($popover);
-        $popover.outerHTML = _content;
-      }
+      $popover.innerHTML = _content;
       // With a change in content, position has to change.
       changePos = true;
     }
 
     if (changePos) {
       _working = true;
-      $popover = document.getElementById(_id);
       // Set position on next tick.
       // Otherwise the popover has no spatiality.
       setTimeout(function () {
@@ -116,7 +115,7 @@ function popover () {
         $popover.style.display = '';
         $popover.style.opacity = 1;
         _working = false;
-      }, 100);
+      }, 1);
     }
 
     return this;
@@ -126,10 +125,7 @@ function popover () {
    * Removes the popover from the DOM.
    */
   this.hide = function () {
-    var el = document.getElementById(_id);
-    if (el) {
-      el.parentNode.removeChild(el);
-    }
+    $popover.style = null;
     _content = null;
     _prev_content = null;
     _x = null;
