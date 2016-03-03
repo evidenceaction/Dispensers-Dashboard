@@ -167,24 +167,25 @@ var SectionAccess = React.createClass({
         <p>This is another ipsum iste, facere ab consequuntur animi corporis culpa ratione
         sequi quaerat deleniti distinctio ducimus, dolorem possimus, sit blanditiis odio harum quos minus.</p>
 
-        <button
-          onClick={this.playToggleHandler}
-          className={classnames('slider-animation-button', {'stop': this.isPlaying(), 'play': !this.isPlaying()})}>
-            <span>Play/Pause toggle</span>
-        </button>
-
-        <div className='access-date'>{currDate.format('MM-DD-YYYY')}</div>
-        <div className='people-served-total'>{d3.format(',d')(totalPeople)} people served</div>
+        <div className='access-counts'>
+        <p className='access-date'>{currDate.format('MM-DD-YYYY')}</p>
+        <p className='people-served-total'> {d3.format(',d')(totalPeople)} people served</p>
+        </div>
+        
 
         <div className='slider-wrapper'>
+          <button onClick={this.playToggleHandler}
+            className={classnames('slider-animation-button', {'stop': this.isPlaying(), 'play': !this.isPlaying()})}>
+            <span>Play/Pause toggle</span>
+          </button>
           <Rcslider
             onChange={this.sliderChangeHandler}
             max={this.computeSliderMax()}
             value={this.state.currentSliderPos}
             tipFormatter={null}
             marks={{
-              0: this.getStartDate().format('YYYY-MM-DD'),
-              [this.computeSliderMax()]: this.getEndDate().format('YYYY-MM-DD')
+              0: this.getStartDate().format('MMM YYYY'),
+              [this.computeSliderMax()]: this.getEndDate().format('MMM YYYY')
             }} />
         </div>
 
