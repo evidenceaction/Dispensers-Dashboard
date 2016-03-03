@@ -9,14 +9,13 @@ svg.chart {
 // NOTE: All the styles below are temporary
 //
   
-.section--access
-.area-chart-wrapper {
+.section--access .area-chart-wrapper {
   min-height: 20rem;
   width: 100%;
 
   .axis {
     .tick text {
-      font-size: 0.675rem;
+      font-size: 0.75rem;
       fill: tint($primary-color, 45%);
     }
   }
@@ -77,22 +76,20 @@ svg.chart {
 // .section--reliability
 .reliability-chart-wrapper {
   min-height: 20rem;
-  .x.axis {
-  }
 
   .axis {
     .tick text {
-      font-size: 0.675rem;
+      font-size: 0.75rem;
       fill: $primary-color;
     }
   }
 
   .y.axis {
-    .axis-line {
+    .domain {
       stroke: tint($base-color, 25%);
     }
     text {
-      font-size: 0.675rem;
+      font-size: 0.75rem;
       fill: $primary-color;
     }
   }
@@ -123,7 +120,66 @@ svg.chart {
   }
 }
 
+.section--adoption .adoption-chart-wrapper {
+  min-height: 20rem;
 
+  .axis {
+    .tick text {
+      font-size: 0.75rem;
+      fill: $primary-color;
+    }
+  }
+
+  .y.axis {
+    .domain {
+      stroke: tint($base-color, 25%);
+    }
+    text {
+      font-size: 0.75rem;
+      fill: $primary-color;
+    }
+  }
+
+  .threshold {
+    .limit-line {
+      stroke: tint($base-color, 25%);
+      stroke-dasharray: 5 5;
+    }
+    .value {
+      font-size: 0.75rem;
+      fill: $primary-color;
+    }
+
+    &.top {
+      .highlight-area {
+        fill: rgba($infographic-b-color, 0.16);
+      }
+    }
+    &.bottom {
+      .highlight-area {
+        fill: rgba($infographic-b-color, 0.16);
+      }
+    }
+  }
+
+  .focus-circles {
+    fill: $secondary-color;
+    stroke: $base-color;
+    stroke-width: 1px;
+  }
+
+  .focus-line {
+    fill: none;
+    stroke: $base-color;
+    stroke-width: 2px;
+  }
+
+  .data-line {
+    stroke: rgba($infographic-b-color, 0.9);
+    stroke-width: 2px;
+    fill:none;
+  }
+}
 
 
 

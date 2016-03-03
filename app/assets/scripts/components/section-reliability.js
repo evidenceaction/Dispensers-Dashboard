@@ -12,7 +12,8 @@ var SectionReliability = React.createClass({
     fetching: React.PropTypes.bool,
     data: React.PropTypes.shape({
       data: React.PropTypes.array,
-      meta: React.PropTypes.array
+      meta: React.PropTypes.array,
+      content: React.PropTypes.object
     })
   },
 
@@ -58,10 +59,9 @@ var SectionReliability = React.createClass({
     return (
       <div className='inner'>
         <div className='col--main'>
-          <h1 className='section__title'>Section Title</h1>
-          <p>This is a pararaph and goes a little something like this... consectetur adipisicing elit.</p>
-          <p>This is another ipsum iste, facere ab consequuntur animi corporis culpa ratione
-          sequi quaerat deleniti distinctio ducimus, dolorem possimus, sit blanditiis odio harum quos minus.</p>
+          <h1 className='section__title'>{this.props.data.content.title}</h1>
+          <div dangerouslySetInnerHTML={{__html: this.props.data.content.content}} />
+
         </div>
         <div className='col--sec'>
           <div className='infographic'>

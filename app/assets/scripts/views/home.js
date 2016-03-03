@@ -3,6 +3,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import SectionAccess from '../components/section-access';
 import SectionReliability from '../components/section-reliability';
+import SectionAdoption from '../components/section-adoption';
 import { fetchSectionAccess, fetchSectionReliability } from '../actions/action-creators';
 
 var Home = React.createClass({
@@ -65,6 +66,11 @@ var Home = React.createClass({
               </div>
             </div>
           </section>
+
+          <SectionAdoption
+            fetched={true}
+            fetching={false}
+            data={this.props.sectionReliability.data} />
 
           <SectionAccess
             fetched={this.props.sectionAccess.fetched}

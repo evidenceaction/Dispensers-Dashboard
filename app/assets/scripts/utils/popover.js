@@ -116,7 +116,7 @@ function popover () {
         $popover.style.display = '';
         $popover.style.opacity = 1;
         _working = false;
-      }, 1);
+      }, 100);
     }
 
     return this;
