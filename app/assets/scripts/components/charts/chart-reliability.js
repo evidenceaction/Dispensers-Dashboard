@@ -250,7 +250,7 @@ var Chart = function (el, data) {
       .call(xAxis);
 
     svg.select('.x.axis .label')
-      .text('date');
+      .text('');
 
     // Y axis is created manually.
     let yAxisG = svg.select('.y.axis');

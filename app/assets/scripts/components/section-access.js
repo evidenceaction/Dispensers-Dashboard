@@ -148,14 +148,10 @@ var SectionAccess = React.createClass({
     let series = this.prepareChartData();
 
     return (
-      <div className='col--main'>
-        <h1 className='section__title'>Section Title</h1>
-        <p>This is a pararaph and goes a little something like this... consectetur adipisicing elit.</p>
-        <p>This is another ipsum iste, facere ab consequuntur animi corporis culpa ratione
-        sequi quaerat deleniti distinctio ducimus, dolorem possimus, sit blanditiis odio harum quos minus.</p>
-
-        <button onClick={this.playToggleHandler}>play toggle</button>
-
+      <div className='col--clear'>
+        <h4 className='chart-title'>People Served By Dispensers</h4>
+        <div className='access-date'>{this.getCurrentDate().format('MM-DD-YYYY')}</div>
+        <div className='people-served-total'>129,023,023 people served</div>
         <div className='infographic'>
           <ChartArea
             mouseover={this.chartMouseoverHandler}
@@ -165,7 +161,8 @@ var SectionAccess = React.createClass({
             className='area-chart-wrapper'
             series={series} />
         </div>
-        <div>date -- {this.getCurrentDate().format('YYYY-MM-DD')}</div>
+
+        <button onClick={this.playToggleHandler}>play toggle</button>
 
         <Rcslider
           onChange={this.sliderChangeHandler}
@@ -190,11 +187,18 @@ var SectionAccess = React.createClass({
     return (
       <section className='page__content section--access'>
         <div className='inner'>
+          <div className='col--full'>
+           <h1 className='section__title'>Section Title</h1>
+            <p>This is a pararaph and goes a little something like this... consectetur adipisicing elit.</p>
+            <p>This is another ipsum iste, facere ab consequuntur animi corporis culpa ratione
+            sequi quaerat deleniti distinctio ducimus, dolorem possimus, sit blanditiis odio harum quos minus.</p>
+          </div>
           {this.props.fetched ? (
             this.props.fetching ? this.renderLoading() : this.renderContent()
           ) : null}
 
           <div className='col--sec'>
+          <h4 className='chart-title'>Distribution of Dispensers by Country</h4>
             <SectionMap
               activeDate={this.props.fetched ? this.getCurrentDate() : null}
               data={mapData} />

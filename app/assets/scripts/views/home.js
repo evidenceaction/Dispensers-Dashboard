@@ -43,6 +43,10 @@ var Home = React.createClass({
           <section className='page__content section--stats'>
             <div className='inner'>
               <h1 className='section__title'>Stats</h1>
+              <div className='stats__intro'>
+                <h1 className='stats__intro-title'> Safe Water Dispensers </h1>
+                <p className='stats__intro-text'> Why these KPI's are important, etc. etc. Some Opening text should go here that describes things.</p>
+              </div>
               <div className='stats__entry'>
                 <h2 className='stats__title'>52!<small>seconds</small></h2>
                 <p className='stats__description'>A number so unfathomably big that's impossible to put in perspective.</p>

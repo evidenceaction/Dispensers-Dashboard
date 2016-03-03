@@ -6,6 +6,10 @@ p, ul, ol, dl, pre, blockquote {
   margin-bottom: $global-spacing;
 }
 
+p {
+  font-family: $body-font-family;
+}
+
 
 /* Prose
    ========================================================================== */
@@ -48,6 +52,28 @@ p, ul, ol, dl, pre, blockquote {
   }
 }
 
+.stats__title {
+  color: $highlight-color;
+  small {
+    color: $base-color;
+  }
+}
+
+.stats__description {
+  display: none;
+}
+
+.stats__intro {
+  margin-bottom: ($global-spacing * 2);
+  h1 {
+  margin-bottom: 0;
+  text-align: center;
+  }
+}
+
+.stats__intro-text {
+  text-align: center;
+}
 
 /* Lists
    ========================================================================== */
@@ -139,7 +165,7 @@ dd {
 
 /* Code
    ========================================================================== */
-
+/*
 code, kbd, pre, samp {
   font-family: $code-font-family;
 }
@@ -169,13 +195,13 @@ pre {
 
 /* Prose specific */
 
-.prose {
+/*.prose {
   pre {
     @include media(medium-up) {
       padding: $global-spacing * 2;
     }
-  }
-}
+  }*/
+/*}*/
 
 
 /* Blockquote
@@ -235,13 +261,12 @@ hr {
    ========================================================================== */
 
 .heading, h1, h2, h3, h4, h5, h6 {
-  font-family: $base-font-family;
+  font-family: $display-font-family;
   font-weight: $base-font-bold;
   margin-top: 0;
   margin-bottom: $global-spacing;
   small {
     font-size: 80%;
-    opacity: 0.48;
     font-weight: normal;
     vertical-align: top;
   }

@@ -8,40 +8,71 @@ svg.chart {
 //
 // NOTE: All the styles below are temporary
 //
-
-// .section--access
+  
+.section--access
 .area-chart-wrapper {
   min-height: 20rem;
+  width: 100%;
 
   .axis {
     .tick text {
-      font-size: 0.875rem;
+      font-size: 0.675rem;
+      fill: tint($primary-color, 45%);
     }
+  }
+
+  .x.axis {
+    .label {
+    display: none;
+    }
+  }
+
+  .label {
+    font-size: 0.875rem;
+    fill: $primary-color;
   }
 
   .area {
     &:nth-child(1) {
-      fill: rgba($primary-color, 0.9);
+      fill: rgba($infographic-b-color, 0.9);
     }
     &:nth-child(2) {
-      fill: rgba($primary-color, 0.7);
+      fill: rgba($infographic-b-color, 0.7);
     }
     &:nth-child(3) {
-      fill: rgba($primary-color, 0.5);
+      fill: rgba($infographic-b-color, 0.4);
     }
+  }
+
+  .focus-circles {
+    fill: $secondary-color;
+    stroke: $base-color;
+    stroke-width: 1px;
   }
 
   .area-line {
     fill: none;
-    stroke: $secondary-color;
+    stroke: #fff;
   }
 
   .focus-line {
     fill: none;
-    stroke: green;
+    stroke: $base-color;
     stroke-width: 2px;
   }
 }
+
+  .access-date {
+    font-family: $display-font-family;
+    font-size: 0.875rem;
+  }
+
+  .people-served-total {
+    font-family: $display-font-family;
+    margin-top: ($global-spacing/2);
+    font-size: 1rem;
+    color: $infographic-b-color;
+  }
 
 // .section--reliability
 .reliability-chart-wrapper {
@@ -49,23 +80,42 @@ svg.chart {
   .x.axis {
   }
 
+  .axis {
+    .tick text {
+      font-size: 0.675rem;
+      fill: $primary-color;
+    }
+  }
+
   .y.axis {
     .axis-line {
-      stroke: red;
+      stroke: tint($base-color, 25%);
+    }
+    text {
+      font-size: 0.675rem;
+      fill: $primary-color;
     }
   }
 
   .grid-elements {
     .mid-line {
-      stroke: red;
+      stroke: tint($base-color, 25%);
     }
     .avg-line {
-      stroke: grey;
+      stroke: tint($base-color, 60%);
       stroke-dasharray: 5 5;
     }
     .date-line {
-      stroke: grey;
+      stroke: tint($base-color, 60%);
     }
+  }
+
+  .bar-installed {
+    fill: tint($highlight-color, 50%);
+  }
+
+  .bar-outages {
+    fill: tint($highlight-color, 10%);
   }
 
   .bar-ghost {
