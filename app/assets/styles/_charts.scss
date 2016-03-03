@@ -1,0 +1,165 @@
+/* Footer
+   ========================================================================== */
+svg.chart {
+  // Avoids that the chart grows because of the gap left by inline elements.
+  display: block;
+}
+
+//
+// NOTE: All the styles below are temporary
+//
+  
+.section--access
+.area-chart-wrapper {
+  min-height: 20rem;
+  width: 100%;
+
+  .axis {
+    .tick text {
+      font-size: 0.675rem;
+      fill: tint($primary-color, 45%);
+    }
+  }
+
+  .x.axis {
+    .label {
+    display: none;
+    }
+  }
+
+  .label {
+    font-size: 0.875rem;
+    fill: $primary-color;
+  }
+
+  .area {
+    &:nth-child(1) {
+      fill: rgba($infographic-b-color, 0.9);
+    }
+    &:nth-child(2) {
+      fill: rgba($infographic-b-color, 0.7);
+    }
+    &:nth-child(3) {
+      fill: rgba($infographic-b-color, 0.4);
+    }
+  }
+
+  .focus-circles {
+    fill: $secondary-color;
+    stroke: $base-color;
+    stroke-width: 1px;
+  }
+
+  .area-line {
+    fill: none;
+    stroke: #fff;
+  }
+
+  .focus-line {
+    fill: none;
+    stroke: $base-color;
+    stroke-width: 2px;
+  }
+}
+
+  .access-date {
+    font-family: $display-font-family;
+    font-size: 0.875rem;
+  }
+
+  .people-served-total {
+    font-family: $display-font-family;
+    margin-top: ($global-spacing/2);
+    font-size: 1rem;
+    color: $infographic-b-color;
+  }
+
+// .section--reliability
+.reliability-chart-wrapper {
+  min-height: 20rem;
+  .x.axis {
+  }
+
+  .axis {
+    .tick text {
+      font-size: 0.675rem;
+      fill: $primary-color;
+    }
+  }
+
+  .y.axis {
+    .axis-line {
+      stroke: tint($base-color, 25%);
+    }
+    text {
+      font-size: 0.675rem;
+      fill: $primary-color;
+    }
+  }
+
+  .grid-elements {
+    .mid-line {
+      stroke: tint($base-color, 25%);
+    }
+    .avg-line {
+      stroke: tint($base-color, 60%);
+      stroke-dasharray: 5 5;
+    }
+    .date-line {
+      stroke: tint($base-color, 60%);
+    }
+  }
+
+  .bar-installed {
+    fill: tint($highlight-color, 50%);
+  }
+
+  .bar-outages {
+    fill: tint($highlight-color, 10%);
+  }
+
+  .bar-ghost {
+    // cursor: pointer;
+  }
+}
+
+
+
+
+
+
+// .dispenser-point is the div positioned by mapbox using transform translate()
+// Since the size of it needs to be programmatically defined, we need to use
+// a scale transform for the pulse to work. However it can't be applied
+// to the .dispenser-point because it already has a transform.
+// Therefore another div was added (.dispenser-inner) to which the scale
+// is applied.
+.dispenser-point {
+  // border-radius: $global-rounded;
+
+  .dispenser-inner {
+    transition: background 0.25s linear 0s;
+    border-radius: $global-rounded;
+    width: 100%;
+    height: 100%;
+    opacity: 0.5;
+    background: red;
+  }
+
+  &.dispenser-new .dispenser-inner {
+    background: blue;
+    @include animation(pulse 0.25s ease-in 0s);
+  }
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.5);
+  }
+  100% {
+    transform: scale(1);
+  }
+}

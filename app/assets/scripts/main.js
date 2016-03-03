@@ -1,4 +1,6 @@
 'use strict';
+/* global L */
+require('mapbox.js');
 import 'babel-polyfill';
 import React from 'react';
 import { render } from 'react-dom';
@@ -6,14 +8,16 @@ import { Provider } from 'react-redux';
 import { Router, Route, IndexRoute, hashHistory } from 'react-router';
 import { createStore, applyMiddleware, compose } from 'redux';
 import thunkMiddleware from 'redux-thunk';
-import { syncHistory } from 'redux-simple-router';
-
+import { syncHistory } from 'react-router-redux';
 import reducer from './reducers/reducer';
+import config from './config';
+
+L.mapbox.accessToken = config.mbToken;
 
 import UhOh from './views/uhoh';
 import App from './views/app';
 import Home from './views/home';
-import Country from './views/countries';
+import Country from './views/country';
 
 // Sync dispatched route actions to the history
 const reduxRouterMiddleware = syncHistory(hashHistory);
@@ -33,7 +37,7 @@ render((
   <Provider store={store}>
     <Router history={hashHistory}>
       <Route path='/' component={App}>
-        <Route path='countries/:country' component={Country} />
+        <Route path=':country' component={Country} />
         <IndexRoute component={Home}/>
       </Route>
       <Route path='*' component={App}>

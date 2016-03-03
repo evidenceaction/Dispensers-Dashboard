@@ -1,0 +1,93 @@
+/* ==========================================================================
+   Colors
+   ========================================================================== */
+$base-color: #5e5f5f;                   // Dark Grey
+$primary-color: #A7A2A4;              	// Medium Grey
+$secondary-color: #E8E5E2;          	// Light Grey
+$tertiary-color: #ffffff;            	// Undefined
+
+$highlight-color: #FE6F87;          	// pink
+$infographic-a-color: #AC5E6D;        // dark pink
+$infographic-b-color: #38AEB1;         // teal
+
+$link-color: $highlight-color;
+$base-alpha-color: rgba($base-color, 0.12);
+
+
+/* ==========================================================================
+   Typography
+   ========================================================================== */
+
+/**
+ * $base-* refers to the base styles when there's nothing else to override them.
+ */
+
+@font-face {
+  font-family: TSTARMonoRoundReg;
+  src: url("fonts/TSTARMonoRoundRegWeb.eot");
+}
+
+/* then for WOFF-capable browsers */
+@font-face {
+  font-family: TSTARMonoRoundReg;
+  src: url("fonts/TSTARMonoRoundRegWeb.woff") format("woff");
+}
+
+@font-face {
+  font-family: TSTARMonoRoundBol;
+  src: url("fonts/TSTARMonoRoundBolWeb.eot");
+}
+
+/* then for WOFF-capable browsers */
+@font-face {
+  font-family: TSTARMonoRoundBol;
+  src: url("fonts/TSTARMonoRoundBolWeb.woff") format("woff");
+}
+
+
+$base-font-color: $base-color;
+$base-font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+$base-font-style: normal;
+$base-font-light: 300;
+$base-font-regular: 400;
+$base-font-bold: 700;
+$base-font-weight: $base-font-regular;
+
+$display-font-family: "TSTARMonoRoundBol","Helvetica Neue", Helvetica, Arial, sans-serif;
+$body-font-family: 'Georgia', serif;
+
+/* ==========================================================================
+   Decoration
+   ========================================================================== */
+
+/* Border radius */
+
+$global-radius: 0.25rem;
+$semi-radius: $global-radius/2;
+$global-rounded: 60rem;
+
+
+/* ==========================================================================
+   Spacing and media queries
+   ========================================================================== */
+
+/* Rows */
+
+$row-min-width: 320px;
+$row-max-width: 1280px;
+$jeet-max-width: $row-max-width; // reset jeet.gs max width
+
+/* Media queries */
+
+$xsmall-range: (0, 543px);
+$small-range: (544px, 767px);
+$medium-range: (768px, 991px);
+$large-range: (992px, 1199px);
+$xlarge-range: (1200px);
+
+$screen: "only screen";
+
+/* Spacing */
+
+$global-spacing: 1rem;
+$section-spacing: 4rem;

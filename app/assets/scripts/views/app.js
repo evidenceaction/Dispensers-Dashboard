@@ -1,5 +1,6 @@
 'use strict';
 import React from 'react';
+import GlobalMenu from '../components/global-menu';
 
 var App = React.createClass({
   displayName: 'App',
@@ -16,18 +17,15 @@ var App = React.createClass({
           <div className='inner'>
             <div className='site-headline'>
               <h1 className='site-title'>
-                <a href='/' title='Visit homepage'>
-                  <span>Site title</span>
-                </a>
+                <a href='/' title='Visit homepage'>Site title</a>
               </h1>
             </div>
+            <GlobalMenu />
           </div>
         </header>
 
         <main className='site-body' role='main'>
-          <div className='inner'>
-            {this.props.children}
-          </div>
+          {this.props.children}
         </main>
 
         <footer className='site-footer' role='contentinfo'>
