@@ -224,9 +224,3 @@
 
 /* Extends
    ========================================================================== */
-
-.button {
-  &.download:before { @extend .linearicons-0758-download2; }
-  &.twitter:before { @extend .linearicons-ext-twitter; }
-  &.edit:before { @extend .linearicons-0014-pencil; }
-}
