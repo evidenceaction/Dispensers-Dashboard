@@ -117,4 +117,49 @@ svg.chart {
   .bar-outages {
     fill: tint($highlight-color, 10%);
   }
+
+  .bar-ghost {
+    // cursor: pointer;
+  }
+}
+
+
+
+
+
+
+// .dispenser-point is the div positioned by mapbox using transform translate()
+// Since the size of it needs to be programmatically defined, we need to use
+// a scale transform for the pulse to work. However it can't be applied
+// to the .dispenser-point because it already has a transform.
+// Therefore another div was added (.dispenser-inner) to which the scale
+// is applied.
+.dispenser-point {
+  // border-radius: $global-rounded;
+
+  .dispenser-inner {
+    transition: background 0.25s linear 0s;
+    border-radius: $global-rounded;
+    width: 100%;
+    height: 100%;
+    opacity: 0.5;
+    background: red;
+  }
+
+  &.dispenser-new .dispenser-inner {
+    background: blue;
+    @include animation(pulse 0.25s ease-in 0s);
+  }
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.5);
+  }
+  100% {
+    transform: scale(1);
+  }
 }
