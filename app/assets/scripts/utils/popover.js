@@ -72,10 +72,9 @@ function popover () {
 
     var changePos = !(_prev_x === _x && _prev_y === _y);
 
-    // Just to ensure the jump is not huge.
-    if (_prev_x === null && _prev_y === null) {
-      $popover.style.left = _x + 'px';
-      $popover.style.top = _y + 'px';
+    // Animate only after it was added.
+    if (_prev_x !== null && _prev_y !== null) {
+      $popover.classList.add('chart-popover-animate');
     }
 
     // Different content?
@@ -126,6 +125,7 @@ function popover () {
    */
   this.hide = function () {
     $popover.style = null;
+    $popover.classList.remove('chart-popover-animate');
     _content = null;
     _prev_content = null;
     _x = null;

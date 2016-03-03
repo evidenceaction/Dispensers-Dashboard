@@ -403,7 +403,7 @@ var Chart = function (el, data) {
       var posX = window.pageXOffset + matrix.e;
       var posY = window.pageYOffset + matrix.f - 16;
 
-      chartPopover.setContent(_this.popoverContentFn(data, i), 'chart-popover').show(posX, posY);
+      chartPopover.setContent(_this.popoverContentFn(data, i)).show(posX, posY);
     }
   };
 
