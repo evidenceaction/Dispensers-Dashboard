@@ -3,6 +3,8 @@ import React from 'react';
 import Rcslider from 'rc-slider';
 import moment from 'moment';
 import _ from 'lodash';
+import d3 from 'd3';
+import classnames from 'classnames';
 import ChartArea from './charts/chart-area';
 import SectionMap from './section-access-map';
 
@@ -20,7 +22,8 @@ var SectionAccess = React.createClass({
 
   getInitialState: function () {
     return {
-      currentSliderPos: 0
+      currentSliderPos: 0,
+      interval: null
     };
   },
 
@@ -34,24 +37,27 @@ var SectionAccess = React.createClass({
     return moment.utc(d);
   },
 
-  interval: null,
   play: function () {
-    this.interval = setInterval(() => {
+    let interval = setInterval(() => {
       let v = this.state.currentSliderPos;
       v = ++v > this.computeSliderMax() ? 0 : v;
-      this.setState({currentSliderPos: v});
+      this.setState({currentSliderPos: v, interval});
     }, 300);
   },
 
   pause: function () {
-    if (this.interval) {
-      clearInterval(this.interval);
-      this.interval = null;
+    if (this.isPlaying()) {
+      clearInterval(this.state.interval);
+      this.setState({interval: null});
     }
   },
 
+  isPlaying: function () {
+    return this.state.interval !== null;
+  },
+
   playToggleHandler: function () {
-    if (this.interval) {
+    if (this.isPlaying()) {
       this.pause();
     } else {
       this.play();
@@ -60,7 +66,7 @@ var SectionAccess = React.createClass({
 
   wasIntervalRunning: false,
   chartMouseoverHandler: function () {
-    if (this.interval) {
+    if (this.isPlaying()) {
       this.wasIntervalRunning = true;
     }
     this.pause();
@@ -136,22 +142,89 @@ var SectionAccess = React.createClass({
     });
   }),
 
-  renderLoading: function () {
+  renderColFull: function () {
+    if (!this.props.fetched) {
+      if (this.props.fetching) {
+        return (
+          <div className='col--full'>
+            <p>Data is loading!</p>
+          </div>
+        );
+      }
+      return null;
+    }
+
+    let currDate = this.getCurrentDate();
+    let totalPeople = _.reduce(this.prepareChartData(), (sum, o) => {
+      let currentObj = _.find(o.values, d => d.timestep.toISOString() === currDate.toISOString());
+      return sum + currentObj.people_total;
+    }, 0);
+
     return (
-      <div className='col--main'>
-        <p>Data is loading!</p>
+      <div className='col--full'>
+        <h1 className='section__title'>Section Title</h1>
+        <p>This is a pararaph and goes a little something like this... consectetur adipisicing elit.</p>
+        <p>This is another ipsum iste, facere ab consequuntur animi corporis culpa ratione
+        sequi quaerat deleniti distinctio ducimus, dolorem possimus, sit blanditiis odio harum quos minus.</p>
+
+        <button
+          onClick={this.playToggleHandler}
+          className={classnames('slider-animation-button', {'stop': this.isPlaying(), 'play': !this.isPlaying()})}>
+            <span>Play/Pause toggle</span>
+        </button>
+
+        <div className='access-date'>{currDate.format('MM-DD-YYYY')}</div>
+        <div className='people-served-total'>{d3.format(',d')(totalPeople)} people served</div>
+
+        <div className='slider-wrapper'>
+          <Rcslider
+            onChange={this.sliderChangeHandler}
+            max={this.computeSliderMax()}
+            value={this.state.currentSliderPos}
+            tipFormatter={null}
+            marks={{
+              0: this.getStartDate().format('YYYY-MM-DD'),
+              [this.computeSliderMax()]: this.getEndDate().format('YYYY-MM-DD')
+            }} />
+        </div>
+
       </div>
     );
   },
 
-  renderContent: function () {
+  renderColSec: function () {
+    let mapData = [];
+    if (this.props.fetched) {
+      mapData = this.prepareMapData();
+    }
+
+    return (
+      <div className='col--sec'>
+        <h4 className='chart-title'>Distribution of Dispensers by Country</h4>
+        <SectionMap
+          activeDate={this.props.fetched ? this.getCurrentDate() : null}
+          data={mapData} />
+      </div>
+    );
+  },
+
+  renderColMain: function () {
+    if (!this.props.fetched) {
+      if (this.props.fetching) {
+        return (
+          <div className='col--main'>
+            <p>Data is loading!</p>
+          </div>
+        );
+      }
+      return null;
+    }
+
     let series = this.prepareChartData();
 
     return (
-      <div className='col--clear'>
+      <div className='col--main'>
         <h4 className='chart-title'>People Served By Dispensers</h4>
-        <div className='access-date'>{this.getCurrentDate().format('MM-DD-YYYY')}</div>
-        <div className='people-served-total'>129,023,023 people served</div>
         <div className='infographic'>
           <ChartArea
             mouseover={this.chartMouseoverHandler}
@@ -161,48 +234,21 @@ var SectionAccess = React.createClass({
             className='area-chart-wrapper'
             series={series} />
         </div>
-
-        <button onClick={this.playToggleHandler}>play toggle</button>
-
-        <Rcslider
-          onChange={this.sliderChangeHandler}
-          max={this.computeSliderMax()}
-          value={this.state.currentSliderPos}
-          tipFormatter={null}
-          marks={{
-            0: this.getStartDate().format('YYYY-MM-DD'),
-            [this.computeSliderMax()]: this.getEndDate().format('YYYY-MM-DD')
-          }} />
-
       </div>
     );
   },
 
   render: function () {
-    let mapData = [];
-    if (this.props.fetched) {
-      mapData = this.prepareMapData();
-    }
-
     return (
       <section className='page__content section--access'>
         <div className='inner'>
-          <div className='col--full'>
-           <h1 className='section__title'>Section Title</h1>
-            <p>This is a pararaph and goes a little something like this... consectetur adipisicing elit.</p>
-            <p>This is another ipsum iste, facere ab consequuntur animi corporis culpa ratione
-            sequi quaerat deleniti distinctio ducimus, dolorem possimus, sit blanditiis odio harum quos minus.</p>
-          </div>
-          {this.props.fetched ? (
-            this.props.fetching ? this.renderLoading() : this.renderContent()
-          ) : null}
+          {this.renderColFull()}
+        </div>
 
-          <div className='col--sec'>
-          <h4 className='chart-title'>Distribution of Dispensers by Country</h4>
-            <SectionMap
-              activeDate={this.props.fetched ? this.getCurrentDate() : null}
-              data={mapData} />
-          </div>
+        <div className='inner'>
+          {this.renderColMain()}
+
+          {this.renderColSec()}
         </div>
       </section>
     );

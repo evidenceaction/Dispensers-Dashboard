@@ -255,17 +255,47 @@ a:active {
 
 /* Sections */
 .section--access {
-  .col--clear {
-    float: left;
-    clear: none;
-    text-align: inherit;
-    width: 49.5%;
-  }
+  // .col--clear {
+  //   float: left;
+  //   clear: none;
+  //   text-align: inherit;
+  //   width: 49.5%;
+  // }
   .col--main {
     @include col(6/12);
   }
   .col--sec {
     @include col(6/12);
+  }
+
+  .slider-animation-button {
+    //@extend .button, .button--text-hidden;
+    // TODO:
+    // Using the extend was producing some extra spacing. Check with
+    // @ricardomestre to understand what's happening.
+    // 
+    border: none;
+    background: none;
+    padding: 0;
+    line-height: 2rem;
+    width: 2rem;
+    font-size: 2rem;
+    transition: opacity 0.24s ease 0s;
+
+    > * {
+      @extend .visually-hidden;
+    }
+
+    &.play:before { @extend .collecticons-circle-play; }
+    &.stop:before { @extend .collecticons-circle-stop; }
+
+    &:hover {
+      opacity: 0.64;
+    }
+
+    &:active {
+      transform: translate(0, 1px);
+    }
   }
 
   .map-wrapper {
