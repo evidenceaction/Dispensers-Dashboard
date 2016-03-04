@@ -7,6 +7,7 @@ The structure and build of our dashboards are aimed at different stakeholders of
 To set up the development environment for this website, you'll need to install the following on your system:
 
 - Node (v4.2.x) & Npm ([nvm](https://github.com/creationix/nvm) usage is advised)
+- Gulp
 
 > The versions mentioned are the ones used during development. It could work with newer ones.
   Run `nvm use` to activate the correct version.
@@ -15,12 +16,16 @@ After these basic requirements are met, run the following commands in the websit
 ```
 $ npm install
 ```
+and then
+```
+gulp collecticons
+```
 
 ### Server (TEMPORARY)
-This app requires communication with a server which can be found in the [THE] repo.
+This app requires communication with a server which can be found in the [Safe Water API](https://github.com/developmentseed/safe-water-api/) repo.
 After running a local copy add the address to `config/local.js`:
 ```
-  api: 'hppt://localhost:[port]'
+  api: 'http://localhost:[port]'
 ```
 
 > TEMPORARY: Once the server is deployed to a staging server this will be removed.
