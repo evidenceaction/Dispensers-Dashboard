@@ -155,10 +155,6 @@ var SectionAccess = React.createClass({
     }
 
     let currDate = this.getCurrentDate();
-    let totalPeople = _.reduce(this.prepareChartData(), (sum, o) => {
-      let currentObj = _.find(o.values, d => d.timestep.toISOString() === currDate.toISOString());
-      return sum + currentObj.people_total;
-    }, 0);
 
     return (
       <div className='col--full'>
@@ -193,13 +189,19 @@ var SectionAccess = React.createClass({
 
   renderColSec: function () {
     let mapData = [];
+    let totalDispensers = null;
     if (this.props.fetched) {
       mapData = this.prepareMapData();
+
+      totalDispensers = _.reduce(this.prepareChartData(), (sum, o) => {
+        let currentObj = _.find(o.values, d => d.timestep.toISOString() === this.getCurrentDate().toISOString());
+        return sum + currentObj.dispenser_total;
+      }, 0);
     }
 
     return (
       <div className='col--sec'>
-      <p className='people-served-total'> 123,000 dispensers installed</p>
+      <p className='people-served-total'>{totalDispensers ? d3.format(',d')(totalDispensers) : 'Loading...'} dispensers installed</p>
         <h4 className='chart-title'>Distribution of Dispensers by Country</h4>
         <SectionMap
           activeDate={this.props.fetched ? this.getCurrentDate() : null}
@@ -221,10 +223,14 @@ var SectionAccess = React.createClass({
     }
 
     let series = this.prepareChartData();
+    let totalPeople = _.reduce(this.prepareChartData(), (sum, o) => {
+      let currentObj = _.find(o.values, d => d.timestep.toISOString() === this.getCurrentDate().toISOString());
+      return sum + currentObj.people_total;
+    }, 0);
 
     return (
       <div className='col--main'>
-        <p className='people-served-total'> 123,000 people served</p>
+        <p className='people-served-total'>{d3.format(',d')(totalPeople)} people served</p>
         <h4 className='chart-title'>People Served By Dispensers</h4>
         <div className='infographic'>
           <ChartArea
