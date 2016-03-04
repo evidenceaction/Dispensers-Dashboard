@@ -168,11 +168,10 @@ var SectionAccess = React.createClass({
         sequi quaerat deleniti distinctio ducimus, dolorem possimus, sit blanditiis odio harum quos minus.</p>
 
         <div className='access-counts'>
-        <p className='access-date'>{currDate.format('MM-DD-YYYY')}</p>
-        <p className='people-served-total'> {d3.format(',d')(totalPeople)} people served</p>
+          <p className='access-date'>{currDate.format('MM-DD-YYYY')}</p>
+          <p className='people-served-total'> {d3.format(',d')(totalPeople)} people served</p>
         </div>
         
-
         <div className='slider-wrapper'>
           <button onClick={this.playToggleHandler}
             className={classnames('slider-animation-button', {'stop': this.isPlaying(), 'play': !this.isPlaying()})}>

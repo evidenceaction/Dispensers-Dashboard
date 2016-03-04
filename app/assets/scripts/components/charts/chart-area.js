@@ -55,7 +55,7 @@ var Chart = function (el, data) {
   var _this = this;
 
   // Var declaration.
-  var margin = {top: 24, right: 5, bottom: 28, left: 42};
+  var margin = {top: 24, right: 2, bottom: 28, left: 42};
   // width and height refer to the data canvas. To know the svg size the margins
   // must be added.
   var _width, _height;

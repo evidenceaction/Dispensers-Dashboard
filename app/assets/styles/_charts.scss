@@ -16,7 +16,7 @@ svg.chart {
 
   .axis {
     .tick text {
-      font-size: 0.675rem;
+      font-size: 0.625rem;
       fill: tint($primary-color, 45%);
     }
   }
@@ -28,7 +28,7 @@ svg.chart {
   }
 
   .label {
-    font-size: 0.675rem;
+    font-size: 0.625rem;
     fill: $primary-color;
     text-transform: uppercase;
   }
