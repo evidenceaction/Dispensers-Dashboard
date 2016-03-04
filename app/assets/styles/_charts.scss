@@ -68,7 +68,9 @@ svg.chart {
     font-size: 0.875rem;
     float: left;
     padding: $global-spacing/4;
+    border-radius: $global-spacing/4;
     margin: 0;
+    background-color: $secondary-color;
   }
 
   .people-served-total {
@@ -157,9 +159,9 @@ svg.chart {
   }
 
   &.dispenser-new .dispenser-inner {
-    background: $infographic-b-color;
+    background: darken($infographic-b-color, 30%);
     opacity: 0.9;
-    @include animation(pulse 0.25s ease-in 0s);
+/*    @include animation(pulse 0.25s ease-in 0s);*/
   }
 }
 

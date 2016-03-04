@@ -5,8 +5,6 @@
 .ui-access-wrapper {
   display: flex;
   @include col(12/12);
-  background-color: tint($secondary-color, 70%);
-  border-radius: $global-spacing/2;
   margin-bottom: 1rem;
 }
 
