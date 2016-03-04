@@ -167,28 +167,26 @@ var SectionAccess = React.createClass({
         <p>This is another ipsum iste, facere ab consequuntur animi corporis culpa ratione
         sequi quaerat deleniti distinctio ducimus, dolorem possimus, sit blanditiis odio harum quos minus.</p>
 
-        <div className='access-counts'>
-        <p className='access-date'>{currDate.format('MM-DD-YYYY')}</p>
-        <p className='people-served-total'> {d3.format(',d')(totalPeople)} people served</p>
-        </div>
-        
+          <p className='access-date'>{currDate.format('MM-DD-YYYY')}</p>
 
-        <div className='slider-wrapper'>
+        <div className='ui-access-wrapper'>
           <button onClick={this.playToggleHandler}
-            className={classnames('slider-animation-button', {'stop': this.isPlaying(), 'play': !this.isPlaying()})}>
-            <span>Play/Pause toggle</span>
+              className={classnames('slider-animation-button', {'stop': this.isPlaying(), 'play': !this.isPlaying()})}>
+              <span>Play/Pause toggle</span>
           </button>
-          <Rcslider
-            onChange={this.sliderChangeHandler}
-            max={this.computeSliderMax()}
-            value={this.state.currentSliderPos}
-            tipFormatter={null}
-            marks={{
-              0: this.getStartDate().format('MMM YYYY'),
-              [this.computeSliderMax()]: this.getEndDate().format('MMM YYYY')
-            }} />
-        </div>
 
+          <div className='slider-wrapper'>
+            <Rcslider
+              onChange={this.sliderChangeHandler}
+              max={this.computeSliderMax()}
+              value={this.state.currentSliderPos}
+              tipFormatter={null}
+              marks={{
+                0: this.getStartDate().format('MMM YYYY'),
+                [this.computeSliderMax()]: this.getEndDate().format('MMM YYYY')
+              }} />
+          </div>
+        </div>
       </div>
     );
   },
@@ -201,6 +199,7 @@ var SectionAccess = React.createClass({
 
     return (
       <div className='col--sec'>
+      <p className='people-served-total'> 123,000 dispensers installed</p>
         <h4 className='chart-title'>Distribution of Dispensers by Country</h4>
         <SectionMap
           activeDate={this.props.fetched ? this.getCurrentDate() : null}
@@ -225,6 +224,7 @@ var SectionAccess = React.createClass({
 
     return (
       <div className='col--main'>
+        <p className='people-served-total'> 123,000 people served</p>
         <h4 className='chart-title'>People Served By Dispensers</h4>
         <div className='infographic'>
           <ChartArea
