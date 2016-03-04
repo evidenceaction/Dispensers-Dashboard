@@ -2,9 +2,42 @@
    Original styles: /node_modules/rc-slider/assets/index.css
    ========================================================================== */
 
-.rc-slider {
-  margin: 2rem 0;
+.ui-access-wrapper {
+  display: flex;
+  @include col(12/12);
+  background-color: tint($secondary-color, 70%);
+  border-radius: $global-spacing/2;
+  margin-bottom: 1rem;
 }
+
+.slider-animation-button {
+    //@extend .button, .button--text-hidden;
+    border: none;
+    background: none;
+    line-height: 4.25rem;
+    border-radius: $global-spacing/4;
+    color: $base-color;
+    font-size: 2rem;
+    transition: opacity 0.24s ease 0s;
+    height: 100%;
+    margin-left: $global-spacing;
+    padding: 0;
+
+    > * {
+      @extend .visually-hidden;
+    }
+
+    &.play:before { @extend .collecticons-circle-play; }
+    &.stop:before { @extend .collecticons-circle-stop; }
+
+    &:hover {
+      opacity: 0.64;
+    }
+
+    &:active {
+      transform: translate(0, 1px);
+    }
+  }
 
 .rc-slider-handle {
 	background-color: $primary-color;
@@ -24,6 +57,7 @@
    ========================================================================== */
 
 .slider-wrapper {
-  padding: 2.5rem;
+  width: 100%;
   overflow: hidden;
+  padding: 2rem;
 }
