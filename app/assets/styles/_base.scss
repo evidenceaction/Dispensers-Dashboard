@@ -283,7 +283,7 @@ a:active {
   .col--sec {
     @include col(12/12);
     @include media(medium-up) {
-      @include col(6/12);
+      @include col(6/12, $gutter: 0);
     } 
   }
 
