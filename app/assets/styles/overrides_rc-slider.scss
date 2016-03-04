@@ -1,19 +1,27 @@
 /* Rc.Slider overrides
    Original styles: /node_modules/rc-slider/assets/index.css
    ========================================================================== */
+
+.ui-access-wrapper {
+  display: flex;
+  @include col(12/12);
+  background-color: tint($secondary-color, 70%);
+  border-radius: $global-spacing/2;
+  margin-bottom: 1rem;
+}
+
 .slider-animation-button {
     //@extend .button, .button--text-hidden;
     border: none;
     background: none;
-    padding: ($global-spacing/4) 0.6rem;
     line-height: 2rem;
     border-radius: $global-spacing/4;
     color: $base-color;
-    @include col(1/12);
     font-size: 2rem;
     transition: opacity 0.24s ease 0s;
+    height: 100%;
     margin-top: 14px;
-    background-color: $secondary-color;
+    margin-left: $global-spacing;
 
     > * {
       @extend .visually-hidden;
@@ -33,8 +41,7 @@
 
 .rc-slider {
   margin: 2rem 0;
- 	@include col(11/12);
-  float: right;
+  @include col(11/12);
 }
 
 .rc-slider-mark-text-active, .rc-slider-mark-text {
@@ -59,8 +66,7 @@
    ========================================================================== */
 
 .slider-wrapper {
-  padding-right: 1.5rem;
-  overflow: hidden;
-  margin-bottom: 1rem;
   width: 100%;
+  overflow: hidden;
+  padding-left: 2rem;
 }

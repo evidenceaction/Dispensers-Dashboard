@@ -67,9 +67,8 @@ svg.chart {
     font-family: $display-font-family;
     font-size: 0.875rem;
     float: left;
-    background-color: $secondary-color;
     padding: $global-spacing/4;
-    border-radius: $global-spacing/4;
+    margin: 0;
   }
 
   .people-served-total {
@@ -77,9 +76,13 @@ svg.chart {
     margin-top: ($global-spacing/2);
     font-size: 1.25rem;
     color: $infographic-b-color;
-    padding-left: 7rem;
+    margin-bottom: ($global-spacing/2);
+  }
+
+  .chart-title {
     margin-bottom: 0;
   }
+
 
 // .section--reliability
 .reliability-chart-wrapper {
