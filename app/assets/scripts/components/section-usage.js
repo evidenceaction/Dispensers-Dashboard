@@ -4,22 +4,24 @@ import moment from 'moment';
 import _ from 'lodash';
 import ChartLine from './charts/chart-line';
 
-var SectionAdoption = React.createClass({
-  displayName: 'SectionAdoption',
+var SectionUsage = React.createClass({
+  displayName: 'SectionUsage',
 
   propTypes: {
     fetched: React.PropTypes.bool,
     fetching: React.PropTypes.bool,
     data: React.PropTypes.shape({
       data: React.PropTypes.array,
-      meta: React.PropTypes.array,
+      meta: React.PropTypes.object,
       content: React.PropTypes.object
     })
   },
 
   chartPopoverHandler: function (d, i) {
     return (
-      <p>{d.values[i].timestep.format('YYYY-MM')} - {d.values[i].adoption}</p>
+      <div>{d.values[i].timestep.format('YYYY-MM')}
+        <pre>{JSON.stringify(d.values[i], null, 2)}</pre>
+      </div>
     );
   },
 
@@ -33,7 +35,6 @@ var SectionAdoption = React.createClass({
 
   prepareChartData: _.memoize(function () {
     let data = {
-      meta: this.props.data.meta,
       values: this.props.data.data.map(o => {
         o = _.cloneDeep(o);
         o.timestep = moment.utc(o.timestep);
@@ -45,20 +46,7 @@ var SectionAdoption = React.createClass({
   }),
 
   renderContent: function () {
-    // let data = this.prepareChartData();
-
-    let data = {
-      values: [
-        { timestep: moment.utc('2015-07-01T00:00:00.000Z'), adoption: 10 },
-        { timestep: moment.utc('2015-08-01T00:00:00.000Z'), adoption: 20 },
-        { timestep: moment.utc('2015-09-01T00:00:00.000Z'), adoption: 80 },
-        { timestep: moment.utc('2015-10-01T00:00:00.000Z'), adoption: 50 },
-        { timestep: moment.utc('2015-11-01T00:00:00.000Z'), adoption: 60 },
-        { timestep: moment.utc('2015-12-01T00:00:00.000Z'), adoption: 75 },
-        { timestep: moment.utc('2016-01-01T00:00:00.000Z'), adoption: 70 },
-        { timestep: moment.utc('2016-02-01T00:00:00.000Z'), adoption: 91 }
-      ]
-    };
+    let data = this.prepareChartData();
 
     return (
       <div className='inner'>
@@ -71,10 +59,10 @@ var SectionAdoption = React.createClass({
         <div className='col--sec'>
           <div className='infographic'>
             <ChartLine
-              className='adoption-chart-wrapper'
+              className='usage-chart-wrapper'
               data={data}
-              topThreshold={80}
-              bottomThreshold={30}
+              topThreshold={this.props.data.meta.tresholds[1].value}
+              bottomThreshold={this.props.data.meta.tresholds[0].value}
               popoverContentFn={this.chartPopoverHandler} />
           </div>
         </div>
@@ -83,16 +71,17 @@ var SectionAdoption = React.createClass({
   },
 
   render: function () {
+    console.log('this.prop', this.props);
     if (!this.props.fetched) {
       return null;
     }
 
     return (
-      <section className='page__content section--adoption'>
+      <section className='page__content section--usage'>
         {this.props.fetching ? this.renderLoading() : this.renderContent()}
       </section>
     );
   }
 });
 
-module.exports = SectionAdoption;
+module.exports = SectionUsage;

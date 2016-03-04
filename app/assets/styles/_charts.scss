@@ -124,7 +124,7 @@ svg.chart {
   }
 }
 
-.section--adoption .adoption-chart-wrapper {
+.section--usage .usage-chart-wrapper {
   min-height: 20rem;
 
   .axis {
@@ -136,7 +136,7 @@ svg.chart {
 
   .y.axis {
     .domain {
-      stroke: tint($base-color, 25%);
+      // stroke: tint($base-color, 25%);
     }
     text {
       font-size: 0.75rem;

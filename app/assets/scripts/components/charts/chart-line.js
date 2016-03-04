@@ -96,7 +96,7 @@ var Chart = function (el, data) {
     // Line function for the delimit the area.
     line = d3.svg.line()
       .x(d => x(d.timestep))
-      .y(d => y(d.adoption));
+      .y(d => y(d.fcr_avg));
 
     // Define xAxis function.
     xAxis = d3.svg.axis()
@@ -297,16 +297,16 @@ var Chart = function (el, data) {
       // .transition()
       .call(xAxis);
 
-    svg.select('.x.axis .label')
-      .text('date');
+    // svg.select('.x.axis .label')
+    //   .text('date');
 
     svg.select('.y.axis')
       .attr('transform', `translate(${margin.left},${margin.top})`)
       // .transition()
       .call(yAxis);
 
-    svg.select('.y.axis .label')
-      .text('a value');
+    // svg.select('.y.axis .label')
+    //   .text('a value');
 
     // ------------------------------
     // Focus line used for highlight.
@@ -346,7 +346,7 @@ var Chart = function (el, data) {
       .attr('cx', x(timestep))
       .attr('cy', d => {
         let val = _.find(d.values, o => o.timestep.format('YYYY-MM-DD') === timestep.format('YYYY-MM-DD'));
-        return y(val.adoption);
+        return y(val.fcr_avg);
       });
   };
 
@@ -388,7 +388,7 @@ var Chart = function (el, data) {
 
     if (_this.popoverContentFn) {
       let matrix = dataCanvas.node().getScreenCTM()
-        .translate(x(doc.timestep), y(doc.adoption));
+        .translate(x(doc.timestep), y(doc.fcr_avg));
 
       var posX = window.pageXOffset + matrix.e;
       var posY = window.pageYOffset + matrix.f - 16;

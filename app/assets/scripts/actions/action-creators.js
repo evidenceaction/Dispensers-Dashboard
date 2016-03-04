@@ -69,3 +69,37 @@ export function fetchSectionReliability () {
       });
   };
 }
+
+// //////////////////////////////////////////////////////////////////////////
+// // Fetch Section Usage Thunk
+
+function requestSectionUsage () {
+  return {
+    type: actions.REQUEST_SECTION_USAGE
+  };
+}
+
+function receiveSectionUsage (json) {
+  return {
+    type: actions.RECEIVE_SECTION_USAGE,
+    data: json,
+    receivedAt: Date.now()
+  };
+}
+
+export function fetchSectionUsage () {
+  return dispatch => {
+    dispatch(requestSectionUsage());
+
+    // In this case, we return a promise to wait for.
+    // This is not required by thunk middleware, but it is convenient for us.
+    return fetch(`${config.api}/kpi/usage`)
+      .then(response => response.json())
+      .then(json => {
+        dispatch(receiveSectionUsage(json));
+      })
+      .catch(err => {
+        throw err;
+      });
+  };
+}
