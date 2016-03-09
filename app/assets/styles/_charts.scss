@@ -11,13 +11,26 @@ svg.chart {
   
 .section--access
 .area-chart-wrapper {
-  min-height: 20rem;
+  height: 100%;
   width: 100%;
 
+  .chart {
+    margin-left: -10px;
+    @include media(medium-up) {
+      margin-left: 0;
+    }
+  }
   .axis {
     .tick text {
       font-size: 0.625rem;
       fill: tint($primary-color, 45%);
+    }
+  }
+
+  .tick:nth-child(odd) {
+    display: none;
+    @include media(medium-up){
+      display: block;
     }
   }
 
@@ -75,10 +88,20 @@ svg.chart {
 
   .people-served-total {
     font-family: $display-font-family;
+    font-size: 0.75rem;
+    color: $infographic-b-color;
+    margin: 0;
+    @include media(medium-up) {
     margin-top: ($global-spacing/2);
     font-size: 1.25rem;
-    color: $infographic-b-color;
     margin-bottom: ($global-spacing/2);
+    }
+    .info-description {
+      font-size: 0.75rem;
+      @include media(medium-up) {
+      font-size: 1rem;
+      }
+    }
   }
 
   .chart-title {
@@ -88,7 +111,7 @@ svg.chart {
 
 // .section--reliability
 .reliability-chart-wrapper {
-  min-height: 20rem;
+  min-height: 100%;
   .x.axis {
   }
 
