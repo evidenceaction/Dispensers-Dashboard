@@ -96,18 +96,20 @@ var Chart = function (el, data) {
     // Line function for the delimit the area.
     line = d3.svg.line()
       .x(d => x(d.timestep))
-      .y(d => y(d.fcr_avg));
+      .y(d => y(d.tcr_avg));
 
     // Define xAxis function.
     xAxis = d3.svg.axis()
       .scale(x)
       .orient('bottom')
       .tickSize(0)
+      .tickPadding(10)
       .tickFormat(d3.time.format('%b %y'));
 
     yAxis = d3.svg.axis()
       .scale(y)
       .tickSize(0)
+      .tickPadding(10)
       .orient('left')
       .tickFormat(tick => tick === 0 || tick === 100 ? `${tick}%` : '');
 
@@ -346,7 +348,7 @@ var Chart = function (el, data) {
       .attr('cx', x(timestep))
       .attr('cy', d => {
         let val = _.find(d.values, o => o.timestep.format('YYYY-MM-DD') === timestep.format('YYYY-MM-DD'));
-        return y(val.fcr_avg);
+        return y(val.tcr_avg);
       });
   };
 

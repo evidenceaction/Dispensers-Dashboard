@@ -130,7 +130,7 @@ svg.chart {
   .axis {
     .tick text {
       font-size: 0.75rem;
-      fill: $primary-color;
+      fill: rgba($base-color, 0.6);
     }
   }
 
@@ -140,28 +140,28 @@ svg.chart {
     }
     text {
       font-size: 0.75rem;
-      fill: $primary-color;
+      fill: rgba($base-color, 0.6);
     }
   }
 
   .threshold {
     .limit-line {
-      stroke: tint($base-color, 25%);
+      stroke: rgba($base-color, 0.75);
       stroke-dasharray: 5 5;
     }
     .value {
       font-size: 0.75rem;
-      fill: $primary-color;
+      fill: $base-color;
     }
 
     &.top {
       .highlight-area {
-        fill: rgba($infographic-b-color, 0.16);
+        fill: rgba($highlight-color, 0.10);
       }
     }
     &.bottom {
       .highlight-area {
-        fill: rgba($infographic-b-color, 0.16);
+        fill: rgba($base-color, 0.10);
       }
     }
   }
@@ -179,7 +179,7 @@ svg.chart {
   }
 
   .data-line {
-    stroke: rgba($infographic-b-color, 0.9);
+    stroke: rgba($highlight-color, 0.9);
     stroke-width: 2px;
     fill:none;
   }

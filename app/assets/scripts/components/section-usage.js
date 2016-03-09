@@ -19,8 +19,11 @@ var SectionUsage = React.createClass({
 
   chartPopoverHandler: function (d, i) {
     return (
-      <div>{d.values[i].timestep.format('YYYY-MM')}
-        <pre>{JSON.stringify(d.values[i], null, 2)}</pre>
+      <div>
+        <p className='popover-date'>{d.values[i].timestep.format('MM-YYYY')}</p>
+        <p className='popover-adoption-rate'>
+          {d.values[i].tcr_avg}
+        </p>
       </div>
     );
   },
@@ -47,7 +50,6 @@ var SectionUsage = React.createClass({
 
   renderContent: function () {
     let data = this.prepareChartData();
-
     return (
       <div className='inner'>
         <div className='col--main'>
@@ -58,6 +60,7 @@ var SectionUsage = React.createClass({
         </div>
         <div className='col--sec'>
           <div className='infographic'>
+          <h4 class='chart-title'>Total Dispenser Adoption Rates </h4>
             <ChartLine
               className='usage-chart-wrapper'
               data={data}

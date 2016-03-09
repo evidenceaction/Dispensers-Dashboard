@@ -73,15 +73,15 @@ var Home = React.createClass({
             </div>
           </section>
 
-          <SectionUsage
-            fetched={this.props.sectionUsage.fetched}
-            fetching={this.props.sectionUsage.fetching}
-            data={this.props.sectionUsage.data} />
-
           <SectionAccess
             fetched={this.props.sectionAccess.fetched}
             fetching={this.props.sectionAccess.fetching}
             data={this.props.sectionAccess.data} />
+
+          <SectionUsage
+            fetched={this.props.sectionUsage.fetched}
+            fetching={this.props.sectionUsage.fetching}
+            data={this.props.sectionUsage.data} />
 
           <SectionReliability
             fetched={this.props.sectionReliability.fetched}
