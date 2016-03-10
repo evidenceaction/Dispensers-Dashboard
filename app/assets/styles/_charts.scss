@@ -8,16 +8,23 @@ svg.chart {
 //
 // NOTE: All the styles below are temporary
 //
+
+  .axis {
+    .tick text {
+      font-size: 0.625rem;
+      fill: tint($base-color, 55%);
+    }
+  }
   
 .section--access
 .area-chart-wrapper {
   min-height: 20rem;
   width: 100%;
 
-  .axis {
-    .tick text {
-      font-size: 0.625rem;
-      fill: tint($primary-color, 45%);
+  .chart {
+    margin-left: -10px;
+    @include media(medium-up) {
+      margin-left: 0;
     }
   }
 
@@ -86,48 +93,41 @@ svg.chart {
   }
 
 
-// .section--reliability
+.section--reliability
 .reliability-chart-wrapper {
   min-height: 20rem;
   .x.axis {
   }
 
-  .axis {
-    .tick text {
-      font-size: 0.675rem;
-      fill: $primary-color;
-    }
-  }
-
   .y.axis {
     .axis-line {
-      stroke: tint($base-color, 25%);
+      stroke: tint($base-color, 50%);
     }
     text {
       font-size: 0.675rem;
-      fill: $primary-color;
+      fill: tint($base-color, 55%);
     }
   }
 
   .grid-elements {
     .mid-line {
-      stroke: tint($base-color, 25%);
+      stroke: tint($base-color, 50%);
     }
     .avg-line {
       stroke: tint($base-color, 60%);
       stroke-dasharray: 5 5;
     }
     .date-line {
-      stroke: tint($base-color, 60%);
+      stroke: tint($base-color, 50%);
     }
   }
 
   .bar-installed {
-    fill: tint($highlight-color, 50%);
+    fill: tint($infographic-b-color, 70%);
   }
 
   .bar-outages {
-    fill: tint($highlight-color, 10%);
+    fill: tint($infographic-b-color, 25%);
   }
 
   .bar-ghost {

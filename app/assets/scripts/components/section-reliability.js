@@ -3,6 +3,7 @@ import React from 'react';
 import moment from 'moment';
 import _ from 'lodash';
 import ChartReliability from './charts/chart-reliability';
+import ChartBar from './charts/chart-bar';
 
 var SectionReliability = React.createClass({
   displayName: 'SectionReliability',
@@ -48,6 +49,7 @@ var SectionReliability = React.createClass({
         return o;
       })
     };
+    console.log(data)
 
     return data;
   }),
@@ -57,11 +59,19 @@ var SectionReliability = React.createClass({
 
     return (
       <div className='inner'>
-        <div className='col--main'>
+        <div className='col--full'>
           <h1 className='section__title'>Section Title</h1>
           <p>This is a pararaph and goes a little something like this... consectetur adipisicing elit.</p>
           <p>This is another ipsum iste, facere ab consequuntur animi corporis culpa ratione
           sequi quaerat deleniti distinctio ducimus, dolorem possimus, sit blanditiis odio harum quos minus.</p>
+        </div>
+        <div className='col--main'>
+          <div className='infographic'>
+            <ChartBar
+              className='reliability-chart-wrapper'
+              data={data}
+              popoverContentFn={this.chartPopoverHandler} />
+          </div>
         </div>
         <div className='col--sec'>
           <div className='infographic'>

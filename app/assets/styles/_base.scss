@@ -332,7 +332,19 @@ a:active {
 }
 
 .section--reliability {
-  background: $secondary-color;
+  .col--main {
+    @include col(12/12);
+    @include media(medium-up) {
+      @include col(6/12, $gutter: 0);
+    }
+  }
+  .col--sec {
+    @include col(12/12);
+    @include media(medium-up) {
+      @include col(6/12, $gutter: 0);
+    } 
+  }
+  
 }
 
 

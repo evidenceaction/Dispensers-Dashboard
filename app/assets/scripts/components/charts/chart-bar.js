@@ -4,8 +4,8 @@ import d3 from 'd3';
 import _ from 'lodash';
 import Popover from '../../utils/popover';
 
-var ReliabilityChart = React.createClass({
-  displayName: 'ReliabilityChart',
+var ChartBar = React.createClass({
+  displayName: 'ChartBar',
 
   propTypes: {
     className: React.PropTypes.string
@@ -44,7 +44,7 @@ var ReliabilityChart = React.createClass({
   }
 });
 
-module.exports = ReliabilityChart;
+module.exports = ChartBar;
 
 var Chart = function (el, data) {
   this.$el = d3.select(el);
@@ -60,7 +60,7 @@ var Chart = function (el, data) {
   // must be added.
   var _width, _height;
   // Scales, Axis.
-  var x, y, xAxis;
+  var x, y, xAxis, yAxis;
   // Elements.
   var svg, dataCanvas;
   // Init the popover.
@@ -97,6 +97,11 @@ var Chart = function (el, data) {
       .tickSize(0)
       .tickFormat((date) => date.format('YY-MM'));
 
+    yAxis = d3.svg.axis()
+      .scale(y)
+      .orient('left')
+      .tickSize(0);
+
     // Chart elements
     dataCanvas = svg.append('g')
       .attr('class', 'data-canvas')
@@ -113,15 +118,6 @@ var Chart = function (el, data) {
       .append('text')
       .attr('class', 'label')
       .attr('text-anchor', 'middle');
-
-    let gridElements = dataCanvas.append('g')
-      .attr('class', 'grid-elements');
-
-    gridElements.append('line')
-      .attr('class', 'mid-line');
-
-    gridElements.append('line')
-      .attr('class', 'avg-line');
   };
 
   this.update = function () {
@@ -138,13 +134,11 @@ var Chart = function (el, data) {
     xAxis.ticks(this.data.values.length);
 
     // Computing max y taking all bars into account.
-    let m1 = d3.max(this.data.values, o => o.outages.chlorine_rate);
-    let m2 = d3.max(this.data.values, o => o.outages.hardware_rate);
-    let yMax = Math.ceil(Math.max(m1, m2));
+    let yMax = d3.max(this.data.values, o => o.functional.total_rate);
 
     y
       .domain([0, yMax])
-      .range([_height / 2, 0]);
+      .range([_height, 0]);
 
     svg
       .attr('width', _width + margin.left + margin.right)
@@ -172,52 +166,36 @@ var Chart = function (el, data) {
         return `translate(${x(d.timestep)},0)`;
       });
 
-    let barsChlorine = barGroups.selectAll('rect.bar-installed')
+    let barsOutages = barGroups.selectAll('rect.bar-outages')
       .data(d => [d]);
 
-    barsChlorine.enter()
-      .append('rect')
-      .attr('class', 'bar-installed');
-
-    barsChlorine
-      .attr('x', 0)
-      .attr('y', d => y(d.outages.chlorine_rate))
-      .attr('width', x.rangeBand())
-      .attr('height', d => _height / 2 - y(d.outages.chlorine_rate));
-
-    // barsIntalled.enter()
-    //   .append('rect')
-    //   .attr('class', 'bar-installed')
-    //   .style('fill', d => 'green')
-    //   .attr('x', 0)
-    //   .attr('y', _height / 2)
-    //   .attr('width', x.rangeBand())
-    //   .attr('height', 0);
-
-    // barsIntalled
-    //   .transition()
-    //   .delay(500)
-    //   .duration(500)
-    //   .attr('y', d => y(d.dispenser_total))
-    //   .attr('height', d => _height / 2 - y(d.dispenser_total));
-
-    barsChlorine.exit()
-      .remove();
-
-    let barsHardware = barGroups.selectAll('rect.bar-outages')
-      .data(d => [d]);
-
-    barsHardware.enter()
+    barsOutages.enter()
       .append('rect')
       .attr('class', 'bar-outages');
 
-    barsHardware
+    barsOutages
       .attr('x', 0)
-      .attr('y', y(0))
+      .attr('y', 0)
       .attr('width', x.rangeBand())
-      .attr('height', d => _height / 2 - y(d.outages.hardware_rate));
+      .attr('height', _height);
 
-    barsHardware.exit()
+    barsOutages.exit()
+      .remove();
+
+    let barsFunctional = barGroups.selectAll('rect.bar-installed')
+      .data(d => [d]);
+
+    barsFunctional.enter()
+      .append('rect')
+      .attr('class', 'bar-installed');
+
+    barsFunctional
+      .attr('x', 0)
+      .attr('y', d => y(d.functional.total_rate))
+      .attr('width', x.rangeBand())
+      .attr('height', d => _height - y(d.functional.total_rate));
+
+    barsFunctional.exit()
       .remove();
 
     let barGhost = barGroups.selectAll('rect.bar-ghost')
@@ -233,9 +211,9 @@ var Chart = function (el, data) {
     barGhost
       .style('fill', 'none')
       .attr('x', 0)
-      .attr('y', d => y(d.outages.chlorine_rate))
+      .attr('y', 0)
       .attr('width', x.rangeBand())
-      .attr('height', d => _height - y(d.outages.chlorine_rate) - y(d.outages.hardware_rate));
+      .attr('height', _height);
 
     barGhost.exit()
       .remove();
@@ -250,99 +228,14 @@ var Chart = function (el, data) {
     svg.select('.x.axis .label')
       .text('');
 
-    // Y axis is created manually.
-    let yAxisG = svg.select('.y.axis');
+    svg.select('.y.axis')
+      .attr('transform', `translate(${margin.left},${margin.top})`)
+      // .transition()
+      .call(yAxis);
 
-    if (yAxisG.select('.tick-top').empty()) {
-      yAxisG.append('text')
-        .attr('class', 'tick-top');
-      yAxisG.append('text')
-        .attr('class', 'tick-bottom');
-      yAxisG.append('text')
-        .attr('class', 'tick-middle');
-      yAxisG.append('line')
-        .attr('class', 'axis-line');
-    }
+    svg.select('.y.axis .label')
+      .text('')
 
-    yAxisG
-      .attr('transform', `translate(${margin.left},${margin.top})`);
-
-    yAxisG.select('.tick-top')
-      .text(Math.round(yMax) + '%')
-      .attr('x', -8)
-      .attr('y', 0)
-      .attr('dy', '1em')
-      .attr('text-anchor', 'end');
-
-    yAxisG.select('.tick-middle')
-      .text(0)
-      .attr('x', -8)
-      .attr('y', _height / 2)
-      .attr('dy', '0.25em')
-      .attr('text-anchor', 'end');
-
-    yAxisG.select('.tick-bottom')
-      .text(Math.round(yMax) + '%')
-      .attr('x', -8)
-      .attr('y', _height)
-      .attr('dy', '-0.5em')
-      .attr('text-anchor', 'end');
-
-    yAxisG.select('.axis-line')
-      .attr('x1', 0)
-      .attr('y1', 0)
-      .attr('x2', 0)
-      .attr('y2', _height);
-
-    // ------------------------------
-    // Grid Elements
-    let gridElements = dataCanvas.select('.grid-elements');
-
-    gridElements.select('.mid-line')
-      .attr('x1', 0)
-      // The 0.5 ensures pixel perfect because the y indicates the center
-      // of the line, like stroke align center.
-      .attr('y1', Math.floor(_height / 2) + 0.5)
-      .attr('x2', _width)
-      .attr('y2', Math.floor(_height / 2) + 0.5);
-
-    let avg = d3.mean(this.data.values, d => d.outages.chlorine_rate);
-    gridElements.select('.avg-line')
-      .attr('x1', 0)
-      .attr('y1', y(0) + _height / 2 - y(avg))
-      .attr('x2', _width)
-      .attr('y2', y(0) + _height / 2 - y(avg));
-
-    let lineStep = Math.floor(this.data.values.length / 2);
-    let lineOffset = Math.floor(lineStep / 2);
-    let lineData = [];
-
-    let index = lineOffset;
-    let d;
-    while (true) {
-      d = this.data.values[index];
-      if (!d) {
-        break;
-      }
-      index += lineStep;
-      lineData.push(d.timestep);
-    }
-
-    let dateLines = gridElements.selectAll('.date-line')
-      .data(lineData);
-
-    dateLines.enter()
-      .append('line')
-        .attr('class', 'date-line');
-
-    dateLines
-      .attr('x1', d => x(d) + x.rangeBand() / 2)
-      .attr('y1', 0)
-      .attr('x2', d => x(d) + x.rangeBand() / 2)
-      .attr('y2', _height);
-
-    dateLines.exit()
-      .remove();
   };
 
   this.destroy = function () {
