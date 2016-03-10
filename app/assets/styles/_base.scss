@@ -274,8 +274,8 @@ a:active {
     margin-top: 0.5rem;
     height: 10rem;
     @include media(medium-up) {
-    margin-top: 2.25rem;
-    height: 20rem;
+      margin-top: 2.25rem;
+      height: 20rem;
     }
   }
 
@@ -296,8 +296,8 @@ a:active {
     position: relative;
     height: 10rem;
     @include media(medium-up) {
-    position: relative;
-    height: 20rem;
+      position: relative;
+      height: 20rem;
   }
     .map-container {
       position: absolute;
