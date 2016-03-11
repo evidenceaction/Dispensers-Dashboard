@@ -242,7 +242,7 @@ a:active {
   padding: ($section-spacing/4) 0;
 
   @include media(medium-up) {
-    padding: $section-spacing 0;
+    padding: $section-spacing;
   }
 
   
@@ -272,7 +272,7 @@ a:active {
 
   .infographic {
     margin-top: 0.5rem;
-    height: 15rem;
+    height: 10rem;
     @include media(medium-up) {
       margin-top: 2.25rem;
       height: 20rem;
@@ -294,7 +294,7 @@ a:active {
 
   .map-wrapper {
     position: relative;
-    height: 15rem;
+    height: 10rem;
     @include media(medium-up) {
       position: relative;
       height: 20rem;
