@@ -17,8 +17,8 @@
   "homepage": "https://developmentseed.org",
   "scripts": {
     "postinstall": "[ -f app/assets/scripts/config/local.js ] || echo 'module.exports = {};' > app/assets/scripts/config/local.js",
-    "serve": "gulp serve",
-    "build": "NODE_ENV=production gulp",
+    "serve": "gulp collecticons && gulp serve",
+    "build": "gulp collecticons && NODE_ENV=production gulp",
     "lint": "eslint app/assets/scripts/ --ext .js",
     "test": "echo \"No tests\" && exit 0"
   },
@@ -79,6 +79,7 @@
   },
   "dependencies": {
     "babel-polyfill": "^6.3.14",
+    "classnames": "^2.2.3",
     "d3": "^3.5.16",
     "isomorphic-fetch": "^2.2.1",
     "lodash": "^4.2.1",

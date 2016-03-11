@@ -137,10 +137,10 @@ var Chart = function (el, data) {
 
     xAxis.ticks(this.data.values.length);
 
-    // // Since the data is stacked the last element will contain the
-    // // highest values)
-    let yMax = _.last(this.data.values).dispenser_total;
-    yMax += Math.ceil(yMax * 0.1);
+    // Computing max y taking all bars into account.
+    let m1 = d3.max(this.data.values, o => o.dispenser_total);
+    let m2 = d3.max(this.data.values, o => o.outages.total);
+    let yMax = Math.ceil(Math.max(m1, m2) * 0.1);
 
     y
       .domain([0, yMax])

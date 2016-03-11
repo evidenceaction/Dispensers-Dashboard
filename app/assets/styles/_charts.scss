@@ -31,8 +31,9 @@ svg.chart {
   }
 
   .label {
-    font-size: 0.875rem;
+    font-size: 0.625rem;
     fill: $primary-color;
+    text-transform: uppercase;
   }
 
   .area {
@@ -68,14 +69,25 @@ svg.chart {
   .access-date {
     font-family: $display-font-family;
     font-size: 0.875rem;
+    float: left;
+    padding: $global-spacing/4;
+    border-radius: $global-spacing/4;
+    margin: 0;
+    background-color: $secondary-color;
   }
 
   .people-served-total {
     font-family: $display-font-family;
     margin-top: ($global-spacing/2);
-    font-size: 1rem;
+    font-size: 1.25rem;
     color: $infographic-b-color;
+    margin-bottom: ($global-spacing/2);
   }
+
+  .chart-title {
+    margin-bottom: 0;
+  }
+
 
 // .section--reliability
 .reliability-chart-wrapper {
@@ -203,12 +215,13 @@ svg.chart {
     width: 100%;
     height: 100%;
     opacity: 0.5;
-    background: red;
+    background: $infographic-b-color;
   }
 
   &.dispenser-new .dispenser-inner {
-    background: blue;
-    @include animation(pulse 0.25s ease-in 0s);
+    background: darken($infographic-b-color, 30%);
+    opacity: 0.9;
+/*    @include animation(pulse 0.25s ease-in 0s);*/
   }
 }
 

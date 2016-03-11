@@ -55,7 +55,7 @@ var Chart = function (el, data) {
   var _this = this;
 
   // Var declaration.
-  var margin = {top: 24, right: 10, bottom: 28, left: 42};
+  var margin = {top: 24, right: 2, bottom: 28, left: 42};
   // width and height refer to the data canvas. To know the svg size the margins
   // must be added.
   var _width, _height;
@@ -123,12 +123,14 @@ var Chart = function (el, data) {
       .scale(x)
       .orient('bottom')
       .tickSize(0)
+      .tickPadding(10)
       .tickFormat(d3.time.format('%b %y'));
 
     yAxis = d3.svg.axis()
       .scale(y)
       .tickSize(0)
       .orient('left')
+      .tickPadding(5)
       .tickFormat(d => `${(d / 1e6)}M`);
 
     // Chart elements
@@ -274,7 +276,8 @@ var Chart = function (el, data) {
       .call(yAxis);
 
     svg.select('.y.axis .label')
-      .text('a value');
+      .text('People Served')
+      .attr('transform', 'translate(' + 15 + ',' + -5 + ')');
 
     // ------------------------------
     // Focus line used for highlight.

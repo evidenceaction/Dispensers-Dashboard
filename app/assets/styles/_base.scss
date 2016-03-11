@@ -239,63 +239,52 @@ a:active {
 }
 
 .page__content {
-  padding: $section-spacing;
+  padding: ($section-spacing/2);
+
+  @include media(medium-up) {
+    padding: $section-spacing;
+  }
+
+  
   > .inner {
     @extend .row, .row--centered;
   }
 
   .col--main {
-    @include col(4/12);
+    @include col(12/12);
+
+    @include media(medium-up) {
+      @include col(4/12);
+    }
   }
   .col--sec {
-    @include col(8/12);
+    @include col(12/12);
+
+    @include media(medium-up) {
+      @include col(8/12);
+    }
   }
 }
 
 
 /* Sections */
 .section--access {
-  // .col--clear {
-  //   float: left;
-  //   clear: none;
-  //   text-align: inherit;
-  //   width: 49.5%;
-  // }
+
+  .infographic {
+    margin-top: 2.25rem;
+  }
+
   .col--main {
-    @include col(6/12);
+    @include col(12/12);
+    @include media(medium-up) {
+      @include col(6/12, $gutter: 0);
+    }
   }
   .col--sec {
-    @include col(6/12);
-  }
-
-  .slider-animation-button {
-    //@extend .button, .button--text-hidden;
-    // TODO:
-    // Using the extend was producing some extra spacing. Check with
-    // @ricardomestre to understand what's happening.
-    // 
-    border: none;
-    background: none;
-    padding: 0;
-    line-height: 2rem;
-    width: 2rem;
-    font-size: 2rem;
-    transition: opacity 0.24s ease 0s;
-
-    > * {
-      @extend .visually-hidden;
-    }
-
-    &.play:before { @extend .collecticons-circle-play; }
-    &.stop:before { @extend .collecticons-circle-stop; }
-
-    &:hover {
-      opacity: 0.64;
-    }
-
-    &:active {
-      transform: translate(0, 1px);
-    }
+    @include col(12/12);
+    @include media(medium-up) {
+      @include col(6/12, $gutter: 0);
+    } 
   }
 
   .map-wrapper {
