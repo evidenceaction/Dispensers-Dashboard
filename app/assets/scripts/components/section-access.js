@@ -200,7 +200,7 @@ var SectionAccess = React.createClass({
 
     return (
       <div className='col--sec'>
-      <p className='people-served-total'>{totalDispensers ? d3.format(',d')(totalDispensers) : 'Loading...'} dispensers installed</p>
+      <p className='people-served-total'>{totalDispensers ? d3.format(',d')(totalDispensers) : 'Loading...'} <span className='info-description'>dispensers installed</span></p>
         <SectionMap
           activeDate={this.props.fetched ? this.getCurrentDate() : null}
           data={mapData} />
@@ -228,7 +228,7 @@ var SectionAccess = React.createClass({
 
     return (
       <div className='col--main'>
-        <p className='people-served-total'>{d3.format(',d')(totalPeople)} people served</p>
+        <p className='people-served-total'>{d3.format(',d')(totalPeople)} <span className='info-description'>people served</span></p>
         <div className='infographic'>
           <ChartArea
             mouseover={this.chartMouseoverHandler}
