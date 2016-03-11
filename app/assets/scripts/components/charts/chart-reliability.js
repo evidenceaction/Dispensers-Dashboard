@@ -95,7 +95,8 @@ var Chart = function (el, data) {
       .scale(x)
       .orient('bottom')
       .tickSize(0)
-      .tickFormat((date) => date.format('YY-MM'));
+      .tickPadding(10)
+      .tickFormat((date) => date.format('MMM YY'));
 
     // Chart elements
     dataCanvas = svg.append('g')
@@ -121,7 +122,10 @@ var Chart = function (el, data) {
       .attr('class', 'mid-line');
 
     gridElements.append('line')
-      .attr('class', 'avg-line');
+      .attr('class', 'avg-line-chlorine');
+
+    gridElements.append('line')
+      .attr('class', 'avg-line-hardware');
   };
 
   this.update = function () {
@@ -172,12 +176,12 @@ var Chart = function (el, data) {
         return `translate(${x(d.timestep)},0)`;
       });
 
-    let barsChlorine = barGroups.selectAll('rect.bar-installed')
+    let barsChlorine = barGroups.selectAll('rect.bar-chlorine')
       .data(d => [d]);
 
     barsChlorine.enter()
       .append('rect')
-      .attr('class', 'bar-installed');
+      .attr('class', 'bar-chlorine');
 
     barsChlorine
       .attr('x', 0)
@@ -185,31 +189,15 @@ var Chart = function (el, data) {
       .attr('width', x.rangeBand())
       .attr('height', d => _height / 2 - y(d.outages.chlorine_rate));
 
-    // barsIntalled.enter()
-    //   .append('rect')
-    //   .attr('class', 'bar-installed')
-    //   .style('fill', d => 'green')
-    //   .attr('x', 0)
-    //   .attr('y', _height / 2)
-    //   .attr('width', x.rangeBand())
-    //   .attr('height', 0);
-
-    // barsIntalled
-    //   .transition()
-    //   .delay(500)
-    //   .duration(500)
-    //   .attr('y', d => y(d.dispenser_total))
-    //   .attr('height', d => _height / 2 - y(d.dispenser_total));
-
     barsChlorine.exit()
       .remove();
 
-    let barsHardware = barGroups.selectAll('rect.bar-outages')
+    let barsHardware = barGroups.selectAll('rect.bar-hardware')
       .data(d => [d]);
 
     barsHardware.enter()
       .append('rect')
-      .attr('class', 'bar-outages');
+      .attr('class', 'bar-hardware');
 
     barsHardware
       .attr('x', 0)
@@ -231,7 +219,6 @@ var Chart = function (el, data) {
       .on('mouseout', this._onMouseOut);
 
     barGhost
-      .style('fill', 'none')
       .attr('x', 0)
       .attr('y', d => y(d.outages.chlorine_rate))
       .attr('width', x.rangeBand())
@@ -306,12 +293,19 @@ var Chart = function (el, data) {
       .attr('x2', _width)
       .attr('y2', Math.floor(_height / 2) + 0.5);
 
-    let avg = d3.mean(this.data.values, d => d.outages.chlorine_rate);
-    gridElements.select('.avg-line')
+    let avgHardware = d3.mean(this.data.values, d => d.outages.hardware_rate);
+    gridElements.select('.avg-line-hardware')
       .attr('x1', 0)
-      .attr('y1', y(0) + _height / 2 - y(avg))
+      .attr('y1', y(0) + _height / 2 - y(avgHardware))
       .attr('x2', _width)
-      .attr('y2', y(0) + _height / 2 - y(avg));
+      .attr('y2', y(0) + _height / 2 - y(avgHardware));
+
+    let avgChlorine = d3.mean(this.data.values, d => d.outages.chlorine_rate);
+    gridElements.select('.avg-line-chlorine')
+      .attr('x1', 0)
+      .attr('y1', y(0) - _height / 2  + y(avgChlorine))
+      .attr('x2', _width)
+      .attr('y2', y(0) - _height / 2  + y(avgChlorine))
 
     let lineStep = Math.floor(this.data.values.length / 2);
     let lineOffset = Math.floor(lineStep / 2);
@@ -355,7 +349,7 @@ var Chart = function (el, data) {
         .translate(this.getAttribute('x') + x.rangeBand() / 2, this.getAttribute('y'));
 
       var posX = window.pageXOffset + matrix.e;
-      var posY = window.pageYOffset + matrix.f + 250;
+      var posY = window.pageYOffset + matrix.f;
 
       chartPopover.setContent(_this.popoverContentFn(d)).show(posX, posY);
     }

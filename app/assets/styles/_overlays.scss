@@ -224,28 +224,32 @@
   line-height: 1.25rem;
   font-family: $base-font-family;
 
-  // .sup-title{
-  //   text-transform: uppercase;
-  //   font-size: .75rem
-  // }
+  dd {
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    color: tint($base-color, 30%);
+    margin-bottom: 0;
 
-  // .main-title{
-  //   text-transform: uppercase;
-  //   font-size: 1rem;
-  //   font-weight: 600;
-  //   line-height: 1.2rem
-  // }
+    &:first-child {
+      font-weight: $base-font-bold;
+      color: $base-color;
+    };
+  }
 
-  // .total-invest{
-  //   font-size: 1.7rem;
-  //   font-weight: 600;
-  //   line-height: 1.7rem;
-  //   margin-top: 0.5rem;
-  // }
+  dt {
+    margin-bottom: $global-spacing/2;
+    font-weight: $base-font-bold;
+  }
+}
 
-  // .note{
-  //   font-size: 0.75rem;
-  //   font-style: italic;
-  //   color: tint($positive-base-color, 50%);
-  // }
+.reliability-popover-total {
+  dt {
+    color: darken($infographic-c-color, 10%);
+  }
+}
+
+.reliability-popover-breakdown {
+  dt {
+    color: darken($infographic-b-color, 10%);
+  }
 }

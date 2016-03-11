@@ -95,12 +95,15 @@ var Chart = function (el, data) {
       .scale(x)
       .orient('bottom')
       .tickSize(0)
-      .tickFormat((date) => date.format('YY-MM'));
+      .tickPadding(10)
+      .tickFormat((date) => date.format('MMM YY'));
 
     yAxis = d3.svg.axis()
       .scale(y)
       .orient('left')
-      .tickSize(0);
+      .tickSize(0)
+      .tickFormat(d => d + "%")
+      .tickValues([0,25,50,75,100]);
 
     // Chart elements
     dataCanvas = svg.append('g')
@@ -182,12 +185,12 @@ var Chart = function (el, data) {
     barsOutages.exit()
       .remove();
 
-    let barsFunctional = barGroups.selectAll('rect.bar-installed')
+    let barsFunctional = barGroups.selectAll('rect.bar-functional')
       .data(d => [d]);
 
     barsFunctional.enter()
       .append('rect')
-      .attr('class', 'bar-installed');
+      .attr('class', 'bar-functional');
 
     barsFunctional
       .attr('x', 0)
@@ -209,7 +212,6 @@ var Chart = function (el, data) {
       .on('mouseout', this._onMouseOut);
 
     barGhost
-      .style('fill', 'none')
       .attr('x', 0)
       .attr('y', 0)
       .attr('width', x.rangeBand())
@@ -248,9 +250,10 @@ var Chart = function (el, data) {
         .translate(this.getAttribute('x') + x.rangeBand() / 2, this.getAttribute('y'));
 
       var posX = window.pageXOffset + matrix.e;
-      var posY = window.pageYOffset + matrix.f + 250;
+      var posY = window.pageYOffset + matrix.f;
 
       chartPopover.setContent(_this.popoverContentFn(d)).show(posX, posY);
+
     }
   };
 
