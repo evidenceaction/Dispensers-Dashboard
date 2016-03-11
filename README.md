@@ -7,7 +7,6 @@ The structure and build of our dashboards are aimed at different stakeholders of
 To set up the development environment for this website, you'll need to install the following on your system:
 
 - Node (v4.2.x) & Npm ([nvm](https://github.com/creationix/nvm) usage is advised)
-- Gulp
 
 > The versions mentioned are the ones used during development. It could work with newer ones.
   Run `nvm use` to activate the correct version.
@@ -15,10 +14,6 @@ To set up the development environment for this website, you'll need to install t
 After these basic requirements are met, run the following commands in the website's folder:
 ```
 $ npm install
-```
-and then
-```
-gulp collecticons
 ```
 
 ### Server (TEMPORARY)
@@ -35,20 +30,12 @@ After running a local copy add the address to `config/local.js`:
 ```
 $ npm run serve
 ```
-or
-```
-$ gulp serve
-```
 Compiles the sass files, javascript, and launches the server making the site available at `http://localhost:3000/`
 The system will watch files and execute tasks whenever one of them changes.
 The site will automatically refresh since it is bundled with livereload.
 
 ### Other commands
-Compile the sass files, javascript... Use this instead of ```gulp serve``` if you don't want to watch.
+Compile the sass files, javascript... Use this instead of ```npm run serve``` if you don't want to watch.
 ```
 $ npm run build
-```
-or
-```
-$ gulp
 ```

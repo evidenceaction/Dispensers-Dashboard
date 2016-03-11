@@ -17,8 +17,8 @@
   "homepage": "https://developmentseed.org",
   "scripts": {
     "postinstall": "[ -f app/assets/scripts/config/local.js ] || echo 'module.exports = {};' > app/assets/scripts/config/local.js",
-    "serve": "gulp serve",
-    "build": "NODE_ENV=production gulp",
+    "serve": "gulp collecticons && gulp serve",
+    "build": "gulp collecticons && NODE_ENV=production gulp",
     "lint": "eslint app/assets/scripts/ --ext .js",
     "test": "echo \"No tests\" && exit 0"
   },
