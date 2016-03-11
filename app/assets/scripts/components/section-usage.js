@@ -2,33 +2,29 @@
 import React from 'react';
 import moment from 'moment';
 import _ from 'lodash';
-import ChartReliability from './charts/chart-reliability';
+import ChartLine from './charts/chart-line';
 
-var SectionReliability = React.createClass({
-  displayName: 'SectionReliability',
+var SectionUsage = React.createClass({
+  displayName: 'SectionUsage',
 
   propTypes: {
     fetched: React.PropTypes.bool,
     fetching: React.PropTypes.bool,
     data: React.PropTypes.shape({
       data: React.PropTypes.array,
-      meta: React.PropTypes.array,
+      meta: React.PropTypes.object,
       content: React.PropTypes.object
     })
   },
 
-  chartPopoverHandler: function (d) {
+  chartPopoverHandler: function (d, i) {
     return (
-      <dl>
-        <dd>Timestep</dd>
-        <dt>{d.timestep.format('YY-MM')}</dt>
-        <dd>New dispensers</dd>
-        <dt>{d.dispensers_installed || 0}</dt>
-        <dd>Total dispensers</dd>
-        <dt>{d.dispenser_total}</dt>
-        <dd>Outages this timestep</dd>
-        <dt>{d.outages.total}</dt>
-      </dl>
+      <div>
+        <p className='popover-date'>{d.values[i].timestep.format('MM-YYYY')}</p>
+        <p className='popover-adoption-rate'>
+          {d.values[i].tcr_avg}
+        </p>
+      </div>
     );
   },
 
@@ -42,7 +38,6 @@ var SectionReliability = React.createClass({
 
   prepareChartData: _.memoize(function () {
     let data = {
-      meta: this.props.data.meta,
       values: this.props.data.data.map(o => {
         o = _.cloneDeep(o);
         o.timestep = moment.utc(o.timestep);
@@ -55,19 +50,22 @@ var SectionReliability = React.createClass({
 
   renderContent: function () {
     let data = this.prepareChartData();
-
     return (
       <div className='inner'>
         <div className='col--main'>
-          <h1 className='section__title'>{this.props.data.content.title}</h1>
-          <div dangerouslySetInnerHTML={{__html: this.props.data.content.content}} />
+          <h1 className='section__title'>Adoption</h1>
+          {/*<h1 className='section__title'>{this.props.data.content.title}</h1>
+          <div dangerouslySetInnerHTML={{__html: this.props.data.content.content}} />*/}
 
         </div>
         <div className='col--sec'>
           <div className='infographic'>
-            <ChartReliability
-              className='reliability-chart-wrapper'
+          <h4 class='chart-title'>Total Dispenser Adoption Rates </h4>
+            <ChartLine
+              className='usage-chart-wrapper'
               data={data}
+              topThreshold={this.props.data.meta.tresholds[1].value}
+              bottomThreshold={this.props.data.meta.tresholds[0].value}
               popoverContentFn={this.chartPopoverHandler} />
           </div>
         </div>
@@ -76,16 +74,17 @@ var SectionReliability = React.createClass({
   },
 
   render: function () {
+    console.log('this.prop', this.props);
     if (!this.props.fetched) {
       return null;
     }
 
     return (
-      <section className='page__content section--reliability'>
+      <section className='page__content section--usage'>
         {this.props.fetching ? this.renderLoading() : this.renderContent()}
       </section>
     );
   }
 });
 
-module.exports = SectionReliability;
+module.exports = SectionUsage;
