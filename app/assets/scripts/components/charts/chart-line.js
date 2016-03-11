@@ -4,8 +4,8 @@ import d3 from 'd3';
 import _ from 'lodash';
 import Popover from '../../utils/popover';
 
-var AreaChart = React.createClass({
-  displayName: 'AreaChart',
+var LineChart = React.createClass({
+  displayName: 'LineChart',
 
   propTypes: {
     className: React.PropTypes.string
@@ -18,7 +18,7 @@ var AreaChart = React.createClass({
   },
 
   componentDidMount: function () {
-    // console.log('AreaChart componentDidMount');
+    // console.log('LineChart componentDidMount');
     // Debounce event.
     this.onWindowResize = _.debounce(this.onWindowResize, 200);
 
@@ -27,13 +27,13 @@ var AreaChart = React.createClass({
   },
 
   componentWillUnmount: function () {
-    // console.log('AreaChart componentWillUnmount');
+    // console.log('LineChart componentWillUnmount');
     window.removeEventListener('resize', this.onWindowResize);
     this.chart.destroy();
   },
 
   componentDidUpdate: function (/* prevProps, prevState */) {
-    // console.log('AreaChart componentDidUpdate');
+    // console.log('LineChart componentDidUpdate');
     this.chart.setData(this.props);
   },
 
@@ -44,24 +44,22 @@ var AreaChart = React.createClass({
   }
 });
 
-module.exports = AreaChart;
+module.exports = LineChart;
 
 var Chart = function (el, data) {
   this.$el = d3.select(el);
 
   this.data = null;
-  this.stages = null;
 
   var _this = this;
 
   // Var declaration.
-  var margin = {top: 24, right: 0, bottom: 28, left: 32};
+  var margin = {top: 24, right: 10, bottom: 28, left: 42};
   // width and height refer to the data canvas. To know the svg size the margins
   // must be added.
   var _width, _height;
-  var stack;
   // Draw functions.
-  var area, line;
+  var line;
   // Scales, Axis.
   var x, y, xAxis, yAxis;
   // Elements.
@@ -77,10 +75,9 @@ var Chart = function (el, data) {
   this.setData = function (data) {
     var _data = _.cloneDeep(data);
     this.popoverContentFn = _data.popoverContentFn;
-    this.mouseoverFn = _data.mouseover || _.noop;
-    this.mouseoutFn = _data.mouseout || _.noop;
-    this.xHighlight = _data.xHighlight || null;
-    this.data = stack(_data.series);
+    this.topThreshold = _data.topThreshold || null;
+    this.bottomThreshold = _data.bottomThreshold || null;
+    this.data = _data.data;
     this.update();
   };
 
@@ -96,27 +93,10 @@ var Chart = function (el, data) {
     // Y scale. Range updated in function.
     y = d3.scale.linear();
 
-    // Stack fn.
-    stack = d3.layout.stack()
-      // Define where to get the values from.
-      .values(d => d.values)
-      .x(d => d.timestep)
-      // Where to get the y value. This will be used by the
-      // area function as y0 (which is used to stack.)
-      .y(d => d.people_total);
-
-    // Area definition function.
-    area = d3.svg.area()
-      .x(d => x(d.timestep))
-      // The y0 and y1 define the upper and lower positions for the
-      // area. This will be used to stack the areas.
-      .y0(d => y(d.y0))
-      .y1(d => y(d.y0 + d.y));
-
     // Line function for the delimit the area.
     line = d3.svg.line()
       .x(d => x(d.timestep))
-      .y(d => y(d.y0 + d.y));
+      .y(d => y(d.tcr_avg));
 
     // Define xAxis function.
     xAxis = d3.svg.axis()
@@ -129,9 +109,9 @@ var Chart = function (el, data) {
     yAxis = d3.svg.axis()
       .scale(y)
       .tickSize(0)
+      .tickPadding(10)
       .orient('left')
-      .tickPadding(5)
-      .tickFormat(d => `${(d / 1e6)}M`);
+      .tickFormat(tick => tick === 0 || tick === 100 ? `${tick}%` : '');
 
     // Chart elements
     dataCanvas = svg.append('g')
@@ -150,25 +130,27 @@ var Chart = function (el, data) {
       .attr('class', 'label')
       .attr('text-anchor', 'middle');
 
-      // Group to hold the areas.
-    dataCanvas.append('g')
-      .attr('class', 'area-group');
+    //   // Group to hold the areas.
+    // dataCanvas.append('g')
+    //   .attr('class', 'area-group');
 
-    // Group to hold the area delimiter lines.
-    dataCanvas.append('g')
-      .attr('class', 'area-line-group');
+    // // Group to hold the area delimiter lines.
+    // dataCanvas.append('g')
+    //   .attr('class', 'area-line-group');
 
-    // Group to hold the area delimiter line points.
-    dataCanvas.append('g')
-      .attr('class', 'area-line-points-group');
+    // // Group to hold the area delimiter line points.
+    // dataCanvas.append('g')
+    //   .attr('class', 'area-line-points-group');
 
     // //////////////////////////////////////////////////
     // Focus elements.
     // Focus line and circles show on hover.
 
     // Group to hold the focus elements.
-    var focus = dataCanvas.append('g')
+    var focus = svg.append('g')
+      .style('pointer-events', 'none')
       .attr('class', 'focus-elements')
+      .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')')
       .style('display', 'none');
 
     // Vertical focus line.
@@ -180,10 +162,11 @@ var Chart = function (el, data) {
       .attr('class', 'focus-circles');
 
     // Add focus rectangle. Will be responsible to trigger the events.
-    dataCanvas.append('rect')
+    svg.append('rect')
       .attr('class', 'trigger-rect')
       .style('fill', 'none')
       .style('pointer-events', 'all')
+      .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')')
       .on('mouseover', this._onMouseOver)
       .on('mouseout', this._onMouseOut)
       .on('mousemove', this._onMouseMove);
@@ -196,17 +179,16 @@ var Chart = function (el, data) {
     this._calcSize();
 
     // Update scale ranges
-    let sDate = _.first(this.data[0].values).timestep;
-    let eDate = _.last(this.data[0].values).timestep;
+    let sDate = _.first(this.data.values).timestep;
+    let eDate = _.last(this.data.values).timestep;
     x
       .domain([sDate, eDate])
       .range([0, _width]);
 
     // Since the data is stacked the last element will contain the
     // highest values)
-    let yMax = d3.max(_.last(this.data).values.map(d => d.y0 + d.y));
     y
-      .domain([0, yMax + yMax * 0.1])
+      .domain([0, 100])
       .range([_height, 0]);
 
     // xAxis.ticks(this.data[0].values.length);
@@ -221,43 +203,93 @@ var Chart = function (el, data) {
       .attr('height', _height);
 
     // Set the data to use to get the correct index.
-    dataCanvas.select('.trigger-rect')
+    svg.select('.trigger-rect')
       .datum(this.data)
       .attr('width', _width)
       .attr('height', _height);
 
     // ------------------------------
-    // Areas.
-    var areas = dataCanvas.select('.area-group').selectAll('.area')
-      .data(this.data);
+    // lines.
+    let the_line = dataCanvas.selectAll('.data-line')
+      .data([this.data]);
     // Handle new.
-    areas.enter()
+    the_line.enter()
       .append('path');
 
     // Update current.
-    areas
-      .attr('d', d => area(d.values))
-      .attr('class', d => `area`);
+    the_line
+        .attr('d', d => line(d.values))
+        .attr('class', d => `data-line`);
 
     // Remove old.
-    areas.exit()
+    the_line.exit()
       .remove();
 
     // ------------------------------
-    // Area lines.
-    let area_delimiters = dataCanvas.select('.area-line-group').selectAll('.area-line')
-      .data(this.data);
-    // Handle new.
-    area_delimiters.enter()
-      .append('path');
+    // Threshold.
 
-    // Update current.
-    area_delimiters
-        .attr('d', d => line(d.values))
-        .attr('class', d => `area-line`);
+    let thresholdsData = [];
+    if (this.topThreshold) {
+      thresholdsData.push({
+        key: 'top',
+        value: this.topThreshold,
+        x: 0,
+        y: 0,
+        width: _width,
+        height: y(this.topThreshold)
+      });
+    }
 
-    // Remove old.
-    area_delimiters.exit()
+    if (this.bottomThreshold) {
+      thresholdsData.push({
+        key: 'bottom',
+        value: this.bottomThreshold,
+        x: 0,
+        y: y(this.bottomThreshold),
+        width: _width,
+        height: _height - y(this.bottomThreshold)
+      });
+    }
+
+    let thresholds = dataCanvas.selectAll('g.threshold')
+      .data(thresholdsData);
+
+    // Enter.
+    let enterThresholds = thresholds.enter().append('g')
+      .attr('class', d => `${d.key} threshold`);
+
+    enterThresholds.append('rect')
+      .datum(d => d)
+      .attr('class', 'highlight-area');
+    enterThresholds.append('line')
+      .datum(d => d)
+      .attr('class', 'limit-line');
+    enterThresholds.append('text')
+      .datum(d => d)
+      .attr('class', 'value')
+      .attr('text-anchor', 'end')
+      .attr('dy', '0.25em');
+
+    // Update.
+    thresholds.select('.highlight-area')
+      .attr('x', d => d.x)
+      .attr('y', d => d.y)
+      .attr('width', d => d.width)
+      .attr('height', d => d.height);
+
+    thresholds.select('.limit-line')
+      .attr('x1', d => d.x)
+      .attr('y1', d => y(d.value))
+      .attr('x2', d => d.width)
+      .attr('y2', d => y(d.value));
+
+    thresholds.select('.value')
+      .attr('x', -5)
+      .attr('y', d => y(d.value))
+      .text(d => `${d.value}%`);
+
+    // Remove.
+    thresholds.exit()
       .remove();
 
     // ------------------------------
@@ -267,72 +299,33 @@ var Chart = function (el, data) {
       // .transition()
       .call(xAxis);
 
-    svg.select('.x.axis .label')
-      .text('date');
+    // svg.select('.x.axis .label')
+    //   .text('date');
 
     svg.select('.y.axis')
       .attr('transform', `translate(${margin.left},${margin.top})`)
       // .transition()
       .call(yAxis);
 
-    svg.select('.y.axis .label')
-      .text('People Served')
-      .attr('transform', 'translate(' + 15 + ',' + -5 + ')');
+    // svg.select('.y.axis .label')
+    //   .text('a value');
 
     // ------------------------------
     // Focus line used for highlight.
-    dataCanvas.select('.focus-elements')
-      .style('display', null);
+    svg.select('.focus-elements')
+      .style('display', 'none');
 
-    // dataCanvas.select('.focus-line')
-    //   .transition()
-    //   .duration(100)
-    //   .attr('x1', x(this.xHighlight))
-    //   .attr('y1', _height)
-    //   .attr('x2', x(this.xHighlight))
-    //   .attr('y2', 0);
-
-    let focusCirc = dataCanvas.select('.focus-circles')
+    let focusCirc = svg.select('.focus-circles')
       .selectAll('circle.circle')
-      .data(this.data);
+      .data([this.data]);
 
     focusCirc.enter()
       .append('circle')
         .attr('r', 4)
         .attr('class', 'circle');
 
-    // focusCirc
-    //   .transition()
-    //   .duration(100)
-    //   .attr('cx', x(this.xHighlight))
-    //   .attr('cy', d => {
-    //     let val = _.find(d.values, o => o.timestep.format('YYYY-MM-DD') === this.xHighlight.format('YYYY-MM-DD'));
-    //     return y(val.y0 + val.y);
-    //   });
-
-    this._positionFocusElements(this.xHighlight);
-
     focusCirc.exit()
       .remove();
-
-      // .selectAll('.tick text')
-      //   .call(wrap, 100);
-
-      // .on('mouseover', function (d) {
-      //   var matrix = this.getScreenCTM()
-      //     .translate(this.getAttribute('x'), this.getAttribute('y'));
-
-      //   // This is the width of the real bar, not the ghost one.
-      //   var barWidth = x(_.sum(d.data, 'value'));
-
-      //   var posX = window.pageXOffset + matrix.e + barWidth / 2;
-      //   var posY = window.pageYOffset + matrix.f - 8;
-
-      //   chartPopover.setContent(_this.popoverContentFn(d)).show(posX, posY);
-      // })
-      // .on('mouseout', function (d) {
-      //   chartPopover.hide();
-      // });
   };
 
   this.destroy = function () {
@@ -340,7 +333,7 @@ var Chart = function (el, data) {
   };
 
   this._positionFocusElements = function (timestep) {
-    dataCanvas.select('.focus-line')
+    svg.select('.focus-line')
       .transition()
       .duration(50)
       .attr('x1', x(timestep))
@@ -348,32 +341,28 @@ var Chart = function (el, data) {
       .attr('x2', x(timestep))
       .attr('y2', 0);
 
-    dataCanvas.select('.focus-circles')
+    svg.select('.focus-circles')
       .selectAll('.circle')
       .transition()
       .duration(50)
       .attr('cx', x(timestep))
       .attr('cy', d => {
         let val = _.find(d.values, o => o.timestep.format('YYYY-MM-DD') === timestep.format('YYYY-MM-DD'));
-        return y(val.y0 + val.y);
+        return y(val.tcr_avg);
       });
   };
 
   this._onMouseOver = function () {
-    _this._positionFocusElements(_this.xHighlight);
-    // dataCanvas.select('.focus-elements').style('display', null);
-    _this.mouseoverFn();
+    svg.select('.focus-elements').style('display', null);
   };
 
   this._onMouseOut = function () {
-    _this._positionFocusElements(_this.xHighlight);
-    // dataCanvas.select('.focus-elements').style('display', 'none');
-    _this.mouseoutFn();
+    svg.select('.focus-elements').style('display', 'none');
     chartPopover.hide();
   };
 
   this._onMouseMove = function (data) {
-    let datum = _.last(data).values;
+    let datum = data.values;
     // Define bisector function. Is used to find the closest year
     // to the mouse position.
     let bisect = d3.bisector(d => d.timestep).left;
@@ -401,7 +390,7 @@ var Chart = function (el, data) {
 
     if (_this.popoverContentFn) {
       let matrix = dataCanvas.node().getScreenCTM()
-        .translate(x(doc.timestep), y(doc.y0 + doc.y));
+        .translate(x(doc.timestep), y(doc.fcr_avg));
 
       var posX = window.pageXOffset + matrix.e;
       var posY = window.pageYOffset + matrix.f - 16;
