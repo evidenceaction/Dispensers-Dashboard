@@ -8,18 +8,18 @@ svg.chart {
 //
 // NOTE: All the styles below are temporary
 //
-  
+
 .section--access
 .area-chart-wrapper {
   height: 100%;
   width: 100%;
 
-  .chart {
-    margin-left: -10px;
-    @include media(medium-up) {
-      margin-left: 0;
-    }
-  }
+  // .chart {
+  //   margin-left: -10px;
+  //   @include media(medium-up) {
+  //     margin-left: 0;
+  //   }
+  // }
   .axis {
     .tick text {
       font-size: 0.625rem;
