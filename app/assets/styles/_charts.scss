@@ -17,8 +17,8 @@
     }
   }
 }
-
-.reliability-key-total li
+/*
+.reliability-key-total li*/
 
 svg.chart {
   // Avoids that the chart grows because of the gap left by inline elements.
@@ -116,6 +116,7 @@ svg.chart {
 .section--reliability
 .reliability-chart-wrapper {
   min-height: 20rem;
+  width: 100%;
   .x.axis {
     .tick:nth-child(odd) {
       display:none;
