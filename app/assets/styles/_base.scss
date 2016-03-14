@@ -348,14 +348,14 @@ a:active {
 .section--reliability {
   .col--main {
     @include col(12/12);
-    @include media(medium-up) {
-      @include col(5/12, $gutter: 0);
+    @include media(large-up) {
+      @include col(5/12);
     }
   }
   .col--sec {
     @include col(12/12);
-    @include media(medium-up) {
-      @include col(7/12, $gutter: 0);
+    @include media(large-up) {
+      @include col(7/12);
     } 
   }
 }

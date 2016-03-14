@@ -45,7 +45,7 @@ svg.chart {
 }
   
 .section--access .area-chart-wrapper {
-  height: 100%;
+  min-height: 20rem;
   width: 100%;
 
   .tick:nth-child(odd) {
@@ -130,7 +130,7 @@ svg.chart {
 }
 
 .section--reliability .reliability-chart-wrapper {
-  min-height: 100%;
+  min-height: 15rem;
   width: 100%;
 
   .x.axis {
@@ -186,26 +186,12 @@ svg.chart {
   .bar-hardware {
     fill: tint($infographic-b-color, 30%);
   }
-
-  .bar-ghost {
-    // cursor: pointer;
-  }
 }
 
 .section--usage .usage-chart-wrapper {
   min-height: 20rem;
 
-  // .axis {
-  //   .tick text {
-  //     font-size: 0.75rem;
-  //     fill: rgba($base-color, 0.6);
-  //   }
-  // }
-
   .y.axis {
-    .domain {
-      // stroke: tint($base-color, 25%);
-    }
     text {
       font-size: 0.75rem;
       fill: rgba($base-color, 0.6);
@@ -252,9 +238,6 @@ svg.chart {
     fill:none;
   }
 }
-
-
-
 
 // .dispenser-point is the div positioned by mapbox using transform translate()
 // Since the size of it needs to be programmatically defined, we need to use

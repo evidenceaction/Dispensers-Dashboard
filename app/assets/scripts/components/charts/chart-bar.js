@@ -55,7 +55,7 @@ var Chart = function (el, data) {
   var _this = this;
 
   // Var declaration.
-  var margin = {top: 32, right: 32, bottom: 48, left: 48};
+  var margin = {top: 32, right: 16, bottom: 48, left: 48};
   // width and height refer to the data canvas. To know the svg size the margins
   // must be added.
   var _width, _height;
@@ -164,7 +164,9 @@ var Chart = function (el, data) {
 
     barGroups.enter()
       .append('g')
-      .attr('class', 'bar-group')
+      .attr('class', 'bar-group');
+
+    barGroups
       .attr('transform', d => {
         return `translate(${x(d.timestep)},0)`;
       });
