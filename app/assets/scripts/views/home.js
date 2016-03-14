@@ -12,6 +12,7 @@ var Home = React.createClass({
   propTypes: {
     _fetchSectionAccess: React.PropTypes.func,
     _fetchSectionReliability: React.PropTypes.func,
+    _fetchSectionUsage: React.PropTypes.func,
     sectionAccess: React.PropTypes.shape({
       fetched: React.PropTypes.bool,
       fetching: React.PropTypes.bool,

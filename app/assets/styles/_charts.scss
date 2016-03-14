@@ -1,5 +1,33 @@
-/* Footer
-   ========================================================================== */
+.key {
+  ul {
+    @extend .clearfix;
+    margin: 0;
+  }
+  li {
+    @include col(5/12)
+    position: relative;
+    list-style: none;
+    float: left;
+    font-size: 0.625rem;
+    line-height: 1.5;
+    font-family: $base-font-family;
+    padding-left: 1rem;
+    &:before {
+      position: absolute;
+      top: 0.125rem;
+      left: 0;
+      z-index: 1;
+
+      background: #333;
+      content: '';
+      width: 0.625rem;
+      height: 0.625rem;
+    }
+  }
+}
+/*
+.reliability-key-total li*/
+
 svg.chart {
   // Avoids that the chart grows because of the gap left by inline elements.
   display: block;
@@ -9,16 +37,16 @@ svg.chart {
   transition: left 0.25s ease 0s, top 0.25s ease 0s;
 }
 
-.section--access .area-chart-wrapper {
-  height: 100%;
-  width: 100%;
-  
-  .axis {
-    .tick text {
-      font-size: 0.75rem;
-      fill: tint($primary-color, 45%);
-    }
+.axis {
+  .tick text {
+    font-size: 0.625rem;
+    fill: tint($base-color, 55%);
   }
+}
+  
+.section--access .area-chart-wrapper {
+  min-height: 20rem;
+  width: 100%;
 
   .tick:nth-child(odd) {
     display: none;
@@ -69,102 +97,101 @@ svg.chart {
   }
 }
 
-  .access-date {
-    font-family: $display-font-family;
-    font-size: 0.875rem;
-    float: left;
-    padding: $global-spacing/4;
-    border-radius: $global-spacing/4;
-    margin: 0;
-    background-color: $secondary-color;
-  }
+.access-date {
+  font-family: $display-font-family;
+  font-size: 0.875rem;
+  float: left;
+  padding: $global-spacing/4;
+  border-radius: $global-spacing/4;
+  margin: 0;
+  background-color: $secondary-color;
+}
 
-  .people-served-total {
-    font-family: $display-font-family;
+.people-served-total {
+  font-family: $display-font-family;
+  font-size: 0.75rem;
+  color: $infographic-b-color;
+  margin: 0;
+  @include media(medium-up) {
+    margin-top: ($global-spacing/2);
+    font-size: 1.25rem;
+    margin-bottom: ($global-spacing/2);
+  }
+  .info-description {
     font-size: 0.75rem;
-    color: $infographic-b-color;
-    margin: 0;
     @include media(medium-up) {
-      margin-top: ($global-spacing/2);
-      font-size: 1.25rem;
-      margin-bottom: ($global-spacing/2);
-    }
-    .info-description {
-      font-size: 0.75rem;
-      @include media(medium-up) {
-        font-size: 1rem;
-      }
+      font-size: 1rem;
     }
   }
+}
 
-  .chart-title {
-    margin-bottom: 0;
-  }
+.chart-title {
+  margin-bottom: 0;
+}
 
+.section--reliability .reliability-chart-wrapper {
+  min-height: 15rem;
+  width: 100%;
 
-// .section--reliability
-.reliability-chart-wrapper {
-  min-height: 100%;
   .x.axis {
-  }
-
-  .axis {
-    .tick text {
-      font-size: 0.75rem;
-      fill: $primary-color;
+    .tick:nth-child(odd) {
+      display:none;
     }
   }
+
 
   .y.axis {
-    .domain {
-      stroke: tint($base-color, 25%);
+    .axis-line {
+      stroke: tint($base-color, 50%);
     }
     text {
-      font-size: 0.75rem;
-      fill: $primary-color;
+      font-size: 0.675rem;
+      fill: tint($base-color, 55%);
     }
   }
 
   .grid-elements {
     .mid-line {
-      stroke: tint($base-color, 25%);
+      stroke: tint($base-color, 50%);
     }
-    .avg-line {
+    .avg-line-chlorine, .avg-line-hardware {
       stroke: tint($base-color, 60%);
       stroke-dasharray: 5 5;
     }
     .date-line {
-      stroke: tint($base-color, 60%);
+      stroke: tint($base-color, 50%);
     }
   }
 
-  .bar-installed {
-    fill: tint($highlight-color, 50%);
+  .bar-functional {
+    fill: tint($infographic-c-color, 55%);
   }
 
   .bar-outages {
-    fill: tint($highlight-color, 10%);
+    fill: tint($infographic-c-color, 0%);
   }
 
   .bar-ghost {
-    // cursor: pointer;
+    fill: #FFF;
+    opacity: 0;
+    &:hover {
+      opacity: .5;
+    }
+  }
+
+  .bar-chlorine {
+    fill: tint($infographic-b-color, 60%);
+  }
+
+  .bar-hardware {
+    fill: tint($infographic-b-color, 30%);
   }
 }
 
 .section--usage .usage-chart-wrapper {
   min-height: 20rem;
 
-  .axis {
-    .tick text {
-      font-size: 0.75rem;
-      fill: rgba($base-color, 0.6);
-    }
-  }
-
   .y.axis {
-    .domain {
-      // stroke: tint($base-color, 25%);
-    }
     text {
       font-size: 0.75rem;
       fill: rgba($base-color, 0.6);
@@ -211,9 +238,6 @@ svg.chart {
     fill:none;
   }
 }
-
-
-
 
 // .dispenser-point is the div positioned by mapbox using transform translate()
 // Since the size of it needs to be programmatically defined, we need to use

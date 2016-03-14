@@ -3,6 +3,7 @@ import React from 'react';
 import moment from 'moment';
 import _ from 'lodash';
 import ChartReliability from './charts/chart-reliability';
+import ChartBar from './charts/chart-bar';
 
 var SectionReliability = React.createClass({
   displayName: 'SectionReliability',
@@ -17,17 +18,28 @@ var SectionReliability = React.createClass({
     })
   },
 
-  chartPopoverHandler: function (d) {
+  totalChartPopoverHandler: function (d) {
     return (
-      <dl>
-        <dd>Timestep</dd>
-        <dt>{d.timestep.format('YY-MM')}</dt>
-        <dd>New dispensers</dd>
-        <dt>{d.dispensers_installed || 0}</dt>
-        <dd>Total dispensers</dd>
-        <dt>{d.dispenser_total}</dt>
-        <dd>Outages this timestep</dd>
-        <dt>{d.outages.total}</dt>
+      <dl className='reliability-popover-total'>
+        <dd>{d.timestep.format('MMM YY')}</dd>
+        <dd>Functioning Dispensers</dd>
+        <dt>{Math.round(d.functional.total_rate) + '%'}</dt>
+        <dd>Dispensers with Reported Outage</dd>
+        <dt>{Math.round(d.outages.total_rate) + '%'}</dt>
+      </dl>
+    );
+  },
+
+  breakdownChartPopoverHandler: function (d) {
+    return (
+      <dl className='reliability-popover-breakdown'>
+        <dd>{d.timestep.format('MMM YY')}</dd>
+        <dd>Total Dispensers with Reported Outages</dd>
+        <dt>{d.outages.total || 0}</dt>
+        <dd>Chlorine Outages</dd>
+        <dt>{Math.round(d.outages.chlorine_rate) + '%'}</dt>
+        <dd>Hardware Ourages</dd>
+        <dt>{Math.round(d.outages.hardware_rate) + '%'}</dt>
       </dl>
     );
   },
@@ -58,17 +70,38 @@ var SectionReliability = React.createClass({
 
     return (
       <div className='inner'>
-        <div className='col--main'>
+        <div className='col--full'>
           <h1 className='section__title'>{this.props.data.content.title}</h1>
           <div dangerouslySetInnerHTML={{__html: this.props.data.content.content}} />
-
+        </div>
+        <div className='col--main'>
+          <h4 className='chart-title'>Percent of Functional Dispensers</h4>
+          <div className='infographic'>
+            <div className='key'>
+              <ul className='reliability-key-total'>
+                <li>Functional Dispensers (%)</li>
+                <li>Dispensers with Reported Outages (%)</li>
+              </ul>
+            </div>
+            <ChartBar
+              className='reliability-chart-wrapper'
+              data={data}
+              popoverContentFn={this.totalChartPopoverHandler} />
+          </div>
         </div>
         <div className='col--sec'>
+          <h4 className='chart-title'>Breakdown of Reported Dispenser Outages</h4>
           <div className='infographic'>
+            <div className='key'>
+              <ul className='reliability-key-breakdown'>
+                <li>% of dispensers with reported chlorine outages</li>
+                <li>% of dispensers with reported hardware outages</li>
+              </ul>
+            </div>
             <ChartReliability
               className='reliability-chart-wrapper'
               data={data}
-              popoverContentFn={this.chartPopoverHandler} />
+              popoverContentFn={this.breakdownChartPopoverHandler} />
           </div>
         </div>
       </div>
