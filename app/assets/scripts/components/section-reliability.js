@@ -61,7 +61,6 @@ var SectionReliability = React.createClass({
         return o;
       })
     };
-    console.log(data)
 
     return data;
   }),

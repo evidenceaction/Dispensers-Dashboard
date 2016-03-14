@@ -102,8 +102,8 @@ var Chart = function (el, data) {
       .scale(y)
       .orient('left')
       .tickSize(0)
-      .tickFormat(d => d + "%")
-      .tickValues([0,25,50,75,100]);
+      .tickFormat(d => `${d}%`)
+      .tickValues([0, 25, 50, 75, 100]);
 
     // Chart elements
     dataCanvas = svg.append('g')
@@ -236,8 +236,7 @@ var Chart = function (el, data) {
       .call(yAxis);
 
     svg.select('.y.axis .label')
-      .text('')
-
+      .text('');
   };
 
   this.destroy = function () {
@@ -253,7 +252,6 @@ var Chart = function (el, data) {
       var posY = window.pageYOffset + matrix.f;
 
       chartPopover.setContent(_this.popoverContentFn(d)).show(posX, posY);
-
     }
   };
 

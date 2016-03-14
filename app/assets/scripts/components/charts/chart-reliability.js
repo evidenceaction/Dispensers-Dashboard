@@ -305,9 +305,9 @@ var Chart = function (el, data) {
     let avgChlorine = d3.mean(this.data.values, d => d.outages.chlorine_rate);
     gridElements.select('.avg-line-chlorine')
       .attr('x1', 0)
-      .attr('y1', y(0) - _height / 2  + y(avgChlorine))
+      .attr('y1', y(0) - _height / 2 + y(avgChlorine))
       .attr('x2', _width)
-      .attr('y2', y(0) - _height / 2  + y(avgChlorine))
+      .attr('y2', y(0) - _height / 2 + y(avgChlorine));
 
     let lineStep = Math.floor(this.data.values.length / 2);
     let lineOffset = Math.floor(lineStep / 2);
