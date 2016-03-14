@@ -3,7 +3,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 import SectionAccess from '../components/section-access';
 import SectionReliability from '../components/section-reliability';
-import { fetchSectionAccess, fetchSectionReliability } from '../actions/action-creators';
+import SectionUsage from '../components/section-usage';
+import { fetchSectionAccess, fetchSectionReliability, fetchSectionUsage } from '../actions/action-creators';
 
 var Home = React.createClass({
   displayName: 'Home',
@@ -20,12 +21,18 @@ var Home = React.createClass({
       fetched: React.PropTypes.bool,
       fetching: React.PropTypes.bool,
       data: React.PropTypes.object
+    }),
+    sectionUsage: React.PropTypes.shape({
+      fetched: React.PropTypes.bool,
+      fetching: React.PropTypes.bool,
+      data: React.PropTypes.object
     })
   },
 
   componentDidMount: function () {
     this.props._fetchSectionAccess();
     this.props._fetchSectionReliability();
+    this.props._fetchSectionUsage();
   },
 
   render: function () {
@@ -71,6 +78,11 @@ var Home = React.createClass({
             fetching={this.props.sectionAccess.fetching}
             data={this.props.sectionAccess.data} />
 
+          <SectionUsage
+            fetched={this.props.sectionUsage.fetched}
+            fetching={this.props.sectionUsage.fetching}
+            data={this.props.sectionUsage.data} />
+
           <SectionReliability
             fetched={this.props.sectionReliability.fetched}
             fetching={this.props.sectionReliability.fetching}
@@ -100,14 +112,16 @@ var Home = React.createClass({
 function selector (state) {
   return {
     sectionAccess: state.sectionAccess,
-    sectionReliability: state.sectionReliability
+    sectionReliability: state.sectionReliability,
+    sectionUsage: state.sectionUsage
   };
 }
 
 function dispatcher (dispatch) {
   return {
     _fetchSectionAccess: () => dispatch(fetchSectionAccess()),
-    _fetchSectionReliability: () => dispatch(fetchSectionReliability())
+    _fetchSectionReliability: () => dispatch(fetchSectionReliability()),
+    _fetchSectionUsage: () => dispatch(fetchSectionUsage())
   };
 }
 

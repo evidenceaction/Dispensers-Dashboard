@@ -171,7 +171,9 @@ var Chart = function (el, data) {
 
     barGroups.enter()
       .append('g')
-      .attr('class', 'bar-group')
+      .attr('class', 'bar-group');
+
+    barGroups
       .attr('transform', d => {
         return `translate(${x(d.timestep)},0)`;
       });

@@ -16,7 +16,8 @@ var SectionAccess = React.createClass({
     fetching: React.PropTypes.bool,
     data: React.PropTypes.shape({
       data: React.PropTypes.array,
-      geo: React.PropTypes.array
+      geo: React.PropTypes.array,
+      content: React.PropTypes.object
     })
   },
 
@@ -158,10 +159,8 @@ var SectionAccess = React.createClass({
 
     return (
       <div className='col--full'>
-        <h1 className='section__title'>Section Title</h1>
-        <p>This is a pararaph and goes a little something like this... consectetur adipisicing elit.</p>
-        <p>This is another ipsum iste, facere ab consequuntur animi corporis culpa ratione
-        sequi quaerat deleniti distinctio ducimus, dolorem possimus, sit blanditiis odio harum quos minus.</p>
+        <h1 className='section__title'>{this.props.data.content.title}</h1>
+        <div dangerouslySetInnerHTML={{__html: this.props.data.content.content}} />
 
           <p className='access-date'>{currDate.format('MM-DD-YYYY')}</p>
 
@@ -201,7 +200,7 @@ var SectionAccess = React.createClass({
 
     return (
       <div className='col--sec'>
-      <p className='people-served-total'>{totalDispensers ? d3.format(',d')(totalDispensers) : 'Loading...'} dispensers installed</p>
+      <p className='people-served-total'>{totalDispensers ? d3.format(',d')(totalDispensers) : 'Loading...'} <span className='info-description'>dispensers installed</span></p>
         <SectionMap
           activeDate={this.props.fetched ? this.getCurrentDate() : null}
           data={mapData} />
@@ -229,7 +228,7 @@ var SectionAccess = React.createClass({
 
     return (
       <div className='col--main'>
-        <p className='people-served-total'>{d3.format(',d')(totalPeople)} people served</p>
+        <p className='people-served-total'>{d3.format(',d')(totalPeople)} <span className='info-description'>people served</span></p>
         <div className='infographic'>
           <ChartArea
             mouseover={this.chartMouseoverHandler}

@@ -25,26 +25,25 @@ svg.chart {
   display: block;
 }
 
-//
-// NOTE: All the styles below are temporary
-//
+.chart-popover-animate {
+  transition: left 0.25s ease 0s, top 0.25s ease 0s;
+}
 
-  .axis {
-    .tick text {
-      font-size: 0.625rem;
-      fill: tint($base-color, 55%);
-    }
+.axis {
+  .tick text {
+    font-size: 0.625rem;
+    fill: tint($base-color, 55%);
   }
+}
   
-.section--access
-.area-chart-wrapper {
-  min-height: 20rem;
+.section--access .area-chart-wrapper {
+  height: 100%;
   width: 100%;
 
-  .chart {
-    margin-left: -10px;
-    @include media(medium-up) {
-      margin-left: 0;
+  .tick:nth-child(odd) {
+    display: none;
+    @include media(medium-up){
+      display: block;
     }
   }
 
@@ -90,38 +89,48 @@ svg.chart {
   }
 }
 
-  .access-date {
-    font-family: $display-font-family;
-    font-size: 0.875rem;
-    float: left;
-    padding: $global-spacing/4;
-    border-radius: $global-spacing/4;
-    margin: 0;
-    background-color: $secondary-color;
-  }
+.access-date {
+  font-family: $display-font-family;
+  font-size: 0.875rem;
+  float: left;
+  padding: $global-spacing/4;
+  border-radius: $global-spacing/4;
+  margin: 0;
+  background-color: $secondary-color;
+}
 
-  .people-served-total {
-    font-family: $display-font-family;
+.people-served-total {
+  font-family: $display-font-family;
+  font-size: 0.75rem;
+  color: $infographic-b-color;
+  margin: 0;
+  @include media(medium-up) {
     margin-top: ($global-spacing/2);
     font-size: 1.25rem;
-    color: $infographic-b-color;
     margin-bottom: ($global-spacing/2);
   }
-
-  .chart-title {
-    margin-bottom: 0;
+  .info-description {
+    font-size: 0.75rem;
+    @include media(medium-up) {
+      font-size: 1rem;
+    }
   }
+}
 
+.chart-title {
+  margin-bottom: 0;
+}
 
-.section--reliability
-.reliability-chart-wrapper {
-  min-height: 20rem;
+.section--reliability .reliability-chart-wrapper {
+  min-height: 100%;
   width: 100%;
+
   .x.axis {
     .tick:nth-child(odd) {
       display:none;
     }
   }
+
 
   .y.axis {
     .axis-line {
@@ -175,7 +184,66 @@ svg.chart {
   }
 }
 
+.section--usage .usage-chart-wrapper {
+  min-height: 20rem;
 
+  // .axis {
+  //   .tick text {
+  //     font-size: 0.75rem;
+  //     fill: rgba($base-color, 0.6);
+  //   }
+  // }
+
+  .y.axis {
+    .domain {
+      // stroke: tint($base-color, 25%);
+    }
+    text {
+      font-size: 0.75rem;
+      fill: rgba($base-color, 0.6);
+    }
+  }
+
+  .threshold {
+    .limit-line {
+      stroke: rgba($base-color, 0.75);
+      stroke-dasharray: 5 5;
+    }
+    .value {
+      font-size: 0.75rem;
+      fill: $base-color;
+    }
+
+    &.top {
+      .highlight-area {
+        fill: rgba($highlight-color, 0.10);
+      }
+    }
+    &.bottom {
+      .highlight-area {
+        fill: rgba($base-color, 0.10);
+      }
+    }
+  }
+
+  .focus-circles {
+    fill: $secondary-color;
+    stroke: $base-color;
+    stroke-width: 1px;
+  }
+
+  .focus-line {
+    fill: none;
+    stroke: $base-color;
+    stroke-width: 2px;
+  }
+
+  .data-line {
+    stroke: rgba($highlight-color, 0.9);
+    stroke-width: 2px;
+    fill:none;
+  }
+}
 
 
 

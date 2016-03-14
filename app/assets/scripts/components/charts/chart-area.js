@@ -55,7 +55,7 @@ var Chart = function (el, data) {
   var _this = this;
 
   // Var declaration.
-  var margin = {top: 24, right: 2, bottom: 28, left: 42};
+  var margin = {top: 24, right: 0, bottom: 28, left: 32};
   // width and height refer to the data canvas. To know the svg size the margins
   // must be added.
   var _width, _height;
@@ -373,7 +373,7 @@ var Chart = function (el, data) {
   };
 
   this._onMouseMove = function (data) {
-    let datum = data[0].values;
+    let datum = _.last(data).values;
     // Define bisector function. Is used to find the closest year
     // to the mouse position.
     let bisect = d3.bisector(d => d.timestep).left;
@@ -401,7 +401,7 @@ var Chart = function (el, data) {
 
     if (_this.popoverContentFn) {
       let matrix = dataCanvas.node().getScreenCTM()
-        .translate(x(doc.timestep), 0);
+        .translate(x(doc.timestep), y(doc.y0 + doc.y));
 
       var posX = window.pageXOffset + matrix.e;
       var posY = window.pageYOffset + matrix.f - 16;
