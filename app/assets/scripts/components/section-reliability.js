@@ -23,9 +23,9 @@ var SectionReliability = React.createClass({
       <dl className='reliability-popover-total'>
         <dd>{d.timestep.format('MMM YY')}</dd>
         <dd>Functioning Dispensers</dd>
-        <dt>{Math.round(d.functional.total_rate) + '%'}</dt>
+        <dt>{Number(d.functional.total_rate).toFixed(2) + '%'}</dt>
         <dd>Dispensers with Reported Outage</dd>
-        <dt>{Math.round(d.outages.total_rate) + '%'}</dt>
+        <dt>{Number(d.outages.total_rate).toFixed(2)  + '%'}</dt>
       </dl>
     );
   },
@@ -34,12 +34,10 @@ var SectionReliability = React.createClass({
     return (
       <dl className='reliability-popover-breakdown'>
         <dd>{d.timestep.format('MMM YY')}</dd>
-        <dd>Total Dispensers with Reported Outages</dd>
-        <dt>{d.outages.total || 0}</dt>
         <dd>Chlorine Outages</dd>
-        <dt>{Math.round(d.outages.chlorine_rate) + '%'}</dt>
+        <dt>{Number(d.outages.chlorine_rate).toFixed(2) + '%'} ({(d.outages.chlorine)+ ' dispensers'})</dt>
         <dd>Hardware Ourages</dd>
-        <dt>{Math.round(d.outages.hardware_rate) + '%'}</dt>
+        <dt>{Number(d.outages.hardware_rate).toFixed(2) + '%'} ({(d.outages.hardware) + ' dispensers'})</dt>
       </dl>
     );
   },
@@ -67,7 +65,7 @@ var SectionReliability = React.createClass({
 
   renderContent: function () {
     let data = this.prepareChartData();
-
+console.log(data)
     return (
       <div className='inner'>
         <div className='col--full'>
@@ -80,7 +78,7 @@ var SectionReliability = React.createClass({
             <div className='key'>
               <ul className='reliability-key-total'>
                 <li>Functional Dispensers (%)</li>
-                <li>Dispensers with Reported Outages (%)</li>
+                <li>Dispensers with Outages (%)</li>
               </ul>
             </div>
             <ChartBar
@@ -94,8 +92,8 @@ var SectionReliability = React.createClass({
           <div className='infographic'>
             <div className='key'>
               <ul className='reliability-key-breakdown'>
-                <li>% of dispensers with reported chlorine outages</li>
-                <li>% of dispensers with reported hardware outages</li>
+                <li>Dispensers with chlorine outages (%)</li>
+                <li>Dispensers with hardware outages (%)</li>
               </ul>
             </div>
             <ChartReliability

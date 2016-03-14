@@ -4,7 +4,6 @@
     margin: 0;
   }
   li {
-    @include col(5/12)
     position: relative;
     list-style: none;
     float: left;
@@ -12,6 +11,8 @@
     line-height: 1.5;
     font-family: $base-font-family;
     padding-left: 1rem;
+    margin-left: $global-spacing/2;
+    margin-top: $global-spacing;
     &:before {
       position: absolute;
       top: 0.125rem;
@@ -25,8 +26,33 @@
     }
   }
 }
-/*
-.reliability-key-total li*/
+
+.reliability-key-total li{
+  &:first-child {
+     &:before{
+      background-color: $infographic-c-color;
+     }; 
+  };
+  &:last-child {
+     &:before{
+      background-color: tint($infographic-c-color, 50%);
+     }; 
+  };
+}
+
+.reliability-key-breakdown li{
+  &:first-child {
+     &:before{
+      background-color: $infographic-b-color;
+     }; 
+  };
+  &:last-child {
+     &:before{
+      background-color: tint($infographic-b-color, 50%);
+     }; 
+  };
+}
+
 
 svg.chart {
   // Avoids that the chart grows because of the gap left by inline elements.
@@ -127,10 +153,12 @@ svg.chart {
 
 .chart-title {
   margin-bottom: 0;
+  font-family: $base-font-family;
+  font-weight: $base-font-regular;
 }
 
 .section--reliability .reliability-chart-wrapper {
-  min-height: 15rem;
+  min-height: 20rem;
   width: 100%;
 
   .x.axis {
