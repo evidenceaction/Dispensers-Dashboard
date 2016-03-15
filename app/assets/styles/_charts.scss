@@ -44,6 +44,34 @@ svg.chart {
   }
 }
 
+.section--carbon .carbon-chart-wrapper {
+    .area {
+    &:nth-child(1) {
+      fill: rgba($highlight-color, 0.9);
+    }
+    &:nth-child(2) {
+      fill: rgba($highlight-color, 0.6);
+    }
+    &:nth-child(3) {
+      fill: rgba($highlight-color, 0.3);
+    }
+  }
+}
+
+.section--access .area-chart-wrapper {
+    .area {
+    &:nth-child(1) {
+      fill: rgba($infographic-b-color, 0.9);
+    }
+    &:nth-child(2) {
+      fill: rgba($infographic-b-color, 0.7);
+    }
+    &:nth-child(3) {
+      fill: rgba($infographic-b-color, 0.4);
+    }
+  }
+}
+
 .section--carbon .carbon-chart-wrapper,
 .section--access .area-chart-wrapper {
   min-height: 20rem;
@@ -66,18 +94,6 @@ svg.chart {
     font-size: 0.625rem;
     fill: $primary-color;
     text-transform: uppercase;
-  }
-
-  .area {
-    &:nth-child(1) {
-      fill: rgba($infographic-b-color, 0.9);
-    }
-    &:nth-child(2) {
-      fill: rgba($infographic-b-color, 0.7);
-    }
-    &:nth-child(3) {
-      fill: rgba($infographic-b-color, 0.4);
-    }
   }
 
   .focus-circles {

@@ -121,7 +121,7 @@ var Chart = function (el, data) {
       .orient('bottom')
       .tickSize(0)
       .tickPadding(10)
-      .tickFormat(d3.time.format('%b %y'));
+      .tickFormat(d3.time.format('%Y'));
 
     yAxis = d3.svg.axis()
       .scale(y)
@@ -158,7 +158,7 @@ var Chart = function (el, data) {
     // Group to hold the area delimiter line points.
     dataCanvas.append('g')
       .attr('class', 'area-line-points-group');
-
+      
     // //////////////////////////////////////////////////
     // Focus elements.
     // Focus line and circles show on hover.
