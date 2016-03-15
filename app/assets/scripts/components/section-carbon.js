@@ -40,8 +40,6 @@ var SectionCarbon = React.createClass({
 
   prepareChartData: _.memoize(function () {
     let data = _.map(this.props.data.data, o => {
-      let country = _.find(this.props.data.meta, {id: o.id});
-      o.country = country.name;
       _.forEach(o.values, oo => {
         oo.timestep = moment.utc(oo.timestep);
       });
