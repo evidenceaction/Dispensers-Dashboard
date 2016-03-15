@@ -194,7 +194,6 @@ var Chart = function (el, data) {
       return;
     }
     this._calcSize();
-    console.log(this.data)
 
     // Update scale ranges
     let sDate = _.first(this.data[0].values).timestep;
@@ -285,14 +284,6 @@ var Chart = function (el, data) {
     dataCanvas.select('.focus-elements')
       .style('display', null);
 
-    // dataCanvas.select('.focus-line')
-    //   .transition()
-    //   .duration(100)
-    //   .attr('x1', x(this.xHighlight))
-    //   .attr('y1', _height)
-    //   .attr('x2', x(this.xHighlight))
-    //   .attr('y2', 0);
-
     let focusCirc = dataCanvas.select('.focus-circles')
       .selectAll('circle.circle')
       .data(this.data);
@@ -302,38 +293,10 @@ var Chart = function (el, data) {
         .attr('r', 4)
         .attr('class', 'circle');
 
-    // focusCirc
-    //   .transition()
-    //   .duration(100)
-    //   .attr('cx', x(this.xHighlight))
-    //   .attr('cy', d => {
-    //     let val = _.find(d.values, o => o.timestep.format('YYYY-MM-DD') === this.xHighlight.format('YYYY-MM-DD'));
-    //     return y(val.y0 + val.y);
-    //   });
-
     this._positionFocusElements(this.xHighlight);
 
     focusCirc.exit()
       .remove();
-
-      // .selectAll('.tick text')
-      //   .call(wrap, 100);
-
-      // .on('mouseover', function (d) {
-      //   var matrix = this.getScreenCTM()
-      //     .translate(this.getAttribute('x'), this.getAttribute('y'));
-
-      //   // This is the width of the real bar, not the ghost one.
-      //   var barWidth = x(_.sum(d.data, 'value'));
-
-      //   var posX = window.pageXOffset + matrix.e + barWidth / 2;
-      //   var posY = window.pageYOffset + matrix.f - 8;
-
-      //   chartPopover.setContent(_this.popoverContentFn(d)).show(posX, posY);
-      // })
-      // .on('mouseout', function (d) {
-      //   chartPopover.hide();
-      // });
   };
 
   this.destroy = function () {
