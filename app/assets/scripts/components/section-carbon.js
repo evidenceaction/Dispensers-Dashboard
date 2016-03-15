@@ -17,16 +17,30 @@ var SectionCarbon = React.createClass({
     })
   },
 
-  // chartPopoverHandler: function (d, i) {
-  //   return (
-  //     <div>
-  //       <p className='popover-date'>{d.values[i].timestep.format('MM-YYYY')}</p>
-  //       <p className='popover-adoption-rate'>
-  //         {d.values[i].tcr_avg}
-  //       </p>
-  //     </div>
-  //   );
-  // },
+  chartMouseoutHandler: function () {
+    if (this.wasIntervalRunning) {
+      this.wasIntervalRunning = false;
+      this.play();
+    }
+  },
+
+  chartMouseoverHandler: function () {
+    if (this.isPlaying()) {
+      this.wasIntervalRunning = true;
+    }
+    this.pause();
+  },
+
+  chartPopoverHandler: function (d, i) {
+    return (
+      <div>
+        <p className='popover-date'>{d.values[i].timestep.format('MM-YYYY')}</p>
+        <p className='popover-adoption-rate'>
+          {d.values[i].tcr_avg}
+        </p>
+      </div>
+    );
+  },
 
   renderLoading: function () {
     return (
@@ -37,20 +51,13 @@ var SectionCarbon = React.createClass({
   },
 
   prepareChartData: _.memoize(function () {
-    let data = {
-      meta: this.props.data.meta,
-      values: this.props.data.data.map(o => {
-        o = _.cloneDeep(o);
-        o.timestep = moment.utc(o.timestep);
-        return o;
-      })
-    };
-    return data;
-
+    return _(this.props.data.data)
+      .groupBy(o => o.id)
+      .value();
   }),
 
   renderContent: function () {
-    let data = this.prepareChartData();
+    let series = this.prepareChartData();
     return (
       <div className='inner'>
         <div className='col--main'>
@@ -64,7 +71,11 @@ var SectionCarbon = React.createClass({
           <h4 className='chart-title'>Total Dispenser Adoption Rates </h4>
             <ChartCarbon
               className='carbon-chart-wrapper'
-              data={data}/>
+              // mouseover={this.chartMouseoverHandler}
+              // mouseout={this.chartMouseoutHandler}
+              // popoverContentFn={this.chartPopoverHandler}
+              // xHighlight={this.getCurrentDate()}
+              series={series}/>
           </div>
         </div>
       </div>

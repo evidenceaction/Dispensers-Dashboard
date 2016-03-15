@@ -75,13 +75,13 @@ var Chart = function (el, data) {
   };
 
   this.setData = function (data) {
-            console.log(data)
     var _data = _.cloneDeep(data);
-    this.popoverContentFn = _data.popoverContentFn;
-    this.mouseoverFn = _data.mouseover || _.noop;
-    this.mouseoutFn = _data.mouseout || _.noop;
-    this.xHighlight = _data.xHighlight || null;
+    // this.popoverContentFn = _data.popoverContentFn;
+    // this.mouseoverFn = _data.mouseover || _.noop;
+    // this.mouseoutFn = _data.mouseout || _.noop;
+    // this.xHighlight = _data.xHighlight || null;
     this.data = stack(_data.series);
+    console.log(this.data)
     this.update();
   };
 
@@ -90,7 +90,6 @@ var Chart = function (el, data) {
     // The svg.
     svg = this.$el.append('svg')
         .attr('class', 'chart');
-
     // X scale. Range updated in function.
     x = d3.time.scale();
 
@@ -223,7 +222,7 @@ var Chart = function (el, data) {
 
     // Set the data to use to get the correct index.
     dataCanvas.select('.trigger-rect')
-      .datum(this.data)
+      .datum(this.data.values)
       .attr('width', _width)
       .attr('height', _height);
 
@@ -237,7 +236,7 @@ var Chart = function (el, data) {
 
     // Update current.
     areas
-      .attr('d', d => area(d.values.credits))
+      .attr('d', d => area(d.credits))
       .attr('class', d => `area`);
 
     // Remove old.
@@ -254,7 +253,7 @@ var Chart = function (el, data) {
 
     // Update current.
     area_delimiters
-        .attr('d', d => line(d.values.credits))
+        .attr('d', d => line(d.credits))
         .attr('class', d => `area-line`);
 
     // Remove old.

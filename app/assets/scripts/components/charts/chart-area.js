@@ -194,6 +194,7 @@ var Chart = function (el, data) {
       return;
     }
     this._calcSize();
+    console.log(this.data)
 
     // Update scale ranges
     let sDate = _.first(this.data[0].values).timestep;
