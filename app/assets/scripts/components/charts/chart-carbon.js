@@ -18,7 +18,7 @@ var CarbonChart = React.createClass({
   },
 
   componentDidMount: function () {
-    // console.log('AreaChart componentDidMount');
+    // console.log('CarbonChart componentDidMount');
     // Debounce event.
     this.onWindowResize = _.debounce(this.onWindowResize, 200);
 
@@ -27,13 +27,13 @@ var CarbonChart = React.createClass({
   },
 
   componentWillUnmount: function () {
-    // console.log('AreaChart componentWillUnmount');
+    // console.log('CarbonChart componentWillUnmount');
     window.removeEventListener('resize', this.onWindowResize);
     this.chart.destroy();
   },
 
   componentDidUpdate: function (/* prevProps, prevState */) {
-    // console.log('AreaChart componentDidUpdate');
+    // console.log('CarbonChart componentDidUpdate');
     this.chart.setData(this.props);
   },
 
@@ -76,12 +76,8 @@ var Chart = function (el, data) {
 
   this.setData = function (data) {
     var _data = _.cloneDeep(data);
-    // this.popoverContentFn = _data.popoverContentFn;
-    // this.mouseoverFn = _data.mouseover || _.noop;
-    // this.mouseoutFn = _data.mouseout || _.noop;
-    // this.xHighlight = _data.xHighlight || null;
+    this.popoverContentFn = _data.popoverContentFn;
     this.data = stack(_data.series);
-    console.log(this.data)
     this.update();
   };
 
@@ -90,6 +86,7 @@ var Chart = function (el, data) {
     // The svg.
     svg = this.$el.append('svg')
         .attr('class', 'chart');
+
     // X scale. Range updated in function.
     x = d3.time.scale();
 
@@ -131,7 +128,7 @@ var Chart = function (el, data) {
       .tickSize(0)
       .orient('left')
       .tickPadding(5)
-      .tickFormat(d => `${(d / 1e6)}M`);
+      .tickFormat(d => `${(d / 1e3)}K`);
 
     // Chart elements
     dataCanvas = svg.append('g')
@@ -222,7 +219,7 @@ var Chart = function (el, data) {
 
     // Set the data to use to get the correct index.
     dataCanvas.select('.trigger-rect')
-      .datum(this.data.values)
+      .datum(this.data)
       .attr('width', _width)
       .attr('height', _height);
 
@@ -236,7 +233,7 @@ var Chart = function (el, data) {
 
     // Update current.
     areas
-      .attr('d', d => area(d.credits))
+      .attr('d', d => area(d.values))
       .attr('class', d => `area`);
 
     // Remove old.
@@ -253,7 +250,7 @@ var Chart = function (el, data) {
 
     // Update current.
     area_delimiters
-        .attr('d', d => line(d.credits))
+        .attr('d', d => line(d.values))
         .attr('class', d => `area-line`);
 
     // Remove old.
@@ -276,21 +273,13 @@ var Chart = function (el, data) {
       .call(yAxis);
 
     svg.select('.y.axis .label')
-      .text('People Served')
+      .text('Carbon Credits')
       .attr('transform', 'translate(' + 15 + ',' + -5 + ')');
 
     // ------------------------------
     // Focus line used for highlight.
     dataCanvas.select('.focus-elements')
-      .style('display', null);
-
-    // dataCanvas.select('.focus-line')
-    //   .transition()
-    //   .duration(100)
-    //   .attr('x1', x(this.xHighlight))
-    //   .attr('y1', _height)
-    //   .attr('x2', x(this.xHighlight))
-    //   .attr('y2', 0);
+      .style('display', 'none');
 
     let focusCirc = dataCanvas.select('.focus-circles')
       .selectAll('circle.circle')
@@ -301,38 +290,8 @@ var Chart = function (el, data) {
         .attr('r', 4)
         .attr('class', 'circle');
 
-    // focusCirc
-    //   .transition()
-    //   .duration(100)
-    //   .attr('cx', x(this.xHighlight))
-    //   .attr('cy', d => {
-    //     let val = _.find(d.values, o => o.timestep.format('YYYY-MM-DD') === this.xHighlight.format('YYYY-MM-DD'));
-    //     return y(val.y0 + val.y);
-    //   });
-
-    this._positionFocusElements(this.xHighlight);
-
     focusCirc.exit()
       .remove();
-
-      // .selectAll('.tick text')
-      //   .call(wrap, 100);
-
-      // .on('mouseover', function (d) {
-      //   var matrix = this.getScreenCTM()
-      //     .translate(this.getAttribute('x'), this.getAttribute('y'));
-
-      //   // This is the width of the real bar, not the ghost one.
-      //   var barWidth = x(_.sum(d.data, 'value'));
-
-      //   var posX = window.pageXOffset + matrix.e + barWidth / 2;
-      //   var posY = window.pageYOffset + matrix.f - 8;
-
-      //   chartPopover.setContent(_this.popoverContentFn(d)).show(posX, posY);
-      // })
-      // .on('mouseout', function (d) {
-      //   chartPopover.hide();
-      // });
   };
 
   this.destroy = function () {
@@ -360,15 +319,11 @@ var Chart = function (el, data) {
   };
 
   this._onMouseOver = function () {
-    _this._positionFocusElements(_this.xHighlight);
-    // dataCanvas.select('.focus-elements').style('display', null);
-    _this.mouseoverFn();
+    dataCanvas.select('.focus-elements').style('display', null);
   };
 
   this._onMouseOut = function () {
-    _this._positionFocusElements(_this.xHighlight);
-    // dataCanvas.select('.focus-elements').style('display', 'none');
-    _this.mouseoutFn();
+    dataCanvas.select('.focus-elements').style('display', 'none');
     chartPopover.hide();
   };
 

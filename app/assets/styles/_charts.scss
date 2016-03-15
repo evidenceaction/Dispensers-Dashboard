@@ -43,7 +43,8 @@ svg.chart {
     fill: tint($base-color, 55%);
   }
 }
-  
+
+.section--carbon .carbon-chart-wrapper,
 .section--access .area-chart-wrapper {
   min-height: 20rem;
   width: 100%;
