@@ -23,7 +23,7 @@ var SectionAccessMap = React.createClass({
   pointsLayer: null,
 
   setupMap: function () {
-    this.map = L.mapbox.map(this.refs.map, 'mapbox.light')
+    this.map = L.mapbox.map(this.refs.map, 'mapbox.light', { scrollWheelZoom: false })
       .setView(this.mapInitialView, this.mapInitialZoom);
   },
 

@@ -56,19 +56,19 @@ var Home = React.createClass({
                 <p className='stats__intro-text'> Why these KPI's are important, etc. etc. Some Opening text should go here that describes things.</p>
               </div>
               <div className='stats__entry'>
-                <h2 className='stats__title'>52!<small>seconds</small></h2>
+                <h3 className='stats__title'>52!<small>seconds</small></h3>
                 <p className='stats__description'>A number so unfathomably big that's impossible to put in perspective.</p>
               </div>
               <div className='stats__entry'>
-                <h2 className='stats__title'>3.1415926<small>Some pie</small></h2>
+                <h3 className='stats__title'>3.1415926<small>Some pie</small></h3>
                 <p className='stats__description'>The flavor... pie flavor</p>
               </div>
               <div className='stats__entry'>
-                <h2 className='stats__title'>100.000.000<small>Title</small></h2>
+                <h3 className='stats__title'>100.000.000<small>Title</small></h3>
                 <p className='stats__description'>That's a lot of zeros, and a poor one at the front</p>
               </div>
               <div className='stats__entry'>
-                <h2 className='stats__title'>159<small>Title</small></h2>
+                <h3 className='stats__title'>159<small>Title</small></h3>
                 <p className='stats__description'>I just need a somewhat long sentence to see what happens to this text.</p>
               </div>
             </div>
@@ -88,18 +88,6 @@ var Home = React.createClass({
             fetched={this.props.sectionReliability.fetched}
             fetching={this.props.sectionReliability.fetching}
             data={this.props.sectionReliability.data} />
-
-          <section className='page__content section--carbon'>
-            <div className='inner'>
-              <div className='col--main'>
-                <h1 className='section__title'>Section Title</h1>
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                Ipsum iste, facere ab consequuntur animi corporis culpa ratione
-                sequi quaerat deleniti distinctio ducimus, dolorem possimus, sit blanditiis odio harum quos minus.</p>
-              </div>
-              <div className='col--sec'>A viz of some sort</div>
-            </div>
-          </section>
 
         </div>
       </section>

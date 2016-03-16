@@ -125,9 +125,11 @@ svg.chart {
 
 .access-date {
   font-family: $display-font-family;
+  font-weight: $base-font-bold;
   font-size: 0.875rem;
   float: left;
-  padding: $global-spacing/4;
+  clear: both;
+  padding: $global-spacing/4 $global-spacing;
   border-radius: $global-spacing/4;
   margin: 0;
   background-color: $secondary-color;
@@ -135,6 +137,7 @@ svg.chart {
 
 .people-served-total {
   font-family: $display-font-family;
+  font-weight: $base-font-bold;
   font-size: 0.75rem;
   color: $infographic-b-color;
   margin: 0;
@@ -153,7 +156,7 @@ svg.chart {
 
 .chart-title {
   margin-bottom: 0;
-  font-family: $base-font-family;
+  font-family: $display-font-family;
   font-weight: $base-font-regular;
 }
 

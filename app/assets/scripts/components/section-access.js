@@ -82,7 +82,7 @@ var SectionAccess = React.createClass({
 
   chartPopoverHandler: function (data, index) {
     return (
-      <dl>
+      <dl className='access-popover'>
         {data.map(o => {
           return [
             <dd>{o.country}</dd>,
@@ -159,8 +159,8 @@ var SectionAccess = React.createClass({
 
     return (
       <div className='col--full'>
-        <h1 className='section__title'>{this.props.data.content.title}</h1>
-        <div dangerouslySetInnerHTML={{__html: this.props.data.content.content}} />
+        <h2 className='section__title'>{this.props.data.content.title}</h2>
+        <div className='section-description' dangerouslySetInnerHTML={{__html: this.props.data.content.content}} />
 
           <p className='access-date'>{currDate.format('MM-DD-YYYY')}</p>
 

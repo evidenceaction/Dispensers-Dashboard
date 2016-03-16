@@ -69,8 +69,8 @@ console.log(data)
     return (
       <div className='inner'>
         <div className='col--full'>
-          <h1 className='section__title'>{this.props.data.content.title}</h1>
-          <div dangerouslySetInnerHTML={{__html: this.props.data.content.content}} />
+          <h2 className='section__title'>{this.props.data.content.title}</h2>
+          <div className='section-description' dangerouslySetInnerHTML={{__html: this.props.data.content.content}} />
         </div>
         <div className='col--main'>
           <h4 className='chart-title'>Percent of Functional Dispensers</h4>
