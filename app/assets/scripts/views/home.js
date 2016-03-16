@@ -4,7 +4,8 @@ import { connect } from 'react-redux';
 import SectionAccess from '../components/section-access';
 import SectionReliability from '../components/section-reliability';
 import SectionUsage from '../components/section-usage';
-import { fetchSectionAccess, fetchSectionReliability, fetchSectionUsage } from '../actions/action-creators';
+import SectionCarbon from '../components/section-carbon';
+import { fetchSectionAccess, fetchSectionReliability, fetchSectionUsage, fetchSectionCarbon} from '../actions/action-creators';
 
 var Home = React.createClass({
   displayName: 'Home',
@@ -13,6 +14,7 @@ var Home = React.createClass({
     _fetchSectionAccess: React.PropTypes.func,
     _fetchSectionReliability: React.PropTypes.func,
     _fetchSectionUsage: React.PropTypes.func,
+    _fetchSectionCarbon: React.PropTypes.func,
     sectionAccess: React.PropTypes.shape({
       fetched: React.PropTypes.bool,
       fetching: React.PropTypes.bool,
@@ -27,6 +29,11 @@ var Home = React.createClass({
       fetched: React.PropTypes.bool,
       fetching: React.PropTypes.bool,
       data: React.PropTypes.object
+    }),
+    sectionCarbon: React.PropTypes.shape({
+      fetched: React.PropTypes.bool,
+      fetching: React.PropTypes.bool,
+      data: React.PropTypes.object
     })
   },
 
@@ -34,6 +41,7 @@ var Home = React.createClass({
     this.props._fetchSectionAccess();
     this.props._fetchSectionReliability();
     this.props._fetchSectionUsage();
+    this.props._fetchSectionCarbon();
   },
 
   render: function () {
@@ -89,17 +97,10 @@ var Home = React.createClass({
             fetching={this.props.sectionReliability.fetching}
             data={this.props.sectionReliability.data} />
 
-          <section className='page__content section--carbon'>
-            <div className='inner'>
-              <div className='col--main'>
-                <h1 className='section__title'>Section Title</h1>
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                Ipsum iste, facere ab consequuntur animi corporis culpa ratione
-                sequi quaerat deleniti distinctio ducimus, dolorem possimus, sit blanditiis odio harum quos minus.</p>
-              </div>
-              <div className='col--sec'>A viz of some sort</div>
-            </div>
-          </section>
+          <SectionCarbon
+            fetched={this.props.sectionCarbon.fetched}
+            fetching={this.props.sectionCarbon.fetching}
+            data={this.props.sectionCarbon.data} />
 
         </div>
       </section>
@@ -114,7 +115,8 @@ function selector (state) {
   return {
     sectionAccess: state.sectionAccess,
     sectionReliability: state.sectionReliability,
-    sectionUsage: state.sectionUsage
+    sectionUsage: state.sectionUsage,
+    sectionCarbon: state.sectionCarbon
   };
 }
 
@@ -122,7 +124,8 @@ function dispatcher (dispatch) {
   return {
     _fetchSectionAccess: () => dispatch(fetchSectionAccess()),
     _fetchSectionReliability: () => dispatch(fetchSectionReliability()),
-    _fetchSectionUsage: () => dispatch(fetchSectionUsage())
+    _fetchSectionUsage: () => dispatch(fetchSectionUsage()),
+    _fetchSectionCarbon: () => dispatch(fetchSectionCarbon())
   };
 }
 
