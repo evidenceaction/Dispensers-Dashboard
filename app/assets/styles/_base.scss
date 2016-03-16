@@ -228,9 +228,15 @@ a:active {
 
 .col--full {
   margin-bottom: $section-spacing;
+
   .section-description {
+    @include col(12/12);
+    margin-bottom: $section-spacing/2;
+
+    @include media(medium-up) {
     @include col(9/12);
-    margin-bottom: $section-spacing/2
+    margin-bottom: $section-spacing/2;
+    }
   }
 }
 
@@ -273,7 +279,6 @@ a:active {
     }
   }
 }
-
 
 /* Sections */
 .section--access {
@@ -355,13 +360,13 @@ a:active {
 .section--reliability {
   .col--main {
     @include col(12/12);
-    @include media(large-up) {
+    @include media(medium-up) {
       @include col(5/12);
     }
   }
   .col--sec {
     @include col(12/12);
-    @include media(large-up) {
+    @include media(medium-up) {
       @include col(7/12);
     } 
   }

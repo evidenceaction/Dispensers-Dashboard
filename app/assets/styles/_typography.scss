@@ -266,7 +266,10 @@ h2 {
 }
 
 h3 {
+  @include heading(1.25rem); 
+  @include media(medium-up) {
   @include heading(1.75rem);   // 20
+  }
 }
 
 h4, h5, h6 {
