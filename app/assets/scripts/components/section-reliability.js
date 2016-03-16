@@ -23,9 +23,9 @@ var SectionReliability = React.createClass({
       <dl className='reliability-popover-total'>
         <dd>{d.timestep.format('MMM YY')}</dd>
         <dd>Functioning Dispensers</dd>
-        <dt>{Number(d.functional.total_rate).toFixed(2) + '%'}</dt>
+        <dt>{d.functional.total_rate + '%'}</dt>
         <dd>Dispensers with Reported Outage</dd>
-        <dt>{Number(d.outages.total_rate).toFixed(2)  + '%'}</dt>
+        <dt>{d.outages.total_rate  + '%'}</dt>
       </dl>
     );
   },
@@ -35,9 +35,9 @@ var SectionReliability = React.createClass({
       <dl className='reliability-popover-breakdown'>
         <dd>{d.timestep.format('MMM YY')}</dd>
         <dd>Chlorine Outages</dd>
-        <dt>{Number(d.outages.chlorine_rate).toFixed(2) + '%'} ({(d.outages.chlorine)+ ' dispensers'})</dt>
+        <dt>{d.outages.chlorine_rate + '%'} ({(d.outages.chlorine)+ ' dispensers'})</dt>
         <dd>Hardware Ourages</dd>
-        <dt>{Number(d.outages.hardware_rate).toFixed(2) + '%'} ({(d.outages.hardware) + ' dispensers'})</dt>
+        <dt>{d.outages.hardware_rate + '%'} ({(d.outages.hardware) + ' dispensers'})</dt>
       </dl>
     );
   },
