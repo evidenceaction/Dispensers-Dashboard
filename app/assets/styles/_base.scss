@@ -389,16 +389,24 @@ a:active {
     background-position: 50% 75%;
     background-color: $secondary-color;
 
-
     li {
+
+      @include media(medium-up) {
       @include col(4/12, $gutter: 0);
-      font-size: 1.75rem;
       padding: $section-spacing/2;
+      border-width: 1px 1px 1px 0px;
+      font-size: 1.75rem;
+      }
+
+      @include col(12/12, $gutter: 0);
+      font-size: 1.25rem;
+      padding: $section-spacing/4;
       list-style: none;
       background: transparent;
-      border-width: 1px 1px 1px 0px;
+      border-width: 0px 0px 1px 0px;
       border-style: solid;
       border-color: darken($secondary-color, 5%);
+
       &:hover{
         background: rgba($highlight-color, .1);
       };
