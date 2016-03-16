@@ -12,7 +12,6 @@
     font-family: $base-font-family;
     padding-left: 1rem;
     margin-left: $global-spacing/2;
-    margin-top: $global-spacing;
     &:before {
       position: absolute;
       top: 0.125rem;
@@ -27,7 +26,8 @@
   }
 }
 
-.reliability-key-total li{
+.reliability-key-total li {
+  margin-top: $global-spacing;
   &:first-child {
      &:before{
       background-color: $infographic-c-color;
@@ -40,7 +40,8 @@
   };
 }
 
-.reliability-key-breakdown li{
+.reliability-key-breakdown li {
+  margin-top: $global-spacing;
   &:first-child {
      &:before{
       background-color: $infographic-b-color;
@@ -49,6 +50,42 @@
   &:last-child {
      &:before{
       background-color: tint($infographic-b-color, 50%);
+     }; 
+  };
+}
+
+.reliability-key-total li {
+  margin-top: 0;
+
+  &:first-child {
+     &:before{
+      background-color: $infographic-c-color;
+     }; 
+  };
+
+  &:last-child {
+     &:before{
+      background-color: tint($infographic-c-color, 50%);
+     }; 
+  };
+}
+
+.access-key li {
+  &:first-child {
+     &:before{
+      background-color: rgba($infographic-b-color, 0.4);
+     }; 
+  };
+
+  &:nth-child(2) {
+     &:before{
+      background-color: rgba($infographic-b-color, 0.7);
+     }; 
+  };
+
+  &:last-child {
+     &:before{
+      background-color: rgba($infographic-b-color, 0.9);
      }; 
   };
 }

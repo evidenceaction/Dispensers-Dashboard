@@ -230,6 +230,13 @@ var SectionAccess = React.createClass({
       <div className='col--main'>
         <p className='people-served-total'>{d3.format(',d')(totalPeople)} <span className='info-description'>people served</span></p>
         <div className='infographic'>
+            <div className='key'>
+              <ul className='access-key'>
+                <li>Kenya</li>
+                <li>Malawi</li>
+                <li>Uganda</li>
+              </ul>
+            </div>
           <ChartArea
             mouseover={this.chartMouseoverHandler}
             mouseout={this.chartMouseoutHandler}
