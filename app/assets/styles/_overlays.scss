@@ -253,3 +253,23 @@
     color: darken($infographic-b-color, 10%);
   }
 }
+
+.carbon-popover {
+ 
+   dd:first-child{
+     color: tint($base-color, 30%);
+     font-weight: $base-font-regular;
+   }
+ 
+   dt {
+     &:nth-child(6) {
+       color: rgba($highlight-color, 0.9);
+     }
+     &:nth-child(4) {
+       color: rgba($highlight-color, 0.7);
+     }
+     &:nth-child(2) {
+      color: rgba($highlight-color, 0.4);
+     } 
+   }
+ }
