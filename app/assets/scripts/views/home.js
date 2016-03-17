@@ -5,7 +5,7 @@ import SectionAccess from '../components/section-access';
 import SectionReliability from '../components/section-reliability';
 import SectionUsage from '../components/section-usage';
 import SectionCarbon from '../components/section-carbon';
-import { fetchSectionAccess, fetchSectionReliability, fetchSectionUsage, fetchSectionCarbon} from '../actions/action-creators';
+import { fetchSectionAccess, fetchSectionReliability, fetchSectionUsage, fetchSectionCarbon } from '../actions/action-creators';
 
 var Home = React.createClass({
   displayName: 'Home',
@@ -64,19 +64,19 @@ var Home = React.createClass({
                 <p className='stats__intro-text'> Why these KPI's are important, etc. etc. Some Opening text should go here that describes things.</p>
               </div>
               <div className='stats__entry'>
-                <h2 className='stats__title'>52!<small>seconds</small></h2>
+                <h3 className='stats__title'>52!<small>seconds</small></h3>
                 <p className='stats__description'>A number so unfathomably big that's impossible to put in perspective.</p>
               </div>
               <div className='stats__entry'>
-                <h2 className='stats__title'>3.1415926<small>Some pie</small></h2>
+                <h3 className='stats__title'>3.1415926<small>Some pie</small></h3>
                 <p className='stats__description'>The flavor... pie flavor</p>
               </div>
               <div className='stats__entry'>
-                <h2 className='stats__title'>100.000.000<small>Title</small></h2>
+                <h3 className='stats__title'>100.000.000<small>Title</small></h3>
                 <p className='stats__description'>That's a lot of zeros, and a poor one at the front</p>
               </div>
               <div className='stats__entry'>
-                <h2 className='stats__title'>159<small>Title</small></h2>
+                <h3 className='stats__title'>159<small>Title</small></h3>
                 <p className='stats__description'>I just need a somewhat long sentence to see what happens to this text.</p>
               </div>
             </div>

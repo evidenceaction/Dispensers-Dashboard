@@ -226,6 +226,20 @@ a:active {
 /* Body
    ========================================================================== */
 
+.col--full {
+  margin-bottom: $section-spacing;
+
+  .section-description {
+    @include col(12/12);
+    margin-bottom: $section-spacing/2;
+
+    @include media(medium-up) {
+    @include col(9/12);
+    margin-bottom: $section-spacing/2;
+    }
+  }
+}
+
 .page__header {
   padding-top: 6rem;
   background-color: $secondary-color;
@@ -266,15 +280,13 @@ a:active {
   }
 }
 
-
 /* Sections */
 .section--access {
-
   .infographic {
     margin-top: 0.5rem;
     height: 10rem;
     @include media(medium-up) {
-      margin-top: 2.25rem;
+      margin-top: 1.25rem;
       height: 20rem;
     }
   }
@@ -340,24 +352,28 @@ a:active {
   }
 }
 
-// VV Temporary colors
+// VV Temporary colorscol--full
 .section--usage {
-  background: $secondary-color;
+  background: tint($secondary-color, 60%);
 }
 
 .section--reliability {
   .col--main {
     @include col(12/12);
-    @include media(large-up) {
+    @include media(medium-up) {
       @include col(5/12);
     }
   }
   .col--sec {
     @include col(12/12);
-    @include media(large-up) {
+    @include media(medium-up) {
       @include col(7/12);
     } 
   }
+}
+
+.section--carbon {
+  background: tint($secondary-color, 60%);
 }
 
 

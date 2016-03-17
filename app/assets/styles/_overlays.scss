@@ -220,7 +220,7 @@
   background: #fff;
   box-shadow: 0 0 2px 1px rgba($base-color, 0.16);
   color: tint($base-color, 16%);
-  font-size: 0.85rem;
+  font-size: 0.875rem;
   line-height: 1.25rem;
   font-family: $base-font-family;
 
@@ -237,8 +237,29 @@
   }
 
   dt {
+    text-transform: lowercase;
     margin-bottom: $global-spacing/2;
     font-weight: $base-font-bold;
+  }
+}
+
+.access-popover {
+
+  dd:first-child{
+    color: tint($base-color, 30%);
+    font-weight: $base-font-regular;
+  }
+
+  dt {
+    &:nth-child(6) {
+      color: rgba($infographic-b-color, 0.9);
+    }
+    &:nth-child(4) {
+      color: rgba($infographic-b-color, 0.7);
+    }
+    &:nth-child(2) {
+      color: rgba($infographic-b-color, 0.4);
+    } 
   }
 }
 
@@ -254,22 +275,38 @@
   }
 }
 
+.usage-popover {
+  .popover-date {
+    font-family: $base-font-family;
+    font-weight: $base-font-bold;
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    color: $base-color;
+    margin-bottom: 0rem;
+  }
+  .popover-adoption-rate {
+    font-size: 0.875rem;
+    color: $highlight-color;
+    font-family: $base-font-family;
+    font-weight: $base-font-bold;
+    margin-bottom: 0rem;
+  }
+}
+
 .carbon-popover {
- 
-   dd:first-child{
-     color: tint($base-color, 30%);
-     font-weight: $base-font-regular;
-   }
- 
-   dt {
-     &:nth-child(6) {
-       color: rgba($highlight-color, 0.9);
-     }
-     &:nth-child(4) {
-       color: rgba($highlight-color, 0.7);
-     }
-     &:nth-child(2) {
-      color: rgba($highlight-color, 0.4);
-     } 
-   }
- }
+  dd:first-child{
+    color: tint($base-color, 30%);
+    font-weight: $base-font-regular;
+  }
+  dt {
+    &:nth-child(6) {
+      color: rgba($highlight-color, 0.9);
+    }
+    &:nth-child(4) {
+      color: rgba($highlight-color, 0.7);
+    }
+    &:nth-child(2) {
+     color: rgba($highlight-color, 0.4);
+    } 
+  }
+}

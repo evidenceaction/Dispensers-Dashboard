@@ -23,9 +23,9 @@ var SectionReliability = React.createClass({
       <dl className='reliability-popover-total'>
         <dd>{d.timestep.format('MMM YY')}</dd>
         <dd>Functioning Dispensers</dd>
-        <dt>{Math.round(d.functional.total_rate) + '%'}</dt>
+        <dt>{d.functional.total_rate + '%'}</dt>
         <dd>Dispensers with Reported Outage</dd>
-        <dt>{Math.round(d.outages.total_rate) + '%'}</dt>
+        <dt>{d.outages.total_rate + '%'}</dt>
       </dl>
     );
   },
@@ -34,12 +34,10 @@ var SectionReliability = React.createClass({
     return (
       <dl className='reliability-popover-breakdown'>
         <dd>{d.timestep.format('MMM YY')}</dd>
-        <dd>Total Dispensers with Reported Outages</dd>
-        <dt>{d.outages.total || 0}</dt>
         <dd>Chlorine Outages</dd>
-        <dt>{Math.round(d.outages.chlorine_rate) + '%'}</dt>
+        <dt>{d.outages.chlorine_rate + '%'} ({(d.outages.chlorine) + ' dispensers'})</dt>
         <dd>Hardware Ourages</dd>
-        <dt>{Math.round(d.outages.hardware_rate) + '%'}</dt>
+        <dt>{d.outages.hardware_rate + '%'} ({(d.outages.hardware) + ' dispensers'})</dt>
       </dl>
     );
   },
@@ -71,8 +69,8 @@ var SectionReliability = React.createClass({
     return (
       <div className='inner'>
         <div className='col--full'>
-          <h1 className='section__title'>{this.props.data.content.title}</h1>
-          <div dangerouslySetInnerHTML={{__html: this.props.data.content.content}} />
+          <h2 className='section__title'>{this.props.data.content.title}</h2>
+          <div className='section-description' dangerouslySetInnerHTML={{__html: this.props.data.content.content}} />
         </div>
         <div className='col--main'>
           <h4 className='chart-title'>Percent of Functional Dispensers</h4>
@@ -80,7 +78,7 @@ var SectionReliability = React.createClass({
             <div className='key'>
               <ul className='reliability-key-total'>
                 <li>Functional Dispensers (%)</li>
-                <li>Dispensers with Reported Outages (%)</li>
+                <li>Dispensers with Outages (%)</li>
               </ul>
             </div>
             <ChartBar
@@ -94,8 +92,8 @@ var SectionReliability = React.createClass({
           <div className='infographic'>
             <div className='key'>
               <ul className='reliability-key-breakdown'>
-                <li>% of dispensers with reported chlorine outages</li>
-                <li>% of dispensers with reported hardware outages</li>
+                <li>Dispensers with chlorine outages (%)</li>
+                <li>Dispensers with hardware outages (%)</li>
               </ul>
             </div>
             <ChartReliability

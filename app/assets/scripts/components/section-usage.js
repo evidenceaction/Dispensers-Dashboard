@@ -19,8 +19,8 @@ var SectionUsage = React.createClass({
 
   chartPopoverHandler: function (d, i) {
     return (
-      <div>
-        <p className='popover-date'>{d.values[i].timestep.format('MM-YYYY')}</p>
+      <div className='usage-popover'>
+        <p className='popover-date'>{d.values[i].timestep.format('MMM YY')}</p>
         <p className='popover-adoption-rate'>
           {d.values[i].tcr_avg}
         </p>
@@ -53,10 +53,11 @@ var SectionUsage = React.createClass({
     return (
       <div className='inner'>
         <div className='col--main'>
-          <h1 className='section__title'>Adoption</h1>
+          <h2 className='section__title'>Adoption</h2>
           {/* <h1 className='section__title'>{this.props.data.content.title}</h1>
           <div dangerouslySetInnerHTML={{__html: this.props.data.content.content}} /> */}
-
+          <p>This is a pararaph and goes a little something like this... consectetur adipisicing elit.</p>
+          <p>This is another ipsum iste, facere ab consequuntur animi corporis culpa ratione sequi quaerat deleniti distinctio ducimus, dolorem possimus, sit blanditiis odio harum quos</p>
         </div>
         <div className='col--sec'>
           <div className='infographic'>
