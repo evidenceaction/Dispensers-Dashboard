@@ -1,40 +1,32 @@
 language: node_js
 node_js:
-  - "4"
-
+- '4'
 env:
   global:
   - CXX=g++-4.8
-  - GH_REF=github.com/developmentseed/safe-water.git
   - DEPLOY_BRANCH=master
-  - secure: "olNurvzwF8xVfzLeeCaN/PUNGNoUozxHFq8XI4ypOiKzsJTUzX85sLDcnI6qqNOtUCSUbqV+kxmnme0GlEz8I5kpMkMVOBhByjXEFKJ04tC8qhGQlidD8j63pFkCelYraf2raGZn/rr1OMaZOBcTzibOq0E21ABgGxRgrVtKQTcTHCxzcaoZSZfVGGfkz+airEtRXHDGFmBIQc1Fo5XNa+Yh20AEnfc60PAaOPJgXRS+hl0ObMbyLdL55ogFp6QtZw4DYIfcUB841rqhisWwaOB+xSq4zLgPkNI2NBG5kl/lUuGsMcZqcP75o6Gr+T262UKI07NHtzZVddV3YMBOkBvBCs3iLUpKe4EsdC4teFtX3t+I4KaLqY7ajuy152lew9KUYYIt4zG8GhsWJCZ49p/UGXFwaEbb6jRKS7Um5cGjbajxwQJpSx2CxQc0tbU6Y2cX6cXmd2RztQ+psDloAXuGVZmcBFAitslhV2m8b5hr36OgI+7ozmW9MIwni5vrDGf7ZsPAxEcdr4tIMUlrj8zdEO5DX+E5nZPGXopo1vV7ZZ/wLu6KRETtHJLVs10azMMqO8y9l74ICb9WhC9KEJ73mKEPUXHLf8E132W1JwZGQSgJsoUWzMKc8qiwGEHkG++3oIR/PG7ZmfdACwOwDuzRKtTNx2VMIPk+kYBoCI0="
-
+  - secure: Fd7IQbMc3JkfENdnAxjwxhcjJVwvih4WF54qP23UaYCs8bdDJkzBtkhx+YiPvXxJa/S65bjvE7sQyO+EwEn8E77mR1G/zmpj/UC58IWXOxlp/uYQTQQwFnz434mRtr3Y/qj8qwNX+CPnNS/TppIuykU/7t4keuTJPDgid+JDCUKE8JUDLfXzRrgS0ujr4UYHkLz/s/rHtqzs7e0nEK7oo5Mz24F7kyHehfc26Oe1Wg1J9agbTK4O9/oObtFdljd8RHbrGWaozF28cKwG+rDoYLf1/gTIuWruY+AjQMx6dI43AJC564I7Qid6lTNlTNBoz+IEO458+9dZX1WlTu1vg+a9/CrQ3t9cb8L0Q2Zog/Ugbs8Q0ByF91pNgqGBK+tYVnkrjV5VouGU9Sx5AnXoBP1us74BHFNIwNGalrEbhM1QiCAZGJv+hVok+fsFrfaF6iKACdyQDePb+Qse8lM2BuoyRnicolSoO1BVJacYcqfMrYvEButDU3C5fezNngdRxtn4tpPRslivt9UX1MxQS8SHQD0x6YCU5YuzntMQuTOS7Dizz2uqvwA63Et702kwCTbtm5u6+R8qQHmF7onyviJW9EN1YhkQXZuR1TKyzUr+CQScKfmhOJweq+I3zqGXkPzJhi0HCpSpJfR3gqU2u+BDkbL3jW8eGrHnQnLxey4=
 addons:
   apt:
     sources:
-      - ubuntu-toolchain-r-test
+    - ubuntu-toolchain-r-test
     packages:
-      - g++-4.8
-
+    - g++-4.8
 cache:
   apt: true
   directories:
-    - node_modules
-
+  - node_modules
 before_install:
 - chmod +x ./.build_scripts/deploy.sh
 - chmod +x ./.build_scripts/lint.sh
-
 before_script:
-- ./.build_scripts/lint.sh
+- "./.build_scripts/lint.sh"
 - npm test
-
 script:
 - npm run build
-
 deploy:
   provider: script
   skip_cleanup: true
-  script: .build_scripts/deploy.sh
+  script: ".build_scripts/deploy.sh"
   on:
-    branch: ${DEPLOY_BRANCH}
+    branch: "${DEPLOY_BRANCH}"
