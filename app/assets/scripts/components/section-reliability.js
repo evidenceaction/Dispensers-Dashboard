@@ -4,6 +4,7 @@ import moment from 'moment';
 import _ from 'lodash';
 import ChartReliability from './charts/chart-reliability';
 import ChartBar from './charts/chart-bar';
+import { formatThousands } from '../utils/numbers';
 
 var SectionReliability = React.createClass({
   displayName: 'SectionReliability',
@@ -22,10 +23,10 @@ var SectionReliability = React.createClass({
     return (
       <dl className='reliability-popover-total'>
         <dd>{d.timestep.format('MMM YY')}</dd>
-        <dd>Functioning Dispensers</dd>
-        <dt>{d.functional.total_rate + '%'}</dt>
         <dd>Dispensers with Reported Outage</dd>
-        <dt>{d.outages.total_rate + '%'}</dt>
+        <dt>{formatThousands(d.outages.total_rate, 1)}%</dt>
+        <dd>Functioning Dispensers</dd>
+        <dt>{formatThousands(d.functional.total_rate, 1)}%</dt>
       </dl>
     );
   },
@@ -35,9 +36,9 @@ var SectionReliability = React.createClass({
       <dl className='reliability-popover-breakdown'>
         <dd>{d.timestep.format('MMM YY')}</dd>
         <dd>Chlorine Outages</dd>
-        <dt>{d.outages.chlorine_rate + '%'} ({(d.outages.chlorine) + ' dispensers'})</dt>
+        <dt>{formatThousands(d.outages.chlorine_rate, 1)}% ({d.outages.chlorine} dispensers)</dt>
         <dd>Hardware Ourages</dd>
-        <dt>{d.outages.hardware_rate + '%'} ({(d.outages.hardware) + ' dispensers'})</dt>
+        <dt>{formatThousands(d.outages.hardware_rate, 1)}% ({d.outages.hardware} dispensers)</dt>
       </dl>
     );
   },
@@ -77,8 +78,8 @@ var SectionReliability = React.createClass({
           <div className='infographic'>
             <div className='key'>
               <ul className='reliability-key-total'>
-                <li>Functional Dispensers (%)</li>
                 <li>Dispensers with Outages (%)</li>
+                <li>Functional Dispensers (%)</li>
               </ul>
             </div>
             <ChartBar

@@ -31,27 +31,27 @@
   &:first-child {
      &:before{
       background-color: $infographic-c-color;
-     }; 
-  };
+     }
+  }
   &:last-child {
      &:before{
       background-color: tint($infographic-c-color, 50%);
-     }; 
-  };
+     }
+  }
 }
 
 .reliability-key-breakdown li {
   margin-top: $global-spacing;
   &:first-child {
      &:before{
-      background-color: $infographic-b-color;
+      background-color: tint($infographic-b-color, 50%);
      }; 
   };
   &:last-child {
      &:before{
-      background-color: tint($infographic-b-color, 50%);
-     }; 
-  };
+      background-color: $infographic-b-color;
+     }
+  }
 }
 
 .reliability-key-total li {
@@ -60,34 +60,34 @@
   &:first-child {
      &:before{
       background-color: $infographic-c-color;
-     }; 
-  };
+     }
+  }
 
   &:last-child {
      &:before{
       background-color: tint($infographic-c-color, 50%);
-     }; 
-  };
+     }
+  }
 }
 
 .access-key li {
   &:first-child {
      &:before{
       background-color: rgba($infographic-b-color, 0.4);
-     }; 
-  };
+     }
+  }
 
   &:nth-child(2) {
      &:before{
       background-color: rgba($infographic-b-color, 0.7);
-     }; 
-  };
+     }
+  }
 
   &:last-child {
      &:before{
       background-color: rgba($infographic-b-color, 0.9);
-     }; 
-  };
+     }
+  }
 }
 
 
@@ -245,6 +245,14 @@ svg.chart {
     }
     .date-line {
       stroke: tint($base-color, 50%);
+    }
+
+    .avg-label-chlorine, .avg-label-hardware {
+      font-size: 0.75rem;
+      fill: $base-color;
+      &.avg {
+        font-size: 0.675rem;
+      }
     }
   }
 

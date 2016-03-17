@@ -3,6 +3,7 @@ import React from 'react';
 import moment from 'moment';
 import _ from 'lodash';
 import ChartCarbon from './charts/chart-carbon';
+import { formatThousands } from '../utils/numbers';
 
 var SectionCarbon = React.createClass({
   displayName: 'SectionCarbon',
@@ -23,7 +24,7 @@ var SectionCarbon = React.createClass({
         {data.map(o => {
           return [
             <dd>{o.country}</dd>,
-            <dt>{o.values[index].credits}</dt>
+            <dt>{formatThousands(o.values[index].credits, 1)}</dt>
           ];
         })}
       </dl>

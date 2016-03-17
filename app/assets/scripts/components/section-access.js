@@ -7,6 +7,7 @@ import d3 from 'd3';
 import classnames from 'classnames';
 import ChartArea from './charts/chart-area';
 import SectionMap from './section-access-map';
+import { formatThousands } from '../utils/numbers';
 
 var SectionAccess = React.createClass({
   displayName: 'SectionAccess',
@@ -86,7 +87,7 @@ var SectionAccess = React.createClass({
         {data.map(o => {
           return [
             <dd>{o.country}</dd>,
-            <dt>{o.values[index].new_people_served}</dt>
+            <dt>{formatThousands(o.values[index].people_total)} ({formatThousands(o.values[index].new_people_served)} new)</dt>
           ];
         })}
       </dl>
