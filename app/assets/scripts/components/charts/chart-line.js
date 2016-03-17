@@ -390,7 +390,7 @@ var Chart = function (el, data) {
 
     if (_this.popoverContentFn) {
       let matrix = dataCanvas.node().getScreenCTM()
-        .translate(x(doc.timestep), y(doc.fcr_avg));
+        .translate(x(doc.timestep), y(doc.tcr_avg));
 
       var posX = window.pageXOffset + matrix.e;
       var posY = window.pageYOffset + matrix.f - 16;
