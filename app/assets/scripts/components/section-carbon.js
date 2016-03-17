@@ -60,7 +60,7 @@ var SectionCarbon = React.createClass({
         </div>
         <div className='col--sec'>
           <div className='infographic'>
-          <h4 className='chart-title'>Total Dispenser Carbon Credits</h4>
+          <h4 className='chart-title'>Total Carbon Credits Recieved for Dispensers</h4>
             <div className='key'>
               <ul className='carbon-key'>
                 <li>Uganda</li>
