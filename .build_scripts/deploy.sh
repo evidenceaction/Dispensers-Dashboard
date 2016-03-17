@@ -11,7 +11,7 @@ cp ../app/assets/styles/fonts/* assets/styles/fonts
 mkdir -p assets/node_modules/rc-slider/assets
 cp ../node_modules/rc-slider/assets/index.css assets/node_modules/rc-slider/assets
 mkdir -p assets/node_modules/mapbox.js/theme/
-cp ../node_modules/mapbox.js/theme/* assets/node_modules/mapbox.js/theme
+cp -R ../node_modules/mapbox.js/theme/* assets/node_modules/mapbox.js/theme
 git add .
 git commit -m "CI deploy to gh-pages"
 git push --force --quiet "https://${GH_TOKEN}@github.com/${TRAVIS_REPO_SLUG}.git" master:gh-pages
