@@ -284,11 +284,29 @@
     color: $base-color;
     margin-bottom: 0rem;
   }
-  .popover-adoption-rate{
+  .popover-adoption-rate {
     font-size: 0.875rem;
     color: $highlight-color;
     font-family: $base-font-family;
     font-weight: $base-font-bold;
     margin-bottom: 0rem;
+  }
+}
+
+.carbon-popover {
+  dd:first-child{
+    color: tint($base-color, 30%);
+    font-weight: $base-font-regular;
+  }
+  dt {
+    &:nth-child(6) {
+      color: rgba($highlight-color, 0.9);
+    }
+    &:nth-child(4) {
+      color: rgba($highlight-color, 0.7);
+    }
+    &:nth-child(2) {
+     color: rgba($highlight-color, 0.4);
+    } 
   }
 }

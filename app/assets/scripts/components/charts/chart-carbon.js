@@ -4,8 +4,8 @@ import d3 from 'd3';
 import _ from 'lodash';
 import Popover from '../../utils/popover';
 
-var AreaChart = React.createClass({
-  displayName: 'AreaChart',
+var CarbonChart = React.createClass({
+  displayName: 'CarbonChart',
 
   propTypes: {
     className: React.PropTypes.string
@@ -18,7 +18,7 @@ var AreaChart = React.createClass({
   },
 
   componentDidMount: function () {
-    // console.log('AreaChart componentDidMount');
+    // console.log('CarbonChart componentDidMount');
     // Debounce event.
     this.onWindowResize = _.debounce(this.onWindowResize, 200);
 
@@ -27,13 +27,13 @@ var AreaChart = React.createClass({
   },
 
   componentWillUnmount: function () {
-    // console.log('AreaChart componentWillUnmount');
+    // console.log('CarbonChart componentWillUnmount');
     window.removeEventListener('resize', this.onWindowResize);
     this.chart.destroy();
   },
 
   componentDidUpdate: function (/* prevProps, prevState */) {
-    // console.log('AreaChart componentDidUpdate');
+    // console.log('CarbonChart componentDidUpdate');
     this.chart.setData(this.props);
   },
 
@@ -44,7 +44,7 @@ var AreaChart = React.createClass({
   }
 });
 
-module.exports = AreaChart;
+module.exports = CarbonChart;
 
 var Chart = function (el, data) {
   this.$el = d3.select(el);
@@ -77,9 +77,6 @@ var Chart = function (el, data) {
   this.setData = function (data) {
     var _data = _.cloneDeep(data);
     this.popoverContentFn = _data.popoverContentFn;
-    this.mouseoverFn = _data.mouseover || _.noop;
-    this.mouseoutFn = _data.mouseout || _.noop;
-    this.xHighlight = _data.xHighlight || null;
     this.data = stack(_data.series);
     this.update();
   };
@@ -103,7 +100,7 @@ var Chart = function (el, data) {
       .x(d => d.timestep)
       // Where to get the y value. This will be used by the
       // area function as y0 (which is used to stack.)
-      .y(d => d.people_total);
+      .y(d => d.credits);
 
     // Area definition function.
     area = d3.svg.area()
@@ -124,14 +121,14 @@ var Chart = function (el, data) {
       .orient('bottom')
       .tickSize(0)
       .tickPadding(10)
-      .tickFormat(d3.time.format('%b %y'));
+      .tickFormat(d3.time.format('%Y'));
 
     yAxis = d3.svg.axis()
       .scale(y)
       .tickSize(0)
       .orient('left')
       .tickPadding(5)
-      .tickFormat(d => `${(d / 1e6)}M`);
+      .tickFormat(d => `${(d / 1e3)}K`);
 
     // Chart elements
     dataCanvas = svg.append('g')
@@ -161,7 +158,7 @@ var Chart = function (el, data) {
     // Group to hold the area delimiter line points.
     dataCanvas.append('g')
       .attr('class', 'area-line-points-group');
-
+      
     // //////////////////////////////////////////////////
     // Focus elements.
     // Focus line and circles show on hover.
@@ -276,13 +273,13 @@ var Chart = function (el, data) {
       .call(yAxis);
 
     svg.select('.y.axis .label')
-      .text('People Served')
+      .text('Carbon Credits')
       .attr('transform', 'translate(' + 15 + ',' + -5 + ')');
 
     // ------------------------------
     // Focus line used for highlight.
     dataCanvas.select('.focus-elements')
-      .style('display', null);
+      .style('display', 'none');
 
     let focusCirc = dataCanvas.select('.focus-circles')
       .selectAll('circle.circle')
@@ -292,8 +289,6 @@ var Chart = function (el, data) {
       .append('circle')
         .attr('r', 4)
         .attr('class', 'circle');
-
-    this._positionFocusElements(this.xHighlight);
 
     focusCirc.exit()
       .remove();
@@ -324,15 +319,11 @@ var Chart = function (el, data) {
   };
 
   this._onMouseOver = function () {
-    _this._positionFocusElements(_this.xHighlight);
-    // dataCanvas.select('.focus-elements').style('display', null);
-    _this.mouseoverFn();
+    dataCanvas.select('.focus-elements').style('display', null);
   };
 
   this._onMouseOut = function () {
-    _this._positionFocusElements(_this.xHighlight);
-    // dataCanvas.select('.focus-elements').style('display', 'none');
-    _this.mouseoutFn();
+    dataCanvas.select('.focus-elements').style('display', 'none');
     chartPopover.hide();
   };
 
