@@ -293,6 +293,7 @@ a:active {
 
   .col--main {
     @include col(12/12);
+    padding-bottom: $global-spacing;
     @include media(medium-up) {
       @include col(6/12, $gutter: 0);
     }

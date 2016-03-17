@@ -61,6 +61,13 @@ var SectionCarbon = React.createClass({
         <div className='col--sec'>
           <div className='infographic'>
           <h4 className='chart-title'>Total Dispenser Carbon Credits</h4>
+            <div className='key'>
+              <ul className='carbon-key'>
+                <li>Uganda</li>
+                <li>Kenya</li>
+                <li>Malawi</li>
+              </ul>
+            </div>
             <ChartCarbon
               className='carbon-chart-wrapper'
               popoverContentFn={this.chartPopoverHandler}
