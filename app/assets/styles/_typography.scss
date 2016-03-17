@@ -59,8 +59,9 @@ p {
   color: $highlight-color;
   margin-bottom: 0;
   @include media(medium-up) {
-  color: $highlight-color;
-  margin-bottom: 0;
+    font-size: 1.75rem;
+    color: $highlight-color;
+    margin-bottom: 0;
   }
 }
 
@@ -69,15 +70,15 @@ p {
   font-family: $display-font-family;
   font-size: 0.8125rem;
   @include media(medium-up) {
-  font-size: 1.125rem;
+    font-size: 1.125rem;
   }
 }
 
 .stats__intro {
   margin-bottom: ($global-spacing * 2);
   h1 {
-  margin-bottom: 0;
-  text-align: center;
+    margin-bottom: 0;
+    text-align: center;
   }
 }
 
