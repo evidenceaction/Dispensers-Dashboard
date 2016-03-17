@@ -3,6 +3,7 @@ import React from 'react';
 import d3 from 'd3';
 import _ from 'lodash';
 import Popover from '../../utils/popover';
+import { formatThousands } from '../../utils/numbers';
 
 var ReliabilityChart = React.createClass({
   displayName: 'ReliabilityChart',
@@ -124,8 +125,26 @@ var Chart = function (el, data) {
     gridElements.append('line')
       .attr('class', 'avg-line-chlorine');
 
+    gridElements.append('text')
+      .attr('class', 'avg-label-chlorine')
+      .attr('text-anchor', 'end')
+      .attr('dy', '0.25em');
+    gridElements.append('text')
+      .attr('class', 'avg-label-chlorine avg')
+      .attr('text-anchor', 'end')
+      .attr('dy', '1.25em');
+
     gridElements.append('line')
       .attr('class', 'avg-line-hardware');
+
+    gridElements.append('text')
+      .attr('class', 'avg-label-hardware')
+      .attr('text-anchor', 'end')
+      .attr('dy', '0.25em');
+    gridElements.append('text')
+      .attr('class', 'avg-label-hardware avg')
+      .attr('text-anchor', 'end')
+      .attr('dy', '1.25em');
   };
 
   this.update = function () {
@@ -302,6 +321,15 @@ var Chart = function (el, data) {
       .attr('x2', _width)
       .attr('y2', y(0) + _height / 2 - y(avgHardware));
 
+    gridElements.select('.avg-label-hardware')
+      .attr('x', -5)
+      .attr('y', y(0) + _height / 2 - y(avgHardware))
+      .text(`${formatThousands(avgHardware, 1)}%`);
+    gridElements.select('.avg-label-hardware.avg')
+      .attr('x', -5)
+      .attr('y', y(0) + _height / 2 - y(avgHardware))
+      .text('avg');
+
     let avgChlorine = d3.mean(this.data.values, d => d.outages.chlorine_rate);
     gridElements.select('.avg-line-chlorine')
       .attr('x1', 0)
@@ -309,10 +337,22 @@ var Chart = function (el, data) {
       .attr('x2', _width)
       .attr('y2', y(0) - _height / 2 + y(avgChlorine));
 
+    gridElements.select('.avg-label-chlorine')
+      .attr('x', -5)
+      .attr('y', y(0) - _height / 2 + y(avgChlorine))
+      .text(`${formatThousands(avgChlorine, 1)}%`);
+    gridElements.select('.avg-label-chlorine.avg')
+      .attr('x', -5)
+      .attr('y', y(0) - _height / 2 + y(avgChlorine))
+      .text('avg');
+
+    // Compute the date lines.
+    // We need to have two lines. Figure out the optimal space between them.
     let lineStep = Math.floor(this.data.values.length / 2);
+    // To ensure they're centered compute the offset.
     let lineOffset = Math.floor(lineStep / 2);
     let lineData = [];
-
+    // Get the values for which to add a line.
     let index = lineOffset;
     let d;
     while (true) {

@@ -246,6 +246,14 @@ svg.chart {
     .date-line {
       stroke: tint($base-color, 50%);
     }
+
+    .avg-label-chlorine, .avg-label-hardware {
+      font-size: 0.75rem;
+      fill: $base-color;
+      &.avg {
+        font-size: 0.675rem;
+      }
+    }
   }
 
   .bar-functional {
