@@ -19,7 +19,7 @@ var SectionCarbon = React.createClass({
 
   chartPopoverHandler: function (data, index) {
     return (
-      <dl>
+      <dl className='carbon-popover'>
         {data.map(o => {
           return [
             <dd>{o.country}</dd>,
