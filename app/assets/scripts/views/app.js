@@ -30,7 +30,12 @@ var App = React.createClass({
 
         <footer className='site-footer' role='contentinfo'>
           <div className='inner'>
-            <p>Safe water © 2016</p>
+            <ul className='footer-nav'>
+              <li><a href=''>Kenya</a></li>
+              <li><a href=''>Uganda</a></li>
+              <li><a href=''>Malawi</a></li>
+            </ul>
+          <p className='copy-right'>Safe water © 2016</p>
           </div>
         </footer>
       </div>

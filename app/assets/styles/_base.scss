@@ -381,15 +381,62 @@ a:active {
    ========================================================================== */
 
 .site-footer {
-  box-shadow: inset 0 1px 0 0 $base-alpha-color;
-  background: #fff;
-  padding: 2rem 0;
+  background: $secondary-color;
   text-align: center;
   color: rgba($base-font-color, 0.64);
-  > .inner {
-    @extend .row, .row--centered;
+  font-family: $display-font-family;
+
+  .copy-right {
+      padding: $section-spacing/8;
+      float: left;
+      text-align: right;
+      @include col(12/12);
+      background: transparent;
+      margin-bottom: 0;
+      border-width: 0px 1px 0px 1px;
+      border-style: solid;
+      border-color: darken($secondary-color, 5%);
   }
-  *:last-child {
-    margin-bottom: 0;
+
+    > .inner {
+    @extend .row, .row--centered;
+    background-image: url('../graphics/layout/dispenser_footer.svg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: 50% 75%;
+    background-color: $secondary-color;
+    }
+
+  .footer-nav{
+    width: 100%;
+    margin: 0;
+    @include col(12/12);
+
+    li {
+      list-style: none;
+
+    a{
+      @include media(medium-up) {
+      @include col(4/12, $gutter: 0);
+      padding: $section-spacing/8;
+      font-size: 1.5rem;
+      border-width: 0px 1px 1px 1px;
+      border-style: solid;
+      border-color: darken($secondary-color, 5%);
+      }
+
+      @include col(12/12, $gutter: 0);
+      font-size: 1.25rem;
+      padding: $section-spacing/8;
+      background: transparent;
+      border-width: 0px 1px 1px 1px;
+      border-style: solid;
+      border-color: darken($secondary-color, 5%);
+
+      &:hover{
+        background: rgba($highlight-color, .1);
+      };
+      }
+    }
   }
 }
