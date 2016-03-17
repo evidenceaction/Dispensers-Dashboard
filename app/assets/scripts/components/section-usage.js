@@ -54,11 +54,8 @@ var SectionUsage = React.createClass({
     return (
       <div className='inner'>
         <div className='col--main'>
-          <h2 className='section__title'>Adoption</h2>
-          {/* <h1 className='section__title'>{this.props.data.content.title}</h1>
-          <div dangerouslySetInnerHTML={{__html: this.props.data.content.content}} /> */}
-          <p>This is a pararaph and goes a little something like this... consectetur adipisicing elit.</p>
-          <p>This is another ipsum iste, facere ab consequuntur animi corporis culpa ratione sequi quaerat deleniti distinctio ducimus, dolorem possimus, sit blanditiis odio harum quos</p>
+          <h2 className='section__title'>{this.props.data.content.title}</h2>
+          <div dangerouslySetInnerHTML={{__html: this.props.data.content.content}} />
         </div>
         <div className='col--sec'>
           <div className='infographic'>
@@ -76,8 +73,7 @@ var SectionUsage = React.createClass({
   },
 
   render: function () {
-    console.log('this.prop', this.props);
-    if (!this.props.fetched) {
+    if (!this.props.fetched && !this.props.fetching) {
       return null;
     }
 

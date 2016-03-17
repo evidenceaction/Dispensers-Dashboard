@@ -252,7 +252,10 @@ a:active {
 }
 
 .page__header {
+  padding-top: 2rem;
+  @include media(medium-up){
   padding-top: 6rem;
+  }
   background-color: $secondary-color;
   > .inner {
     @extend .row, .row--centered;

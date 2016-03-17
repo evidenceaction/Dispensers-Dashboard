@@ -79,7 +79,7 @@ var SectionCarbon = React.createClass({
   },
 
   render: function () {
-    if (!this.props.fetched) {
+    if (!this.props.fetched && !this.props.fetching) {
       return null;
     }
 
