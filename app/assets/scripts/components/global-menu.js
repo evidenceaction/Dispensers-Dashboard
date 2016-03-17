@@ -12,8 +12,8 @@ var GlobalMenu = React.createClass({
   },
 
   resizeHandler: function () {
-    if (window.getComputedStyle(this.refs.toggle.parentNode).display === 'none') {
-      this.refs.nav.classList.toggle('show-menu');
+    if (document.body.getBoundingClientRect().width > 544) {
+      this.refs.nav.classList.remove('show-menu');
     }
   },
 

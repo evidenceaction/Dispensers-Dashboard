@@ -160,6 +160,17 @@ a:active {
     top: 1rem;
     right: $global-spacing;
     z-index: 1;
+
+    a {
+      span {
+        @extend .visually-hidden;
+      }
+      &:before {
+        @extend .collecticons-hamburger-menu;
+      }
+    }
+
+
     @include media(small-up) {
       right: $global-spacing * 2;
     }
