@@ -25,7 +25,7 @@ var SectionReliability = React.createClass({
         <dd>Functioning Dispensers</dd>
         <dt>{d.functional.total_rate + '%'}</dt>
         <dd>Dispensers with Reported Outage</dd>
-        <dt>{d.outages.total_rate  + '%'}</dt>
+        <dt>{d.outages.total_rate + '%'}</dt>
       </dl>
     );
   },
@@ -35,7 +35,7 @@ var SectionReliability = React.createClass({
       <dl className='reliability-popover-breakdown'>
         <dd>{d.timestep.format('MMM YY')}</dd>
         <dd>Chlorine Outages</dd>
-        <dt>{d.outages.chlorine_rate + '%'} ({(d.outages.chlorine)+ ' dispensers'})</dt>
+        <dt>{d.outages.chlorine_rate + '%'} ({(d.outages.chlorine) + ' dispensers'})</dt>
         <dd>Hardware Ourages</dd>
         <dt>{d.outages.hardware_rate + '%'} ({(d.outages.hardware) + ' dispensers'})</dt>
       </dl>
@@ -65,7 +65,7 @@ var SectionReliability = React.createClass({
 
   renderContent: function () {
     let data = this.prepareChartData();
-console.log(data)
+
     return (
       <div className='inner'>
         <div className='col--full'>
