@@ -80,7 +80,7 @@ var Chart = function (el, data) {
     this.mouseoverFn = _data.mouseover || _.noop;
     this.mouseoutFn = _data.mouseout || _.noop;
     this.xHighlight = _data.xHighlight || null;
-    this.data = stack(_data.series);
+    this.data = stack(_data.series.reverse());
     this.update();
   };
 
@@ -370,7 +370,7 @@ var Chart = function (el, data) {
       var posX = window.pageXOffset + matrix.e;
       var posY = window.pageYOffset + matrix.f - 16;
 
-      chartPopover.setContent(_this.popoverContentFn(data, i)).show(posX, posY);
+      chartPopover.setContent(_this.popoverContentFn(_.cloneDeep(data).reverse(), i)).show(posX, posY);
     }
   };
 

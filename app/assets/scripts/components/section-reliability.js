@@ -23,10 +23,10 @@ var SectionReliability = React.createClass({
     return (
       <dl className='reliability-popover-total'>
         <dd>{d.timestep.format('MMM YY')}</dd>
-        <dd>Functioning Dispensers</dd>
-        <dt>{formatThousands(d.functional.total_rate, 1)}%</dt>
         <dd>Dispensers with Reported Outage</dd>
         <dt>{formatThousands(d.outages.total_rate, 1)}%</dt>
+        <dd>Functioning Dispensers</dd>
+        <dt>{formatThousands(d.functional.total_rate, 1)}%</dt>
       </dl>
     );
   },
@@ -78,8 +78,8 @@ var SectionReliability = React.createClass({
           <div className='infographic'>
             <div className='key'>
               <ul className='reliability-key-total'>
-                <li>Functional Dispensers (%)</li>
                 <li>Dispensers with Outages (%)</li>
+                <li>Functional Dispensers (%)</li>
               </ul>
             </div>
             <ChartBar
