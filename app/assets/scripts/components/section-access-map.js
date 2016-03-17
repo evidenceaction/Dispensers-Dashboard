@@ -79,9 +79,10 @@ var SectionAccessMap = React.createClass({
       }));
 
       l.bindPopup(renderToStaticMarkup(
-        <article>
+        <article className='map-popover'>
           <pre>
-            {JSON.stringify(currentVal, null, 1)}
+            <p className='dispensers-installed'>Total Dispensers Installed: {JSON.stringify(currentVal.dispenser_total, null, 1)}</p>
+            <p className='dispenser-new'>New Dispensers: {JSON.stringify(currentVal.dispensers_installed, null, 1)}</p>
           </pre>
         </article>
       ));

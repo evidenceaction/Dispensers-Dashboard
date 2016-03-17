@@ -275,6 +275,15 @@
   }
 }
 
+.map-popover {
+  margin-top: $global-spacing;
+  .dispensers-installed, .dispenser-new {
+    font-family: $base-font-family;
+    color: $base-color;
+    margin-bottom: $global-spacing/4;
+  }
+}
+
 .usage-popover {
   .popover-date {
     font-family: $base-font-family;
