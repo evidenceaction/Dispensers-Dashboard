@@ -3,134 +3,32 @@ import * as actions from './action-types';
 import config from '../config';
 
 // //////////////////////////////////////////////////////////////////////////
-// // Fetch Section Access Thunk
+// // Fetch Section Thunk
 
-function requestSectionAccess () {
+function requestSection (section) {
   return {
-    type: actions.REQUEST_SECTION_ACCESS
+    type: actions[`REQUEST_SECTION_${section.toUpperCase()}`]
   };
 }
 
-function receiveSectionAccess (json) {
+function receiveSection (section, json) {
   return {
-    type: actions.RECEIVE_SECTION_ACCESS,
+    type: actions[`RECEIVE_SECTION_${section.toUpperCase()}`],
     data: json,
     receivedAt: Date.now()
   };
 }
 
-export function fetchSectionAccess () {
+export function fetchSection (section) {
   return dispatch => {
-    dispatch(requestSectionAccess());
+    dispatch(requestSection(section));
 
     // In this case, we return a promise to wait for.
     // This is not required by thunk middleware, but it is convenient for us.
-    return fetch(`${config.api}/kpi/access`)
+    return fetch(`${config.api}/kpi/${section}`)
       .then(response => response.json())
       .then(json => {
-        dispatch(receiveSectionAccess(json));
-      })
-      .catch(err => {
-        throw err;
-      });
-  };
-}
-
-// //////////////////////////////////////////////////////////////////////////
-// // Fetch Section Reliability Thunk
-
-function requestSectionReliability () {
-  return {
-    type: actions.REQUEST_SECTION_RELIABILITY
-  };
-}
-
-function receiveSectionReliability (json) {
-  return {
-    type: actions.RECEIVE_SECTION_RELIABILITY,
-    data: json,
-    receivedAt: Date.now()
-  };
-}
-
-export function fetchSectionReliability () {
-  return dispatch => {
-    dispatch(requestSectionReliability());
-
-    // In this case, we return a promise to wait for.
-    // This is not required by thunk middleware, but it is convenient for us.
-    return fetch(`${config.api}/kpi/reliability`)
-      .then(response => response.json())
-      .then(json => {
-        dispatch(receiveSectionReliability(json));
-      })
-      .catch(err => {
-        throw err;
-      });
-  };
-}
-
-// //////////////////////////////////////////////////////////////////////////
-// // Fetch Section Usage Thunk
-
-function requestSectionUsage () {
-  return {
-    type: actions.REQUEST_SECTION_USAGE
-  };
-}
-
-function receiveSectionUsage (json) {
-  return {
-    type: actions.RECEIVE_SECTION_USAGE,
-    data: json,
-    receivedAt: Date.now()
-  };
-}
-
-export function fetchSectionUsage () {
-  return dispatch => {
-    dispatch(requestSectionUsage());
-
-    // In this case, we return a promise to wait for.
-    // This is not required by thunk middleware, but it is convenient for us.
-    return fetch(`${config.api}/kpi/usage`)
-      .then(response => response.json())
-      .then(json => {
-        dispatch(receiveSectionUsage(json));
-      })
-      .catch(err => {
-        throw err;
-      });
-  };
-}
-
-// //////////////////////////////////////////////////////////////////////////
-// // Fetch Section Usage Thunk
-
-function requestSectionCarbon () {
-  return {
-    type: actions.REQUEST_SECTION_CARBON
-  };
-}
-
-function receiveSectionCarbon (json) {
-  return {
-    type: actions.RECEIVE_SECTION_CARBON,
-    data: json,
-    receivedAt: Date.now()
-  };
-}
-
-export function fetchSectionCarbon () {
-  return dispatch => {
-    dispatch(requestSectionCarbon());
-
-    // In this case, we return a promise to wait for.
-    // This is not required by thunk middleware, but it is convenient for us.
-    return fetch(`${config.api}/kpi/carbon`)
-      .then(response => response.json())
-      .then(json => {
-        dispatch(receiveSectionCarbon(json));
+        dispatch(receiveSection(section, json));
       })
       .catch(err => {
         throw err;

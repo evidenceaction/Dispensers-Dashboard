@@ -1,20 +1,23 @@
 'use strict';
 import React from 'react';
 import { connect } from 'react-redux';
+import SectionOverview from '../components/section-stats';
 import SectionAccess from '../components/section-access';
 import SectionReliability from '../components/section-reliability';
 import SectionUsage from '../components/section-usage';
 import SectionCarbon from '../components/section-carbon';
-import { fetchSectionAccess, fetchSectionReliability, fetchSectionUsage, fetchSectionCarbon } from '../actions/action-creators';
+import { fetchSection } from '../actions/action-creators';
 
 var Home = React.createClass({
   displayName: 'Home',
 
   propTypes: {
-    _fetchSectionAccess: React.PropTypes.func,
-    _fetchSectionReliability: React.PropTypes.func,
-    _fetchSectionUsage: React.PropTypes.func,
-    _fetchSectionCarbon: React.PropTypes.func,
+    _fetchSection: React.PropTypes.func,
+    sectionOverview: React.PropTypes.shape({
+      fetched: React.PropTypes.bool,
+      fetching: React.PropTypes.bool,
+      data: React.PropTypes.object
+    }),
     sectionAccess: React.PropTypes.shape({
       fetched: React.PropTypes.bool,
       fetching: React.PropTypes.bool,
@@ -38,10 +41,11 @@ var Home = React.createClass({
   },
 
   componentDidMount: function () {
-    this.props._fetchSectionAccess();
-    this.props._fetchSectionReliability();
-    this.props._fetchSectionUsage();
-    this.props._fetchSectionCarbon();
+    this.props._fetchSection('overview');
+    this.props._fetchSection('access');
+    this.props._fetchSection('reliability');
+    this.props._fetchSection('usage');
+    this.props._fetchSection('carbon');
   },
 
   render: function () {
@@ -56,30 +60,10 @@ var Home = React.createClass({
         </header>
         <div className='page__body'>
 
-          <section className='page__content section--stats'>
-            <div className='inner'>
-              <div className='stats__intro'>
-                <h1 className='stats__intro-title'>Safe Water Dispensers</h1>
-                <p className='stats__intro-text'> Why these KPI's are important, etc. etc. Some Opening text should go here that describes things.</p>
-              </div>
-              <div className='stats__entry'>
-                <h3 className='stats__title'>52!<small>seconds</small></h3>
-                <p className='stats__description'>A number so unfathomably big that's impossible to put in perspective.</p>
-              </div>
-              <div className='stats__entry'>
-                <h3 className='stats__title'>3.1415926<small>Some pie</small></h3>
-                <p className='stats__description'>The flavor... pie flavor</p>
-              </div>
-              <div className='stats__entry'>
-                <h3 className='stats__title'>100.000.000<small>Title</small></h3>
-                <p className='stats__description'>That's a lot of zeros, and a poor one at the front</p>
-              </div>
-              <div className='stats__entry'>
-                <h3 className='stats__title'>159<small>Title</small></h3>
-                <p className='stats__description'>I just need a somewhat long sentence to see what happens to this text.</p>
-              </div>
-            </div>
-          </section>
+          <SectionOverview
+            fetched={this.props.sectionOverview.fetched}
+            fetching={this.props.sectionOverview.fetching}
+            data={this.props.sectionOverview.data} />
 
           <SectionAccess
             fetched={this.props.sectionAccess.fetched}
@@ -112,6 +96,7 @@ var Home = React.createClass({
 
 function selector (state) {
   return {
+    sectionOverview: state.sectionOverview,
     sectionAccess: state.sectionAccess,
     sectionReliability: state.sectionReliability,
     sectionUsage: state.sectionUsage,
@@ -121,10 +106,7 @@ function selector (state) {
 
 function dispatcher (dispatch) {
   return {
-    _fetchSectionAccess: () => dispatch(fetchSectionAccess()),
-    _fetchSectionReliability: () => dispatch(fetchSectionReliability()),
-    _fetchSectionUsage: () => dispatch(fetchSectionUsage()),
-    _fetchSectionCarbon: () => dispatch(fetchSectionCarbon())
+    _fetchSection: (section) => dispatch(fetchSection(section))
   };
 }
 

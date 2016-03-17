@@ -57,6 +57,24 @@ const sectionUsage = function (state = {fetching: false, fetched: false, data: n
   return state;
 };
 
+const sectionOverview = function (state = {fetching: false, fetched: false, data: null}, action) {
+  switch (action.type) {
+    case actions.REQUEST_SECTION_OVERVIEW:
+      console.log('REQUEST_SECTION_OVERVIEW');
+      state = _.cloneDeep(state);
+      state.fetching = true;
+      break;
+    case actions.RECEIVE_SECTION_OVERVIEW:
+      console.log('RECEIVE_SECTION_OVERVIEW');
+      state = _.cloneDeep(state);
+      state.data = action.data;
+      state.fetching = false;
+      state.fetched = true;
+      break;
+  }
+  return state;
+};
+
 const sectionCarbon = function (state = {fetching: false, fetched: false, data: null}, action) {
   switch (action.type) {
     case actions.REQUEST_SECTION_CARBON:
@@ -80,5 +98,6 @@ export default combineReducers({
   sectionAccess,
   sectionReliability,
   sectionUsage,
-  sectionCarbon
+  sectionCarbon,
+  sectionOverview
 });
