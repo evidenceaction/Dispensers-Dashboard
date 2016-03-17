@@ -87,7 +87,7 @@ var SectionAccess = React.createClass({
         {data.map(o => {
           return [
             <dd>{o.country}</dd>,
-            <dt>{formatThousands(o.values[index].new_people_served)}</dt>
+            <dt>{formatThousands(o.values[index].people_total)} ({formatThousands(o.values[index].new_people_served)} new)</dt>
           ];
         })}
       </dl>
