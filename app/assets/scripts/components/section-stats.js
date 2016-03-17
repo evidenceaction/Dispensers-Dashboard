@@ -32,7 +32,7 @@ var SectionOverview = React.createClass({
     return (
       <div className='stats__entry' key={stat.kpi}>
         <h3 className='stats__title'>{this.formatStatValue(stat)}</h3>
-        <p className='stats__description'>{stat.descriptionZ}</p>
+        <p className='stats__description'>{stat.description}</p>
       </div>
     );
   },

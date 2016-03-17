@@ -55,14 +55,22 @@ p {
 }
 
 .stats__title {
+  font-size: 1rem;
   color: $highlight-color;
-  small {
-    color: $base-color;
+  margin-bottom: 0;
+  @include media(medium-up) {
+  color: $highlight-color;
+  margin-bottom: 0;
   }
 }
 
 .stats__description {
-  display: none;
+  color: $base-color;
+  font-family: $display-font-family;
+  font-size: 0.8125rem;
+  @include media(medium-up) {
+  font-size: 1.125rem;
+  }
 }
 
 .stats__intro {
