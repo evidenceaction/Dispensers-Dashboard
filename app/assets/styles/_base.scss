@@ -371,45 +371,56 @@ a:active {
   font-family: $display-font-family;
 
   .copy-right {
-      padding: $global-spacing;
+      padding: $section-spacing/8;
       float: left;
-      text-align: center;
+      text-align: right;
       @include col(12/12);
-      background-color: $secondary-color;
+      background: transparent;
       margin-bottom: 0;
+      border-width: 0px 1px 0px 1px;
+      border-style: solid;
+      border-color: darken($secondary-color, 5%);
+  }
+
+    > .inner {
+    @extend .row, .row--centered;
+    background-image: url('../graphics/layout/dispenser_footer.svg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: 50% 75%;
+    background-color: $secondary-color;
     }
 
   .footer-nav{
     width: 100%;
     margin: 0;
     @include col(12/12);
-    background-image: url('../graphics/layout/dispenser_footer.svg');
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-position: 50% 75%;
-    background-color: $secondary-color;
 
     li {
+      list-style: none;
 
+    a{
       @include media(medium-up) {
       @include col(4/12, $gutter: 0);
-      padding: $section-spacing/2;
-      border-width: 1px 1px 1px 0px;
-      font-size: 1.75rem;
+      padding: $section-spacing/8;
+      font-size: 1.5rem;
+      border-width: 0px 1px 1px 1px;
+      border-style: solid;
+      border-color: darken($secondary-color, 5%);
       }
 
       @include col(12/12, $gutter: 0);
       font-size: 1.25rem;
-      padding: $section-spacing/4;
-      list-style: none;
+      padding: $section-spacing/8;
       background: transparent;
-      border-width: 0px 0px 1px 0px;
+      border-width: 0px 1px 1px 1px;
       border-style: solid;
       border-color: darken($secondary-color, 5%);
 
       &:hover{
         background: rgba($highlight-color, .1);
       };
+      }
     }
   }
 }
