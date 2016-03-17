@@ -3,6 +3,7 @@ import React from 'react';
 import moment from 'moment';
 import _ from 'lodash';
 import ChartLine from './charts/chart-line';
+import { formatThousands } from '../utils/numbers';
 
 var SectionUsage = React.createClass({
   displayName: 'SectionUsage',
@@ -22,7 +23,7 @@ var SectionUsage = React.createClass({
       <div className='usage-popover'>
         <p className='popover-date'>{d.values[i].timestep.format('MMM YY')}</p>
         <p className='popover-adoption-rate'>
-          {d.values[i].tcr_avg}
+          {formatThousands(d.values[i].tcr_avg, 1)}%
         </p>
       </div>
     );
