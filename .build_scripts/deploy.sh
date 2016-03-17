@@ -6,7 +6,7 @@ cd dist
 git init
 git config user.name "Travis-CI"
 git config user.email "travis@somewhere.com"
-mkdir assets/styles
+mkdir assets/styles/fonts
 cp ../app/assets/styles/fonts/* assets/styles/fonts
 mkdir assets/node_modules
 mkdir assets/node_modules/rc-slider
