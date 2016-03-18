@@ -276,11 +276,26 @@
 }
 
 .map-popover {
-  margin-top: $global-spacing;
-  .dispensers-installed, .dispenser-new {
-    font-family: $base-font-family;
-    color: $base-color;
-    margin-bottom: $global-spacing/4;
+  padding-top: $global-spacing;
+  dd {
+    margin-bottom: 0;
+    color: tint($base-color, 30%);
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    line-height: 1rem;
+    font-weight: $base-font-light;
+  }
+
+  dt{
+    font-weight: $base-font-bold;
+    margin-bottom: 0.5rem;
+    &:nth-child(2) {
+      color: $infographic-b-color;
+    };
+    &:nth-child(4) {
+      color: darken($infographic-b-color, 25%);
+    };
+
   }
 }
 
