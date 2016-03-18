@@ -370,6 +370,13 @@ a:active {
 // VV Temporary colorscol--full
 .section--usage {
   background: tint($secondary-color, 60%);
+    @include media(medium-up){
+    .inner {
+      @include display(flex);
+      @include align-items(center);
+      @include justify-content(center);
+    }
+  }
 }
 
 .section--reliability {
@@ -389,6 +396,13 @@ a:active {
 
 .section--carbon {
   background: tint($secondary-color, 60%);
+  @include media(medium-up){
+    .inner {
+      @include display(flex);
+      @include align-items(center);
+      @include justify-content(center);
+    }
+  }
 }
 
 
@@ -432,21 +446,21 @@ a:active {
 
     a{
       @include media(medium-up) {
-      @include col(4/12, $gutter: 0);
-      padding: $section-spacing/8;
-      font-size: 1.5rem;
-      border-width: 0px 1px 1px 1px;
-      border-style: solid;
-      border-color: darken($secondary-color, 5%);
+        @include col(4/12, $gutter: 0);
+        padding: $section-spacing/2;
+        font-size: 1.5rem;
+        border-width: 0px 1px 1px 1px;
+        border-style: solid;
+        border-color: darken($secondary-color, 5%);
       }
 
       @include col(12/12, $gutter: 0);
-      font-size: 1.25rem;
-      padding: $section-spacing/8;
-      background: transparent;
-      border-width: 0px 1px 1px 1px;
-      border-style: solid;
-      border-color: darken($secondary-color, 5%);
+        font-size: 1.25rem;
+        padding: $section-spacing/8;
+        background: transparent;
+        border-width: 0px 1px 1px 1px;
+        border-style: solid;
+        border-color: darken($secondary-color, 5%);
 
       &:hover{
         background: rgba($highlight-color, .1);
