@@ -17,6 +17,7 @@ var rev = require('gulp-rev');
 var revReplace = require('gulp-rev-replace');
 var notifier = require('node-notifier');
 var cp = require('child_process');
+var merge = require('merge-stream');
 
 // /////////////////////////////////////////////////////////////////////////////
 // --------------------------- Variables -------------------------------------//
@@ -237,7 +238,7 @@ gulp.task('fonts', function () {
 });
 
 gulp.task('extras', function () {
-  return gulp.src([
+  var general = gulp.src([
     'app/**/*',
     '!app/*.html',
     '!app/assets/graphics/**',
@@ -247,4 +248,9 @@ gulp.task('extras', function () {
   ], {
     dot: true
   }).pipe(gulp.dest('dist'));
+
+  var mapbox = gulp.src('node_modules/mapbox.js/theme/images/icons-000000@2x.png')
+    .pipe(gulp.dest('dist/assets/styles/images'));
+
+  return merge(general, mapbox);
 });
