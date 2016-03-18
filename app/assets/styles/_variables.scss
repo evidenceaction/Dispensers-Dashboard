@@ -25,24 +25,24 @@ $base-alpha-color: rgba($base-color, 0.12);
 
 @font-face {
   font-family: TSTARMonoRoundReg;
-  src: url("fonts/TSTARMonoRoundRegWeb.eot");
+  src: url("../fonts/TSTARMonoRoundRegWeb.eot");
 }
 
 /* then for WOFF-capable browsers */
 @font-face {
   font-family: TSTARMonoRoundReg;
-  src: url("fonts/TSTARMonoRoundRegWeb.woff") format("woff");
+  src: url("../fonts/TSTARMonoRoundRegWeb.woff") format("woff");
 }
 
 @font-face {
   font-family: TSTARMonoRoundBol;
-  src: url("fonts/TSTARMonoRoundBolWeb.eot");
+  src: url("../fonts/TSTARMonoRoundBolWeb.eot");
 }
 
 /* then for WOFF-capable browsers */
 @font-face {
   font-family: TSTARMonoRoundBol;
-  src: url("fonts/TSTARMonoRoundBolWeb.woff") format("woff");
+  src: url("../fonts/TSTARMonoRoundBolWeb.woff") format("woff");
 }
 
 

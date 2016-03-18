@@ -55,9 +55,9 @@
 /* 3rd Party
    ========================================================================== */
 
-@import "../node_modules/rc-slider/assets/index.css";
+// Third party scripts are included in the index.html
+// Here are just overrides.
 @import "overrides_rc-slider";
-@import "../node_modules/mapbox.js/theme/style.css";
 
 /* Main
    ========================================================================== */
