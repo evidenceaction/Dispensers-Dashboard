@@ -79,12 +79,12 @@ var SectionAccessMap = React.createClass({
       }));
 
       l.bindPopup(renderToStaticMarkup(
-        <article className='map-popover'>
-          <pre>
-            <p className='dispensers-installed'>Total Dispensers Installed: {JSON.stringify(currentVal.dispenser_total, null, 1)}</p>
-            <p className='dispenser-new'>New Dispensers: {JSON.stringify(currentVal.dispensers_installed, null, 1)}</p>
-          </pre>
-        </article>
+        <dl className='map-popover'>
+          <dd>Total Dispensers Installed</dd>
+          <dt>{currentVal.dispenser_total}</dt>
+          <dd>New Dispensers</dd>
+          <dt>{currentVal.dispensers_installed}</dt>
+        </dl>
       ));
 
       // Add class on next tick to have the background transition.
