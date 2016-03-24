@@ -58,8 +58,8 @@ var SectionAccessMap = React.createClass({
     let { data, activeDate } = this.props;
 
     // Prepare scale to size circles.
-    let min = d3.min(data.map(d => d.values[0].dispenser_total));
-    let max = d3.max(data.map(d => _.last(d.values).dispenser_total));
+    let min = d3.min(data.map(d => d.values[0].dispensers_total));
+    let max = d3.max(data.map(d => _.last(d.values).dispensers_total));
 
     let scale = d3.scale.linear()
       .domain([min, max])
@@ -71,7 +71,7 @@ var SectionAccessMap = React.createClass({
 
       let currentVal = _.find(props.values, {timestep: activeDate.toISOString()});
 
-      let size = scale(currentVal.dispenser_total);
+      let size = scale(currentVal.dispensers_total);
       l.setIcon(L.divIcon({
         iconSize: [size, size],
         className: 'dispenser-point',
@@ -81,7 +81,7 @@ var SectionAccessMap = React.createClass({
       l.bindPopup(renderToStaticMarkup(
         <dl className='map-popover'>
           <dd>Total Dispensers Installed</dd>
-          <dt>{currentVal.dispenser_total}</dt>
+          <dt>{currentVal.dispensers_total}</dt>
           <dd>New Dispensers</dd>
           <dt>{currentVal.dispensers_installed}</dt>
         </dl>
