@@ -276,6 +276,14 @@ var Chart = function (el, data) {
       .text('Carbon Credits')
       .attr('transform', 'translate(' + 15 + ',' + -5 + ')');
 
+    // Change the axis label alignment.
+    let axisVal = svg.node().querySelectorAll('.x.axis .tick');
+    let axisValFirst = axisVal[0].querySelector('text');
+    let axisValLast = _.last(axisVal).querySelector('text');
+
+    d3.select(axisValFirst).style('text-anchor', 'start');
+    d3.select(axisValLast).style('text-anchor', 'end');
+
     // ------------------------------
     // Focus line used for highlight.
     dataCanvas.select('.focus-elements')
