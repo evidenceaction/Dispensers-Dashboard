@@ -120,7 +120,7 @@ var SectionAccess = React.createClass({
         for (let i = 1; i < o.length; i++) {
           // Loop over all the values. Ordered arrays are expected.
           for (let j = 0; j < o[i].values.length; j++) {
-            res.values[j].dispenser_total += o[i].values[j].dispenser_total;
+            res.values[j].dispensers_total += o[i].values[j].dispensers_total;
             res.values[j].dispensers_installed += o[i].values[j].dispensers_installed;
             res.values[j].new_people_served += o[i].values[j].new_people_served;
             res.values[j].people_total += o[i].values[j].people_total;
@@ -195,7 +195,7 @@ var SectionAccess = React.createClass({
 
       totalDispensers = _.reduce(this.prepareChartData(), (sum, o) => {
         let currentObj = _.find(o.values, d => d.timestep.toISOString() === this.getCurrentDate().toISOString());
-        return sum + currentObj.dispenser_total;
+        return sum + currentObj.dispensers_total;
       }, 0);
     }
 
