@@ -267,6 +267,9 @@
   dt {
     color: darken($infographic-c-color, 10%);
   }
+  .popover-outages {
+    color: darken($infographic-b-color, 10%);
+  }
 }
 
 .reliability-popover-breakdown {

@@ -300,22 +300,31 @@ a:active {
     margin-top: 0.5rem;
     height: 10rem;
     @include media(medium-up) {
-      margin-top: 1.25rem;
+      margin-top: 2.25rem;
       height: 20rem;
+      position: relative;
     }
   }
 
+  .key {
+    @include media(medium-up){
+      position: absolute;
+      right: 0;
+      top: 8px;
+    }
+  }
+  
   .col--main {
     @include col(12/12);
     padding-bottom: $global-spacing;
     @include media(medium-up) {
-      @include col(6/12, $gutter: 0);
+      @include col(6/12);
     }
   }
   .col--sec {
     @include col(12/12);
     @include media(medium-up) {
-      @include col(6/12, $gutter: 0);
+      @include col(6/12);
     } 
   }
 
@@ -378,13 +387,13 @@ a:active {
   .col--main {
     @include col(12/12);
     @include media(medium-up) {
-      @include col(5/12);
+      @include col(4/12);
     }
   }
   .col--sec {
     @include col(12/12);
     @include media(medium-up) {
-      @include col(7/12);
+      @include col(8/12);
     } 
   }
 }
