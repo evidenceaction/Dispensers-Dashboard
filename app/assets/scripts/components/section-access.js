@@ -144,7 +144,7 @@ var SectionAccess = React.createClass({
     });
   }),
 
-    renderColSlider: function () {
+  renderColSlider: function () {
     if (!this.props.fetched) {
       if (this.props.fetching) {
         return (
