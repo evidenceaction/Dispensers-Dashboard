@@ -196,8 +196,6 @@ var SectionAccess = React.createClass({
       return null;
     }
 
-    let currDate = this.getCurrentDate();
-
     return (
       <div className='col--full'>
         <h2 className='section__title'>{this.props.data.content.title}</h2>
