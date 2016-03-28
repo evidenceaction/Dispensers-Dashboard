@@ -228,6 +228,7 @@ svg.chart {
     text-align: center;
     position: relative;
     font-family: $base-font-family;
+    color: $infographic-b-color;
     &:after {
       @extend .collecticons-chevron-down;
       position: absolute;

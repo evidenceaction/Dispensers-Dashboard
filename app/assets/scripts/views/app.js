@@ -35,7 +35,13 @@ var App = React.createClass({
               <li><a href=''>Uganda</a></li>
               <li><a href=''>Malawi</a></li>
             </ul>
-          <p className='copy-right'>Safe water © 2016</p>
+            <div>
+            <ul className='footer-detail'>
+              <li><a href='' >Contact Us</a></li>
+              <li><p>Safe water © 2016</p></li>
+              <li><a href='' >Privacy Policy</a></li>
+            </ul>
+            </div>
           </div>
         </footer>
       </div>

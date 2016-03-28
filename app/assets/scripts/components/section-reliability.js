@@ -69,7 +69,7 @@ var SectionReliability = React.createClass({
 
     return (
       <div className='inner'>
-        <div>
+        <div className='stacked-charts'>
           <div className='col--main'>
           <h2 className='section__title'>{this.props.data.content.title}</h2>
           <div className='section-description' dangerouslySetInnerHTML={{__html: this.props.data.content.content}} />
