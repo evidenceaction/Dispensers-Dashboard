@@ -1,6 +1,7 @@
 'use strict';
 import React from 'react';
 import GlobalMenu from '../components/global-menu';
+import { Link } from 'react-router';
 
 var App = React.createClass({
   displayName: 'App',
@@ -31,9 +32,9 @@ var App = React.createClass({
         <footer className='site-footer' role='contentinfo'>
           <div className='inner'>
             <ul className='footer-nav'>
-              <li><a href=''>Kenya</a></li>
-              <li><a href=''>Uganda</a></li>
-              <li><a href=''>Malawi</a></li>
+              <li><Link to='kenya'>Kenya</Link></li>
+              <li><Link to='uganda'>Uganda</Link></li>
+              <li><Link to='malawi'>Malawi</Link></li>
             </ul>
             <div>
             <ul className='footer-detail'>
