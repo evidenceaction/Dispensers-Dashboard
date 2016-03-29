@@ -38,9 +38,9 @@ var App = React.createClass({
             </ul>
             <div>
             <ul className='footer-detail'>
-              <li><a href='' >Contact Us</a></li>
+              <li><a href='mailto:info@evidenceaction.org' >Contact Us</a></li>
               <li><p>Safe water © 2016</p></li>
-              <li><a href='' >Privacy Policy</a></li>
+              <li><a href='http://www.evidenceaction.org/privacy-policy/' >Privacy Policy</a></li>
             </ul>
             </div>
           </div>
