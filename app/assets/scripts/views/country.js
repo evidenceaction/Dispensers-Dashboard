@@ -88,17 +88,17 @@ var Country = React.createClass({
             country={this.props.params.country}
             data={this.props.sectionUsage.data} />
 
-{/*
           <SectionReliability
             fetched={this.props.sectionReliability.fetched}
             fetching={this.props.sectionReliability.fetching}
+            country={this.props.params.country}
             data={this.props.sectionReliability.data} />
 
           <SectionCarbon
             fetched={this.props.sectionCarbon.fetched}
             fetching={this.props.sectionCarbon.fetching}
+            country={this.props.params.country}
             data={this.props.sectionCarbon.data} />
-*/}
         </div>
       </section>
     );

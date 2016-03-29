@@ -12,6 +12,7 @@ var SectionReliability = React.createClass({
   propTypes: {
     fetched: React.PropTypes.bool,
     fetching: React.PropTypes.bool,
+    country: React.PropTypes.string,
     data: React.PropTypes.shape({
       data: React.PropTypes.array,
       meta: React.PropTypes.array,
@@ -51,7 +52,7 @@ var SectionReliability = React.createClass({
     );
   },
 
-  prepareChartData: _.memoize(function () {
+  prepareChartData: function () {
     let data = {
       meta: this.props.data.meta,
       values: this.props.data.data.map(o => {
@@ -62,7 +63,7 @@ var SectionReliability = React.createClass({
     };
 
     return data;
-  }),
+  },
 
   renderContent: function () {
     let data = this.prepareChartData();

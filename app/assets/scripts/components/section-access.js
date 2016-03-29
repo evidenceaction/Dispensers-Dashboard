@@ -23,6 +23,12 @@ var SectionAccess = React.createClass({
     })
   },
 
+  countryMatrix: [
+    {k: 'ke', v: 'Kenya', id: 1},
+    {k: 'ug', v: 'Uganda', id: 2},
+    {k: 'mw', v: 'Malawi', id: 3}
+  ],
+
   getInitialState: function () {
     return {
       currentSliderPos: 0,
@@ -113,9 +119,12 @@ var SectionAccess = React.createClass({
     return _(this.props.data.data)
       .groupBy(o => o.iso.substr(0, 2))
       .map((o, key) => {
-        // Use he first as base.
+        // Use the first as base.
         let res = _.cloneDeep(o[0]);
-        res.country = key;
+        let c = _.find(this.countryMatrix, {k: key.toLowerCase()});
+        res.country = c.v;
+        res.id = c.id;
+        delete res.iso;
 
         // Loop over all the districts except the first.
         for (let i = 1; i < o.length; i++) {
@@ -132,6 +141,7 @@ var SectionAccess = React.createClass({
         });
         return res;
       })
+      .sortBy('id')
       .value();
   },
 
@@ -230,11 +240,11 @@ var SectionAccess = React.createClass({
 
   renderChartKey: function () {
     let c = this.props.country;
-    let dt = [{k: 'ug', v: 'Uganda'}, {k: 'mw', v: 'Malawi'}, {k: 'ke', v: 'Kenya'}];
     return (
       <ul className='access-key'>
-        {dt.map(o => {
-          return c === 'overview' || c === o.v.toLowerCase() ? <li className={`country-${o.k}`}>{o.v}</li> : null;
+        {this.countryMatrix.map(o => {
+          let countryLow = o.v.toLowerCase();
+          return c === 'overview' || c === countryLow ? <li key={o.k} className={`country-${countryLow}`}>{o.v}</li> : null;
         })}
       </ul>
     );

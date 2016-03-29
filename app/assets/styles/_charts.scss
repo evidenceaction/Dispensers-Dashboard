@@ -55,19 +55,19 @@
 }
 
 .access-key li {
-  &.country-ug {
+  &.country-kenya {
      &:before{
       background-color: rgba($infographic-b-color, 0.9);
      }
   }
 
-  &.country-mw {
+  &.country-uganda {
      &:before{
       background-color: rgba($infographic-b-color, 0.7);
      }
   }
 
-  &.country-ke {
+  &.country-malawi {
      &:before{
       background-color: rgba($infographic-b-color, 0.4);
      }
@@ -75,21 +75,21 @@
 }
 
 .carbon-key li {
-  &:first-child {
+  &.country-kenya {
      &:before{
-      background-color: rgba($highlight-color, 0.4);
+      background-color: rgba($highlight-color, 0.9);
      }
   }
 
-  &:nth-child(2) {
+  &.country-uganda {
      &:before{
       background-color: rgba($highlight-color, 0.7);
      }
   }
 
-  &:last-child {
+  &.country-malawi {
      &:before{
-      background-color: rgba($highlight-color, 0.9);
+      background-color: rgba($highlight-color, 0.4);
      }
   }
 }
@@ -113,14 +113,14 @@ svg.chart {
 
 .section--carbon .carbon-chart-wrapper {
   min-height: 20rem;
-    .area {
-    &:nth-child(1) {
+  .area {
+    &.country-kenya {
       fill: rgba($highlight-color, 0.9);
     }
-    &:nth-child(2) {
+    &.country-uganda {
       fill: rgba($highlight-color, 0.6);
     }
-    &:nth-child(3) {
+    &.country-malawi {
       fill: rgba($highlight-color, 0.3);
     }
   }
@@ -137,13 +137,13 @@ svg.chart {
   min-height: 20rem;
   }
     .area {
-    &.country-ug {
+    &.country-kenya {
       fill: rgba($infographic-b-color, 0.9);
     }
-    &.country-mw {
+    &.country-uganda {
       fill: rgba($infographic-b-color, 0.7);
     }
-    &.country-ke {
+    &.country-malawi {
       fill: rgba($infographic-b-color, 0.4);
     }
   }
