@@ -124,6 +124,11 @@ svg.chart {
       fill: rgba($highlight-color, 0.3);
     }
   }
+
+  .cert-markers text {
+    font-size: 0.625rem;
+    fill: tint($base-color, 16%);
+  }
 }
 
 .section--access .area-chart-wrapper {

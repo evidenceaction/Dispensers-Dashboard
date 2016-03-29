@@ -51,6 +51,16 @@ var SectionCarbon = React.createClass({
 
   renderContent: function () {
     let series = this.prepareChartData();
+    let certificationMarkers = [
+      {
+        timestep: moment.utc('2013-01-01', 'YYYY-MM-DD'),
+        value: 'Uganda certified'
+      },
+      {
+        timestep: moment.utc('2014-01-01', 'YYYY-MM-DD'),
+        value: 'Malawi certified'
+      }
+    ];
     return (
       <div className='inner'>
         <div className='col--main'>
@@ -71,6 +81,7 @@ var SectionCarbon = React.createClass({
             <ChartCarbon
               className='carbon-chart-wrapper'
               popoverContentFn={this.chartPopoverHandler}
+              certificationMarkers={certificationMarkers}
               series={series} />
           </div>
         </div>
