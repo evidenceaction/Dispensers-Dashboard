@@ -19,19 +19,26 @@ function receiveSection (section, json) {
   };
 }
 
-export function fetchSection (section) {
+export function fetchSection (section, country = null) {
   return dispatch => {
     dispatch(requestSection(section));
 
-    // In this case, we return a promise to wait for.
-    // This is not required by thunk middleware, but it is convenient for us.
-    return fetch(`${config.api}/kpi/${section}`)
-      .then(response => response.json())
+    let url = `${config.api}/kpi/${section}`;
+
+    if (country !== null) {
+      url = `${url}/${country}`;
+    }
+    return fetch(url)
+      .then(response => {
+        if (response.status >= 400) {
+          throw new Error('Bad response');
+        }
+        return response.json();
+      })
       .then(json => {
         dispatch(receiveSection(section, json));
-      })
-      .catch(err => {
-        throw err;
+      }, e => {
+        throw e;
       });
   };
 }

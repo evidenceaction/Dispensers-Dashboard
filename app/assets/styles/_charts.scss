@@ -55,21 +55,21 @@
 }
 
 .access-key li {
-  &:first-child {
+  &.country-ug {
      &:before{
-      background-color: rgba($infographic-b-color, 0.4);
+      background-color: rgba($infographic-b-color, 0.9);
      }
   }
 
-  &:nth-child(2) {
+  &.country-mw {
      &:before{
       background-color: rgba($infographic-b-color, 0.7);
      }
   }
 
-  &:last-child {
+  &.country-ke {
      &:before{
-      background-color: rgba($infographic-b-color, 0.9);
+      background-color: rgba($infographic-b-color, 0.4);
      }
   }
 }
@@ -137,13 +137,13 @@ svg.chart {
   min-height: 20rem;
   }
     .area {
-    &:nth-child(1) {
+    &.country-ug {
       fill: rgba($infographic-b-color, 0.9);
     }
-    &:nth-child(2) {
+    &.country-mw {
       fill: rgba($infographic-b-color, 0.7);
     }
-    &:nth-child(3) {
+    &.country-ke {
       fill: rgba($infographic-b-color, 0.4);
     }
   }

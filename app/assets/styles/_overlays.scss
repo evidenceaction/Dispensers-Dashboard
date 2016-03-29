@@ -245,19 +245,19 @@
 
 .access-popover {
 
-  dd:first-child{
+  dd:first-child {
     color: tint($base-color, 30%);
     font-weight: $base-font-regular;
   }
 
   dt {
-    &:nth-child(6) {
+    &.country-ug {
       color: rgba($infographic-b-color, 0.9);
     }
-    &:nth-child(4) {
+    &.country-mw {
       color: rgba($infographic-b-color, 0.7);
     }
-    &:nth-child(2) {
+    &.country-ke {
       color: rgba($infographic-b-color, 0.4);
     } 
   }

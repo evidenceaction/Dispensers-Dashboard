@@ -15,6 +15,7 @@ var SectionAccess = React.createClass({
   propTypes: {
     fetched: React.PropTypes.bool,
     fetching: React.PropTypes.bool,
+    country: React.PropTypes.string,
     data: React.PropTypes.shape({
       data: React.PropTypes.array,
       geo: React.PropTypes.array,
@@ -87,7 +88,7 @@ var SectionAccess = React.createClass({
         {data.map(o => {
           return [
             <dd>{o.country}</dd>,
-            <dt>{formatThousands(o.values[index].people_total)} ({formatThousands(o.values[index].new_people_served)} new)</dt>
+            <dt className={`country-${o.country.toLowerCase()}`}>{formatThousands(o.values[index].people_total)} ({formatThousands(o.values[index].new_people_served)} new)</dt>
           ];
         })}
       </dl>
@@ -108,7 +109,7 @@ var SectionAccess = React.createClass({
     return months;
   },
 
-  prepareChartData: _.memoize(function () {
+  prepareChartData: function () {
     return _(this.props.data.data)
       .groupBy(o => o.iso.substr(0, 2))
       .map((o, key) => {
@@ -132,9 +133,9 @@ var SectionAccess = React.createClass({
         return res;
       })
       .value();
-  }),
+  },
 
-  prepareMapData: _.memoize(function () {
+  prepareMapData: function () {
     // Add the values to the geo array.
     let d = this.props.data;
     return d.geo.map(o => {
@@ -142,7 +143,7 @@ var SectionAccess = React.createClass({
       o.values = countryData.values;
       return o;
     });
-  }),
+  },
 
   renderColSlider: function () {
     if (!this.props.fetched) {
@@ -227,6 +228,18 @@ var SectionAccess = React.createClass({
     );
   },
 
+  renderChartKey: function () {
+    let c = this.props.country;
+    let dt = [{k: 'ug', v: 'Uganda'}, {k: 'mw', v: 'Malawi'}, {k: 'ke', v: 'Kenya'}];
+    return (
+      <ul className='access-key'>
+        {dt.map(o => {
+          return c === 'overview' || c === o.v.toLowerCase() ? <li className={`country-${o.k}`}>{o.v}</li> : null;
+        })}
+      </ul>
+    );
+  },
+
   renderColMain: function () {
     if (!this.props.fetched) {
       if (this.props.fetching) {
@@ -240,7 +253,7 @@ var SectionAccess = React.createClass({
     }
 
     let series = this.prepareChartData();
-    let totalPeople = _.reduce(this.prepareChartData(), (sum, o) => {
+    let totalPeople = _.reduce(series, (sum, o) => {
       let currentObj = _.find(o.values, d => d.timestep.toISOString() === this.getCurrentDate().toISOString());
       return sum + currentObj.people_total;
     }, 0);
@@ -250,11 +263,7 @@ var SectionAccess = React.createClass({
         <p className='people-served-total'>{d3.format(',d')(totalPeople)} <span className='info-description'>people served</span></p>
         <div className='infographic'>
             <div className='key'>
-              <ul className='access-key'>
-                <li>Kenya</li>
-                <li>Malawi</li>
-                <li>Uganda</li>
-              </ul>
+              {this.renderChartKey()}
             </div>
           <ChartArea
             mouseover={this.chartMouseoverHandler}

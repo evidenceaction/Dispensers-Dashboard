@@ -237,7 +237,7 @@ var Chart = function (el, data) {
     // Update current.
     areas
       .attr('d', d => area(d.values))
-      .attr('class', d => `area`);
+      .attr('class', d => `area country-${d.country.toLowerCase()}`);
 
     // Remove old.
     areas.exit()

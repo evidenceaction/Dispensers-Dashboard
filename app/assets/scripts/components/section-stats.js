@@ -42,8 +42,6 @@ var SectionOverview = React.createClass({
       return null;
     }
 
-    console.log('this', this.props);
-
     return (
       <section className='page__content section--stats'>
         <div className='inner'>
