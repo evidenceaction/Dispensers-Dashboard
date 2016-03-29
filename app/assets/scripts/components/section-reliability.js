@@ -23,10 +23,10 @@ var SectionReliability = React.createClass({
     return (
       <dl className='reliability-popover-total'>
         <dd>{d.timestep.format('MMM YY')}</dd>
-        <dd>Dispensers with Reported Outage</dd>
-        <dt>{formatThousands(d.outages.total_rate, 1)}%</dt>
         <dd>Functioning Dispensers</dd>
         <dt>{formatThousands(d.functional.total_rate, 1)}%</dt>
+        <dd>Dispensers with Reported Outage</dd>
+        <dt className='popover-outages'>{formatThousands(d.outages.total_rate, 1)}%</dt>
       </dl>
     );
   },
@@ -69,11 +69,12 @@ var SectionReliability = React.createClass({
 
     return (
       <div className='inner'>
-        <div className='col--full'>
+        <div className='stacked-charts'>
+          <div className='col--main'>
           <h2 className='section__title'>{this.props.data.content.title}</h2>
           <div className='section-description' dangerouslySetInnerHTML={{__html: this.props.data.content.content}} />
-        </div>
-        <div className='col--main'>
+          </div>
+          <div className='col--sec'>
           <h4 className='chart-title'>Percent of Functional Dispensers</h4>
           <div className='infographic'>
             <div className='key'>
@@ -86,9 +87,17 @@ var SectionReliability = React.createClass({
               className='reliability-chart-wrapper'
               data={data}
               popoverContentFn={this.totalChartPopoverHandler} />
+            <p className='reliability-outage-note'>
+              The 5% of outages breakdown below by two reported causes.
+            </p>
+          </div>
           </div>
         </div>
-        <div className='col--sec'>
+        <div>
+          <div className='col--main'>
+            <p>dummy text about breakdown goes here </p>
+          </div>
+          <div className='col--sec'>
           <h4 className='chart-title'>Breakdown of Reported Dispenser Outages</h4>
           <div className='infographic'>
             <div className='key'>
@@ -101,6 +110,7 @@ var SectionReliability = React.createClass({
               className='reliability-chart-wrapper'
               data={data}
               popoverContentFn={this.breakdownChartPopoverHandler} />
+          </div>
           </div>
         </div>
       </div>

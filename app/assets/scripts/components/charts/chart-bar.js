@@ -196,7 +196,7 @@ var Chart = function (el, data) {
 
     barsFunctional
       .attr('x', 0)
-      .attr('y', d => y(d.functional.total_rate))
+      .attr('y', 0)
       .attr('width', x.rangeBand())
       .attr('height', d => _height - y(d.functional.total_rate));
 

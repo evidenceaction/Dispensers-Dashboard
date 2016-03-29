@@ -124,6 +124,8 @@ a:active {
   font-size: 100%;
   a {
     display: block;
+    content: url('../graphics/layout/EvidenceAction_DSWLogo.png');
+    width: 6rem;
   }
   * {
     vertical-align: top;
@@ -300,22 +302,35 @@ a:active {
     margin-top: 0.5rem;
     height: 10rem;
     @include media(medium-up) {
-      margin-top: 1.25rem;
+      margin-top: 2.25rem;
       height: 20rem;
+      position: relative;
     }
   }
 
+  .chart-title {
+    float: left;
+  }
+
+  .key {
+    @include media(medium-up){
+      position: absolute;
+      right: 0;
+      top: 8px;
+    }
+  }
+  
   .col--main {
     @include col(12/12);
     padding-bottom: $global-spacing;
     @include media(medium-up) {
-      @include col(6/12, $gutter: 0);
+      @include col(6/12);
     }
   }
   .col--sec {
     @include col(12/12);
     @include media(medium-up) {
-      @include col(6/12, $gutter: 0);
+      @include col(6/12);
     } 
   }
 
@@ -375,16 +390,19 @@ a:active {
 }
 
 .section--reliability {
+ .stacked-charts {
+  float: left;
+  }
   .col--main {
     @include col(12/12);
     @include media(medium-up) {
-      @include col(5/12);
+      @include col(4/12);
     }
   }
   .col--sec {
     @include col(12/12);
     @include media(medium-up) {
-      @include col(7/12);
+      @include col(8/12);
     } 
   }
 }
@@ -409,16 +427,29 @@ a:active {
   color: rgba($base-font-color, 0.64);
   font-family: $display-font-family;
 
-  .copy-right {
-    padding: $section-spacing/8;
-    float: left;
-    text-align: right;
+  .footer-detail {
+    display: flex;
+    justify-content: center; 
+    align-items: center;
+    list-style: none;
     @include col(12/12);
-    background: transparent;
-    margin-bottom: 0;
-    border-width: 0px 1px 0px 1px;
-    border-style: solid;
-    border-color: darken($secondary-color, 5%);
+     p { 
+      margin-bottom: 0;
+     }
+
+     a {
+      color: rgba($base-font-color, 0.80);
+      text-decoration: underline;
+     }
+
+    li{
+      padding: $section-spacing/4;
+      float: left;
+      font-family: $body-font-family;
+      color: rgba($base-font-color, 0.80);
+      background: transparent;
+      margin-bottom: 0;
+    }
   }
 
     > .inner {

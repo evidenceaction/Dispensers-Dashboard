@@ -144,7 +144,7 @@ var SectionAccess = React.createClass({
     });
   }),
 
-  renderColFull: function () {
+  renderColSlider: function () {
     if (!this.props.fetched) {
       if (this.props.fetching) {
         return (
@@ -160,9 +160,6 @@ var SectionAccess = React.createClass({
 
     return (
       <div className='col--full'>
-        <h2 className='section__title'>{this.props.data.content.title}</h2>
-        <div className='section-description' dangerouslySetInnerHTML={{__html: this.props.data.content.content}} />
-
           <p className='access-date'>{currDate.format('MM-DD-YYYY')}</p>
 
         <div className='ui-access-wrapper'>
@@ -183,6 +180,27 @@ var SectionAccess = React.createClass({
               }} />
           </div>
         </div>
+      </div>
+    );
+  },
+
+  renderColFull: function () {
+    if (!this.props.fetched) {
+      if (this.props.fetching) {
+        return (
+          <div className='col--full'>
+            <p>Data is loading!</p>
+          </div>
+        );
+      }
+      return null;
+    }
+
+    return (
+      <div className='col--full'>
+        <h2 className='section__title'>{this.props.data.content.title}</h2>
+        <div className='section-description' dangerouslySetInnerHTML={{__html: this.props.data.content.content}} />
+        <p className='chart-title'>People Served with Access to Dispensers</p>
       </div>
     );
   },
@@ -253,6 +271,7 @@ var SectionAccess = React.createClass({
   render: function () {
     return (
       <section className='page__content section--access'>
+
         <div className='inner'>
           {this.renderColFull()}
         </div>
@@ -262,6 +281,11 @@ var SectionAccess = React.createClass({
 
           {this.renderColSec()}
         </div>
+
+        <div className='inner'>
+          {this.renderColSlider()}
+        </div>
+
       </section>
     );
   }

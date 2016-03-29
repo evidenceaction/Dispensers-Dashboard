@@ -30,12 +30,12 @@
   margin-top: $global-spacing/2;
   &:first-child {
      &:before{
-      background-color: $infographic-c-color;
+      background-color: $infographic-b-color;
      }
   }
   &:last-child {
      &:before{
-      background-color: tint($infographic-c-color, 50%);
+      background-color: $infographic-c-color;
      }
   }
 }
@@ -206,7 +206,7 @@ svg.chart {
   @include media(medium-up) {
     margin-top: ($global-spacing/2);
     font-size: 1.25rem;
-    margin-bottom: ($global-spacing/2);
+    margin-bottom: ($global-spacing);
   }
   .info-description {
     font-size: 0.75rem;
@@ -221,6 +221,21 @@ svg.chart {
   font-family: $display-font-family;
   font-weight: $base-font-regular;
 }
+
+.reliability-outage-note {
+    margin-top: $global-spacing;
+    margin-bottom: $global-spacing * 4;
+    text-align: center;
+    position: relative;
+    font-family: $base-font-family;
+    color: $infographic-b-color;
+    &:after {
+      @extend .collecticons-chevron-down;
+      position: absolute;
+      bottom: -25px;
+      left: 50%;
+    }
+  }
 
 .section--reliability .reliability-chart-wrapper {
   min-height: 20rem;
@@ -265,11 +280,11 @@ svg.chart {
   }
 
   .bar-functional {
-    fill: tint($infographic-c-color, 55%);
+    fill: $infographic-c-color;
   }
 
   .bar-outages {
-    fill: tint($infographic-c-color, 0%);
+    fill: tint($infographic-b-color, 0%);
   }
 
   .bar-ghost {
