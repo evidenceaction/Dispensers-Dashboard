@@ -63,8 +63,6 @@ var SectionUsage = React.createClass({
             <ChartLine
               className='usage-chart-wrapper'
               data={data}
-              topThreshold={this.props.data.meta.tresholds[1].value}
-              bottomThreshold={this.props.data.meta.tresholds[0].value}
               popoverContentFn={this.chartPopoverHandler} />
           </div>
         </div>

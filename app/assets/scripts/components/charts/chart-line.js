@@ -75,8 +75,8 @@ var Chart = function (el, data) {
   this.setData = function (data) {
     var _data = _.cloneDeep(data);
     this.popoverContentFn = _data.popoverContentFn;
-    this.topThreshold = _data.topThreshold || null;
-    this.bottomThreshold = _data.bottomThreshold || null;
+    // this.topThreshold = _data.topThreshold || null;
+    // this.bottomThreshold = _data.bottomThreshold || null;
     this.data = _data.data;
     this.update();
   };
@@ -130,17 +130,10 @@ var Chart = function (el, data) {
       .attr('class', 'label')
       .attr('text-anchor', 'middle');
 
-    //   // Group to hold the areas.
-    // dataCanvas.append('g')
-    //   .attr('class', 'area-group');
-
-    // // Group to hold the area delimiter lines.
-    // dataCanvas.append('g')
-    //   .attr('class', 'area-line-group');
-
-    // // Group to hold the area delimiter line points.
-    // dataCanvas.append('g')
-    //   .attr('class', 'area-line-points-group');
+    // //////////////////////////////////////////////////
+    // Y axis grid.
+    dataCanvas.append('g')
+      .attr('class', 'y-grid');
 
     // //////////////////////////////////////////////////
     // Focus elements.
@@ -226,71 +219,105 @@ var Chart = function (el, data) {
       .remove();
 
     // ------------------------------
-    // Threshold.
+    // Y grid.
+    let ygrid = dataCanvas.select('.y-grid').selectAll('g.grid')
+      .data([25, 50, 75]);
 
-    let thresholdsData = [];
-    if (this.topThreshold) {
-      thresholdsData.push({
-        key: 'top',
-        value: this.topThreshold,
-        x: 0,
-        y: 0,
-        width: _width,
-        height: y(this.topThreshold)
-      });
-    }
+    let ygridEnter = ygrid.enter()
+      .append('g')
+      .attr('class', 'grid');
 
-    if (this.bottomThreshold) {
-      thresholdsData.push({
-        key: 'bottom',
-        value: this.bottomThreshold,
-        x: 0,
-        y: y(this.bottomThreshold),
-        width: _width,
-        height: _height - y(this.bottomThreshold)
-      });
-    }
-
-    let thresholds = dataCanvas.selectAll('g.threshold')
-      .data(thresholdsData);
-
-    // Enter.
-    let enterThresholds = thresholds.enter().append('g')
-      .attr('class', d => `${d.key} threshold`);
-
-    enterThresholds.append('rect')
+    ygridEnter.append('line')
       .datum(d => d)
-      .attr('class', 'highlight-area');
-    enterThresholds.append('line')
+      .attr('class', 'grid-line');
+    ygridEnter.append('text')
       .datum(d => d)
-      .attr('class', 'limit-line');
-    enterThresholds.append('text')
-      .datum(d => d)
-      .attr('class', 'value')
+      .attr('class', 'grid-value')
       .attr('text-anchor', 'end')
       .attr('dy', '0.25em');
 
     // Update.
-    thresholds.select('.highlight-area')
-      .attr('x', d => d.x)
-      .attr('y', d => d.y)
-      .attr('width', d => d.width)
-      .attr('height', d => d.height);
+    ygrid.select('.grid-line')
+      .attr('x1', d => 0)
+      .attr('y1', d => y(d))
+      .attr('x2', d => _width)
+      .attr('y2', d => y(d));
 
-    thresholds.select('.limit-line')
-      .attr('x1', d => d.x)
-      .attr('y1', d => y(d.value))
-      .attr('x2', d => d.width)
-      .attr('y2', d => y(d.value));
-
-    thresholds.select('.value')
-      .attr('x', -5)
-      .attr('y', d => y(d.value))
-      .text(d => `${d.value}%`);
+    ygrid.select('.grid-value')
+      .attr('x', -8)
+      .attr('y', d => y(d))
+      .text(d => `${d}%`);
 
     // Remove.
-    thresholds.exit()
+    ygrid.exit()
       .remove();
+
+    // ------------------------------
+    // Threshold.
+
+    // let thresholdsData = [];
+    // if (this.topThreshold) {
+    //   thresholdsData.push({
+    //     key: 'top',
+    //     value: this.topThreshold,
+    //     x: 0,
+    //     y: 0,
+    //     width: _width,
+    //     height: y(this.topThreshold)
+    //   });
+    // }
+
+    // if (this.bottomThreshold) {
+    //   thresholdsData.push({
+    //     key: 'bottom',
+    //     value: this.bottomThreshold,
+    //     x: 0,
+    //     y: y(this.bottomThreshold),
+    //     width: _width,
+    //     height: _height - y(this.bottomThreshold)
+    //   });
+    // }
+
+    // let thresholds = dataCanvas.selectAll('g.threshold')
+    //   .data(thresholdsData);
+
+    // // Enter.
+    // let enterThresholds = thresholds.enter().append('g')
+    //   .attr('class', d => `${d.key} threshold`);
+
+    // enterThresholds.append('rect')
+    //   .datum(d => d)
+    //   .attr('class', 'highlight-area');
+    // enterThresholds.append('line')
+    //   .datum(d => d)
+    //   .attr('class', 'limit-line');
+    // enterThresholds.append('text')
+    //   .datum(d => d)
+    //   .attr('class', 'value')
+    //   .attr('text-anchor', 'end')
+    //   .attr('dy', '0.25em');
+
+    // // Update.
+    // thresholds.select('.highlight-area')
+    //   .attr('x', d => d.x)
+    //   .attr('y', d => d.y)
+    //   .attr('width', d => d.width)
+    //   .attr('height', d => d.height);
+
+    // thresholds.select('.limit-line')
+    //   .attr('x1', d => d.x)
+    //   .attr('y1', d => y(d.value))
+    //   .attr('x2', d => d.width)
+    //   .attr('y2', d => y(d.value));
+
+    // thresholds.select('.value')
+    //   .attr('x', -5)
+    //   .attr('y', d => y(d.value))
+    //   .text(d => `${d.value}%`);
+
+    // // Remove.
+    // thresholds.exit()
+    //   .remove();
 
     // ------------------------------
     // Append Axis.
