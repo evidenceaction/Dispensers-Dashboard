@@ -82,12 +82,13 @@ var Country = React.createClass({
             country={this.props.params.country}
             data={this.props.sectionAccess.data} />
 
-{/*
           <SectionUsage
             fetched={this.props.sectionUsage.fetched}
             fetching={this.props.sectionUsage.fetching}
+            country={this.props.params.country}
             data={this.props.sectionUsage.data} />
 
+{/*
           <SectionReliability
             fetched={this.props.sectionReliability.fetched}
             fetching={this.props.sectionReliability.fetching}
