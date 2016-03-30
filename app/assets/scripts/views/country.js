@@ -1,6 +1,7 @@
 'use strict';
 import React from 'react';
 import { connect } from 'react-redux';
+import { push } from 'react-router-redux';
 import SectionOverview from '../components/section-stats';
 import SectionAccess from '../components/section-access';
 import SectionReliability from '../components/section-reliability';
@@ -13,6 +14,7 @@ var Country = React.createClass({
 
   propTypes: {
     _fetchSection: React.PropTypes.func,
+    _push: React.PropTypes.func,
     params: React.PropTypes.object,
     sectionOverview: React.PropTypes.shape({
       fetched: React.PropTypes.bool,
@@ -49,12 +51,22 @@ var Country = React.createClass({
     this.props._fetchSection('carbon', country);
   },
 
+  checkParams: function (params) {
+    if (['kenya', 'uganda', 'malawi'].indexOf(params.country) === -1) {
+      this.props._push('/404');
+      return false;
+    }
+    return true;
+  },
+
   componentDidMount: function () {
-    this._fetch(this.props.params.country);
+    if (this.checkParams(this.props.params)) {
+      this._fetch(this.props.params.country);
+    }
   },
 
   componentWillReceiveProps: function (newProps) {
-    if (this.props.params.country !== newProps.params.country) {
+    if (this.checkParams(newProps.params) && this.props.params.country !== newProps.params.country) {
       this._fetch(newProps.params.country);
     }
   },
@@ -120,7 +132,8 @@ function selector (state) {
 
 function dispatcher (dispatch) {
   return {
-    _fetchSection: (section, country) => dispatch(fetchSection(section, country))
+    _fetchSection: (section, country) => dispatch(fetchSection(section, country)),
+    _push: (location) => dispatch(push(location))
   };
 }
 

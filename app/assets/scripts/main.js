@@ -37,6 +37,7 @@ render((
   <Provider store={store}>
     <Router history={hashHistory}>
       <Route path='/' component={App}>
+        <Route path='404' component={UhOh} />
         <Route path=':country' component={Country} />
         <IndexRoute component={Home}/>
       </Route>
