@@ -96,7 +96,7 @@ var SectionReliability = React.createClass({
         </div>
         <div>
           <div className='col--main'>
-            <p>dummy text about breakdown goes here </p>
+            <p></p>
           </div>
           <div className='col--sec'>
           <h4 className='chart-title'>Breakdown of Reported Dispenser Outages</h4>
