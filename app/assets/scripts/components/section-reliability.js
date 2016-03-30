@@ -89,7 +89,7 @@ var SectionReliability = React.createClass({
               data={data}
               popoverContentFn={this.totalChartPopoverHandler} />
             <p className='reliability-outage-note'>
-              The 5% of outages breakdown below by two reported causes.
+              The outages breakdown by two reported causes.
             </p>
           </div>
           </div>

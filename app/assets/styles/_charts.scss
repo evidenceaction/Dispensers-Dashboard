@@ -276,7 +276,7 @@ svg.chart {
     }
 
     .avg-label-chlorine, .avg-label-hardware {
-      font-size: 0.75rem;
+      font-size: 0.675rem;
       fill: $base-color;
       &.avg {
         font-size: 0.675rem;
@@ -314,7 +314,7 @@ svg.chart {
 
   .y.axis {
     text {
-      font-size: 0.75rem;
+      font-size: 0.675rem;
       fill: rgba($base-color, 0.6);
     }
   }
@@ -348,8 +348,8 @@ svg.chart {
       stroke-width: 1px;
     }
     .grid-value {
-      font-size: 0.75rem;
-      fill: $base-color;
+      font-size: 0.675rem;
+      fill: rgba($base-color, 0.64);    
     }
   }
 

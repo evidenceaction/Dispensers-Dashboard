@@ -1,0 +1,27 @@
+ html, body {
+  height: 100%;
+}
+
+ .error-content {
+
+    .page__content {
+      background-color: $secondary-color;
+      height: calc(100vh - 150px);
+      position:relative;
+      background-image: url('../graphics/layout/dispensers_404.svg');
+      background-size: 100%;
+      background-repeat: no-repeat;
+
+
+      p {
+        position: absolute;
+        text-align: center;
+        top: 35%;
+        left: 50%;
+        font-size: 1.5rem;
+        transform: translate(-50%, -50%);
+        font-family: $display-font-family;
+        margin-top: $global-spacing * 2;
+      }
+    }
+}

@@ -126,6 +126,9 @@ a:active {
     display: block;
     content: url('../graphics/layout/EvidenceAction_DSWLogo.png');
     width: 6rem;
+     @include media(medium-up) {
+    width: 8rem;
+  }
   }
   * {
     vertical-align: top;
@@ -426,6 +429,7 @@ a:active {
   text-align: center;
   color: rgba($base-font-color, 0.64);
   font-family: $display-font-family;
+  border-top: 1px solid tint($base-color, 80%);
 
   .footer-detail {
     display: flex;
