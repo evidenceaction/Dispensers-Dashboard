@@ -9,7 +9,8 @@ var SectionOverview = React.createClass({
     fetched: React.PropTypes.bool,
     fetching: React.PropTypes.bool,
     data: React.PropTypes.shape({
-      data: React.PropTypes.array
+      data: React.PropTypes.array,
+      content: React.PropTypes.object
     })
   },
 
@@ -46,8 +47,8 @@ var SectionOverview = React.createClass({
       <section className='page__content section--stats'>
         <div className='inner'>
           <div className='stats__intro'>
-            <h1 className='stats__intro-title'>Safe Water Dispensers</h1>
-            <p className='stats__intro-text'> Why these KPI's are important, etc. etc. Some Opening text should go here that describes things.</p>
+            <h1 className='stats__intro-title'>{this.props.data.content.title}</h1>
+            <div className='stats__intro-text' dangerouslySetInnerHTML={{__html: this.props.data.content.content}} />
           </div>
           {!this.props.fetched && this.props.fetching ? this.renderLoading() : null}
           {this.props.fetched && !this.props.fetching ? this.props.data.data.map(this.renderStat) : null}
