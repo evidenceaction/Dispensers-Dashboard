@@ -6,7 +6,7 @@ var UhOh = React.createClass({
 
   render: function () {
     return (
-      <section className='page'>
+      <section className='page error-content'>
         <header className='page__header'>
           <div className='inner'>
             <div className='page__headline'>
@@ -17,7 +17,7 @@ var UhOh = React.createClass({
         <div className='page__body'>
           <div className='inner'>
             <div className='page__content'>
-              <p>UhOh that is a bummer.</p>
+              <p>Uh-oh, the page you're looking for can't be found!</p>
             </div>
           </div>
         </div>

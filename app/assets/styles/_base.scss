@@ -426,6 +426,7 @@ a:active {
   text-align: center;
   color: rgba($base-font-color, 0.64);
   font-family: $display-font-family;
+  border-top: 1px solid tint($base-color, 80%);
 
   .footer-detail {
     display: flex;
