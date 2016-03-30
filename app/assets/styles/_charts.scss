@@ -55,41 +55,41 @@
 }
 
 .access-key li {
-  &:first-child {
+  &.country-kenya {
      &:before{
-      background-color: rgba($infographic-b-color, 0.4);
+      background-color: rgba($infographic-b-color, 0.9);
      }
   }
 
-  &:nth-child(2) {
+  &.country-uganda {
      &:before{
       background-color: rgba($infographic-b-color, 0.7);
      }
   }
 
-  &:last-child {
+  &.country-malawi {
      &:before{
-      background-color: rgba($infographic-b-color, 0.9);
+      background-color: rgba($infographic-b-color, 0.4);
      }
   }
 }
 
 .carbon-key li {
-  &:first-child {
+  &.country-kenya {
      &:before{
-      background-color: rgba($highlight-color, 0.4);
+      background-color: rgba($highlight-color, 0.9);
      }
   }
 
-  &:nth-child(2) {
+  &.country-uganda {
      &:before{
       background-color: rgba($highlight-color, 0.7);
      }
   }
 
-  &:last-child {
+  &.country-malawi {
      &:before{
-      background-color: rgba($highlight-color, 0.9);
+      background-color: rgba($highlight-color, 0.4);
      }
   }
 }
@@ -113,16 +113,21 @@ svg.chart {
 
 .section--carbon .carbon-chart-wrapper {
   min-height: 20rem;
-    .area {
-    &:nth-child(1) {
+  .area {
+    &.country-kenya {
       fill: rgba($highlight-color, 0.9);
     }
-    &:nth-child(2) {
+    &.country-uganda {
       fill: rgba($highlight-color, 0.6);
     }
-    &:nth-child(3) {
+    &.country-malawi {
       fill: rgba($highlight-color, 0.3);
     }
+  }
+
+  .cert-markers text {
+    font-size: 0.625rem;
+    fill: tint($base-color, 16%);
   }
 }
 
@@ -132,13 +137,13 @@ svg.chart {
   min-height: 20rem;
   }
     .area {
-    &:nth-child(1) {
+    &.country-kenya {
       fill: rgba($infographic-b-color, 0.9);
     }
-    &:nth-child(2) {
+    &.country-uganda {
       fill: rgba($infographic-b-color, 0.7);
     }
-    &:nth-child(3) {
+    &.country-malawi {
       fill: rgba($infographic-b-color, 0.4);
     }
   }
@@ -314,25 +319,37 @@ svg.chart {
     }
   }
 
-  .threshold {
-    .limit-line {
-      stroke: rgba($base-color, 0.75);
-      stroke-dasharray: 5 5;
+  // .threshold {
+  //   .limit-line {
+  //     stroke: rgba($base-color, 0.75);
+  //     stroke-dasharray: 5 5;
+  //   }
+  //   .value {
+  //     font-size: 0.75rem;
+  //     fill: $base-color;
+  //   }
+
+  //   &.top {
+  //     .highlight-area {
+  //       fill: rgba($highlight-color, 0.10);
+  //     }
+  //   }
+  //   &.bottom {
+  //     .highlight-area {
+  //       fill: rgba($base-color, 0.10);
+  //     }
+  //   }
+  // }
+
+  .y-grid {
+    .grid-line {
+      stroke: rgba($base-color, 0.64);
+      stroke-dasharray: 4 4;
+      stroke-width: 1px;
     }
-    .value {
+    .grid-value {
       font-size: 0.75rem;
       fill: $base-color;
-    }
-
-    &.top {
-      .highlight-area {
-        fill: rgba($highlight-color, 0.10);
-      }
-    }
-    &.bottom {
-      .highlight-area {
-        fill: rgba($base-color, 0.10);
-      }
     }
   }
 

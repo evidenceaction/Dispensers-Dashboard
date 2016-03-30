@@ -29,31 +29,33 @@ var SectionAccessMap = React.createClass({
 
   setupPointsLayer: function () {
     // Create layer if doesn't exist.
-    if (!this.pointsLayer) {
-      let feat = {
-        type: 'FeatureCollection',
-        features: []
-      };
-
-      this.props.data.forEach(o => {
-        let f = {
-          type: 'Feature',
-          properties: {
-            values: o.values
-          },
-          geometry: {
-            type: 'Point',
-            coordinates: o.coordinates
-          }
-        };
-        f.properties.iso = o.iso;
-        f.properties.name = o.name;
-        feat.features.push(f);
-      });
-
-      this.pointsLayer = L.geoJson(feat);
-      this.map.addLayer(this.pointsLayer);
+    if (this.pointsLayer) {
+      this.map.removeLayer(this.pointsLayer);
     }
+
+    let feat = {
+      type: 'FeatureCollection',
+      features: []
+    };
+
+    this.props.data.forEach(o => {
+      let f = {
+        type: 'Feature',
+        properties: {
+          values: o.values
+        },
+        geometry: {
+          type: 'Point',
+          coordinates: o.coordinates
+        }
+      };
+      f.properties.iso = o.iso;
+      f.properties.name = o.name;
+      feat.features.push(f);
+    });
+
+    this.pointsLayer = L.geoJson(feat);
+    this.map.addLayer(this.pointsLayer);
 
     let { data, activeDate } = this.props;
 
@@ -90,7 +92,9 @@ var SectionAccessMap = React.createClass({
       // Add class on next tick to have the background transition.
       if (currentVal.dispensers_installed) {
         setTimeout(() => {
-          l._icon.classList.add('dispenser-new');
+          if (l._icon) {
+            l._icon.classList.add('dispenser-new');
+          }
         }, 1);
       }
     });

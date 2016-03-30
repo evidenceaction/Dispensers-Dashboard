@@ -55,7 +55,7 @@ var Chart = function (el, data) {
   var _this = this;
 
   // Var declaration.
-  var margin = {top: 24, right: 4, bottom: 28, left: 32};
+  var margin = {top: 24, right: 4, bottom: 40, left: 32};
   // width and height refer to the data canvas. To know the svg size the margins
   // must be added.
   var _width, _height;
@@ -78,6 +78,7 @@ var Chart = function (el, data) {
     var _data = _.cloneDeep(data);
     this.popoverContentFn = _data.popoverContentFn;
     this.data = stack(_data.series.reverse());
+    this.certificationMarkers = _data.certificationMarkers;
     this.update();
   };
 
@@ -160,6 +161,11 @@ var Chart = function (el, data) {
       .attr('class', 'area-line-points-group');
 
     // //////////////////////////////////////////////////
+    // Certification markers.
+    svg.append('g')
+      .attr('class', 'cert-markers');
+
+    // //////////////////////////////////////////////////
     // Focus elements.
     // Focus line and circles show on hover.
 
@@ -234,7 +240,7 @@ var Chart = function (el, data) {
     // Update current.
     areas
       .attr('d', d => area(d.values))
-      .attr('class', d => `area`);
+      .attr('class', d => `area country-${d.country.toLowerCase()}`);
 
     // Remove old.
     areas.exit()
@@ -255,6 +261,35 @@ var Chart = function (el, data) {
 
     // Remove old.
     area_delimiters.exit()
+      .remove();
+
+    // ------------------------------
+    // Certification markers.
+    let certMarks = svg.select('.cert-markers')
+      .selectAll('text')
+      .data(this.certificationMarkers);
+
+    certMarks.enter()
+      .append('text');
+
+    // Update current.
+    certMarks
+      .attr('x', d => x(d.timestep) + margin.left)
+      .attr('y', d => _height + margin.top + 24)
+      .attr('dy', '1em')
+      .style('text-anchor', d => {
+        if (d.timestep.format('YYYY') === this.data[0].values[0].timestep.format('YYYY')) {
+          return 'start';
+        } else if (d.timestep.format('YYYY') === _.last(this.data[0].values).timestep.format('YYYY')) {
+          return 'end';
+        } else {
+          return 'middle';
+        }
+      })
+      .text(d => d.value);
+
+    // Remove old.
+    certMarks.exit()
       .remove();
 
     // ------------------------------

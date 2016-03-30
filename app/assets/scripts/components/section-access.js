@@ -15,12 +15,19 @@ var SectionAccess = React.createClass({
   propTypes: {
     fetched: React.PropTypes.bool,
     fetching: React.PropTypes.bool,
+    country: React.PropTypes.string,
     data: React.PropTypes.shape({
       data: React.PropTypes.array,
       geo: React.PropTypes.array,
       content: React.PropTypes.object
     })
   },
+
+  countryMatrix: [
+    {k: 'ke', v: 'Kenya', id: 1},
+    {k: 'ug', v: 'Uganda', id: 2},
+    {k: 'mw', v: 'Malawi', id: 3}
+  ],
 
   getInitialState: function () {
     return {
@@ -87,7 +94,7 @@ var SectionAccess = React.createClass({
         {data.map(o => {
           return [
             <dd>{o.country}</dd>,
-            <dt>{formatThousands(o.values[index].people_total)} ({formatThousands(o.values[index].new_people_served)} new)</dt>
+            <dt className={`country-${o.country.toLowerCase()}`}>{formatThousands(o.values[index].people_total)} ({formatThousands(o.values[index].new_people_served)} new)</dt>
           ];
         })}
       </dl>
@@ -108,13 +115,16 @@ var SectionAccess = React.createClass({
     return months;
   },
 
-  prepareChartData: _.memoize(function () {
+  prepareChartData: function () {
     return _(this.props.data.data)
       .groupBy(o => o.iso.substr(0, 2))
       .map((o, key) => {
-        // Use he first as base.
+        // Use the first as base.
         let res = _.cloneDeep(o[0]);
-        res.country = key;
+        let c = _.find(this.countryMatrix, {k: key.toLowerCase()});
+        res.country = c.v;
+        res.id = c.id;
+        delete res.iso;
 
         // Loop over all the districts except the first.
         for (let i = 1; i < o.length; i++) {
@@ -131,10 +141,11 @@ var SectionAccess = React.createClass({
         });
         return res;
       })
+      .sortBy('id')
       .value();
-  }),
+  },
 
-  prepareMapData: _.memoize(function () {
+  prepareMapData: function () {
     // Add the values to the geo array.
     let d = this.props.data;
     return d.geo.map(o => {
@@ -142,7 +153,7 @@ var SectionAccess = React.createClass({
       o.values = countryData.values;
       return o;
     });
-  }),
+  },
 
   renderColSlider: function () {
     if (!this.props.fetched) {
@@ -227,6 +238,18 @@ var SectionAccess = React.createClass({
     );
   },
 
+  renderChartKey: function () {
+    let c = this.props.country;
+    return (
+      <ul className='access-key'>
+        {this.countryMatrix.map(o => {
+          let countryLow = o.v.toLowerCase();
+          return c === 'overview' || c === countryLow ? <li key={o.k} className={`country-${countryLow}`}>{o.v}</li> : null;
+        })}
+      </ul>
+    );
+  },
+
   renderColMain: function () {
     if (!this.props.fetched) {
       if (this.props.fetching) {
@@ -240,7 +263,7 @@ var SectionAccess = React.createClass({
     }
 
     let series = this.prepareChartData();
-    let totalPeople = _.reduce(this.prepareChartData(), (sum, o) => {
+    let totalPeople = _.reduce(series, (sum, o) => {
       let currentObj = _.find(o.values, d => d.timestep.toISOString() === this.getCurrentDate().toISOString());
       return sum + currentObj.people_total;
     }, 0);
@@ -250,11 +273,7 @@ var SectionAccess = React.createClass({
         <p className='people-served-total'>{d3.format(',d')(totalPeople)} <span className='info-description'>people served</span></p>
         <div className='infographic'>
             <div className='key'>
-              <ul className='access-key'>
-                <li>Kenya</li>
-                <li>Malawi</li>
-                <li>Uganda</li>
-              </ul>
+              {this.renderChartKey()}
             </div>
           <ChartArea
             mouseover={this.chartMouseoverHandler}

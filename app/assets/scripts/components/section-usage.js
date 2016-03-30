@@ -11,6 +11,7 @@ var SectionUsage = React.createClass({
   propTypes: {
     fetched: React.PropTypes.bool,
     fetching: React.PropTypes.bool,
+    country: React.PropTypes.string,
     data: React.PropTypes.shape({
       data: React.PropTypes.array,
       meta: React.PropTypes.object,
@@ -37,7 +38,7 @@ var SectionUsage = React.createClass({
     );
   },
 
-  prepareChartData: _.memoize(function () {
+  prepareChartData: function () {
     let data = {
       values: this.props.data.data.map(o => {
         o = _.cloneDeep(o);
@@ -47,7 +48,7 @@ var SectionUsage = React.createClass({
     };
 
     return data;
-  }),
+  },
 
   renderContent: function () {
     let data = this.prepareChartData();
@@ -63,8 +64,6 @@ var SectionUsage = React.createClass({
             <ChartLine
               className='usage-chart-wrapper'
               data={data}
-              topThreshold={this.props.data.meta.tresholds[1].value}
-              bottomThreshold={this.props.data.meta.tresholds[0].value}
               popoverContentFn={this.chartPopoverHandler} />
           </div>
         </div>

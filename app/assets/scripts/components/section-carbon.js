@@ -11,6 +11,7 @@ var SectionCarbon = React.createClass({
   propTypes: {
     fetched: React.PropTypes.bool,
     fetching: React.PropTypes.bool,
+    country: React.PropTypes.string,
     data: React.PropTypes.shape({
       data: React.PropTypes.array,
       meta: React.PropTypes.array,
@@ -18,13 +19,19 @@ var SectionCarbon = React.createClass({
     })
   },
 
+  countryMatrix: [
+    {k: 'ke', v: 'Kenya', id: 1},
+    {k: 'ug', v: 'Uganda', id: 2},
+    {k: 'mw', v: 'Malawi', id: 3}
+  ],
+
   chartPopoverHandler: function (data, index) {
     return (
       <dl className='carbon-popover'>
         {data.map(o => {
           return [
             <dd>{o.country}</dd>,
-            <dt>{formatThousands(o.values[index].credits, 1)}</dt>
+            <dt className={`country-${o.country.toLowerCase()}`}>{formatThousands(o.values[index].credits, 1)}</dt>
           ];
         })}
       </dl>
@@ -39,7 +46,7 @@ var SectionCarbon = React.createClass({
     );
   },
 
-  prepareChartData: _.memoize(function () {
+  prepareChartData: function () {
     let data = _.map(this.props.data.data, o => {
       _.forEach(o.values, oo => {
         oo.timestep = moment.utc(oo.timestep);
@@ -47,10 +54,37 @@ var SectionCarbon = React.createClass({
       return o;
     });
     return data;
-  }),
+  },
+
+  renderChartKey: function () {
+    let c = this.props.country;
+    return (
+      <ul className='carbon-key'>
+        {this.countryMatrix.map(o => {
+          let countryLow = o.v.toLowerCase();
+          return c === 'overview' || c === countryLow ? <li key={o.k} className={`country-${countryLow}`}>{o.v}</li> : null;
+        })}
+      </ul>
+    );
+  },
 
   renderContent: function () {
     let series = this.prepareChartData();
+    let country = this.props.country;
+
+    let certificationMarkers = [];
+    if (country === 'overview' || country === 'uganda') {
+      certificationMarkers.push({
+        timestep: moment.utc('2013-01-01', 'YYYY-MM-DD'),
+        value: 'Uganda certified'
+      });
+    }
+    if (country === 'overview' || country === 'malawi') {
+      certificationMarkers.push({
+        timestep: moment.utc('2014-01-01', 'YYYY-MM-DD'),
+        value: 'Malawi certified'
+      });
+    }
     return (
       <div className='inner'>
         <div className='col--main'>
@@ -62,15 +96,12 @@ var SectionCarbon = React.createClass({
           <div className='infographic'>
           <h4 className='chart-title'>Total Carbon Credits Generated</h4>
             <div className='key'>
-              <ul className='carbon-key'>
-                <li>Uganda</li>
-                <li>Kenya</li>
-                <li>Malawi</li>
-              </ul>
+              {this.renderChartKey()}
             </div>
             <ChartCarbon
               className='carbon-chart-wrapper'
               popoverContentFn={this.chartPopoverHandler}
+              certificationMarkers={certificationMarkers}
               series={series} />
           </div>
         </div>

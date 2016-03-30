@@ -245,19 +245,19 @@
 
 .access-popover {
 
-  dd:first-child{
+  dd:first-child {
     color: tint($base-color, 30%);
     font-weight: $base-font-regular;
   }
 
   dt {
-    &:nth-child(6) {
+    &.country-kenya {
       color: rgba($infographic-b-color, 0.9);
     }
-    &:nth-child(4) {
+    &.country-uganda {
       color: rgba($infographic-b-color, 0.7);
     }
-    &:nth-child(2) {
+    &.country-malawi {
       color: rgba($infographic-b-color, 0.4);
     } 
   }
@@ -326,13 +326,13 @@
     font-weight: $base-font-regular;
   }
   dt {
-    &:nth-child(6) {
+    &.country-kenya {
       color: rgba($highlight-color, 0.9);
     }
-    &:nth-child(4) {
+    &.country-uganda {
       color: rgba($highlight-color, 0.7);
     }
-    &:nth-child(2) {
+    &.country-malawi {
      color: rgba($highlight-color, 0.4);
     } 
   }

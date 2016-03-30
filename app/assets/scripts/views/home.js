@@ -68,21 +68,25 @@ var Home = React.createClass({
           <SectionAccess
             fetched={this.props.sectionAccess.fetched}
             fetching={this.props.sectionAccess.fetching}
+            country='overview'
             data={this.props.sectionAccess.data} />
 
           <SectionUsage
             fetched={this.props.sectionUsage.fetched}
             fetching={this.props.sectionUsage.fetching}
+            country='overview'
             data={this.props.sectionUsage.data} />
 
           <SectionReliability
             fetched={this.props.sectionReliability.fetched}
             fetching={this.props.sectionReliability.fetching}
+            country='overview'
             data={this.props.sectionReliability.data} />
 
           <SectionCarbon
             fetched={this.props.sectionCarbon.fetched}
             fetching={this.props.sectionCarbon.fetching}
+            country='overview'
             data={this.props.sectionCarbon.data} />
 
         </div>
