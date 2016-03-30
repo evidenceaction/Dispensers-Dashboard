@@ -125,7 +125,10 @@ a:active {
   a {
     display: block;
     content: url('../graphics/layout/EvidenceAction_DSWLogo.png');
+    width: 6rem;
+     @include media(medium-up) {
     width: 8rem;
+  }
   }
   * {
     vertical-align: top;
