@@ -1,7 +1,5 @@
-# Safe Water
-
-Set of public dashboards for dispensers for safe water project to provide insight into its KPI's.
-The structure and build of our dashboards are aimed at different stakeholders of the project, including a donor base that is part of the effective altruism movement and seeks to understand the data behind the program.
+# Dispensers Dashboard
+Set of public dashboards for the [Dispensers for Safe Water](http://www.evidenceaction.org/dispensersforsafewater) project to provide insight into its KPI's. The data for these dashboards is provided by the [Dispensers Dashboard API](https://github.com/evidenceaction/Dispensers-Dashboard-API).
 
 ## Development environment
 To set up the development environment for this website, you'll need to install the following on your system:
@@ -16,14 +14,13 @@ After these basic requirements are met, run the following commands in the websit
 $ npm install
 ```
 
-### Server (TEMPORARY)
-This app requires communication with a server which can be found in the [Safe Water API](https://github.com/developmentseed/safe-water-api/) repo.
-After running a local copy add the address to `config/local.js`:
+### API
+When you run this project locally, it will connect to the production API by default. Alternatively, you can run a local copy of the [Dispensers Dashboard API](https://github.com/evidenceaction/Dispensers-Dashboard-API).
+
+In that case, you will have to add its address to `config/local.js`:
 ```
   api: 'http://localhost:[port]'
 ```
-
-> TEMPORARY: Once the server is deployed to a staging server this will be removed.
 
 ### Getting started
 
