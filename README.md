@@ -14,10 +14,10 @@ After these basic requirements are met, run the following commands in the websit
 $ npm install
 ```
 
-### Server
-This app requires communication with a server which can be found in the [Dispensers Dashboard API](https://github.com/evidenceaction/Dispensers-Dashboard-API) repo.
+### API
+When you run this project locally, it will connect to the production API by default. Alternatively, you can run a local copy of the [Dispensers Dashboard API](https://github.com/evidenceaction/Dispensers-Dashboard-API).
 
-If you want to run the API locally, add its address to `config/local.js`:
+In that case, you will have to add its address to `config/local.js`:
 ```
   api: 'http://localhost:[port]'
 ```
