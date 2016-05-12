@@ -7,6 +7,6 @@ module.exports = {
   environment: 'production',
   consoleMessage: logo,
   mbToken: 'pk.eyJ1IjoiZGV2c2VlZCIsImEiOiJnUi1mbkVvIn0.018aLhX0Mb0tdtaT2QNe2Q',
-  api: 'http://dsw-staging.herokuapp.com'
+  api: 'http://dispenserdata-api.herokuapp.com'
 };
 
