@@ -24,25 +24,15 @@ $base-alpha-color: rgba($base-color, 0.12);
  */
 
 @font-face {
-  font-family: TSTARMonoRoundReg;
-  src: url("../fonts/TSTARMonoRoundRegWeb.eot");
-}
-
-/* then for WOFF-capable browsers */
-@font-face {
-  font-family: TSTARMonoRoundReg;
+  font-family: TSTARMonoRound;
   src: url("../fonts/TSTARMonoRoundRegWeb.woff") format("woff");
+  font-weight: 400;
 }
 
 @font-face {
-  font-family: TSTARMonoRoundBol;
-  src: url("../fonts/TSTARMonoRoundBolWeb.eot");
-}
-
-/* then for WOFF-capable browsers */
-@font-face {
-  font-family: TSTARMonoRoundBol;
+  font-family: TSTARMonoRound;
   src: url("../fonts/TSTARMonoRoundBolWeb.woff") format("woff");
+  font-weight: 700;
 }
 
 
@@ -54,7 +44,7 @@ $base-font-regular: 400;
 $base-font-bold: 700;
 $base-font-weight: $base-font-regular;
 
-$display-font-family: "TSTARMonoRoundBol","Helvetica Neue", Helvetica, Arial, sans-serif;
+$display-font-family: "TSTARMonoRound","Helvetica Neue", Helvetica, Arial, sans-serif;
 $body-font-family: 'Georgia', serif;
 
 /* ==========================================================================
