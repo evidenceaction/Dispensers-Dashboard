@@ -18,7 +18,10 @@ var App = React.createClass({
           <div className='inner'>
             <div className='site-headline'>
               <h1 className='site-title'>
-                <a href='/' title='Visit homepage'>Site title</a>
+                <a href='/' title='Visit homepage of Evidence Action'>
+                  <img src='/assets/graphics/layout/EvidenceAction_DSWLogo.png' alt='Evidence Action logotype' width='1050' height='840' />
+                  <span>Evidence Action</span>
+                </a>
               </h1>
             </div>
             <GlobalMenu />
