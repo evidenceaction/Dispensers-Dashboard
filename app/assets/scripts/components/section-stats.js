@@ -46,11 +46,12 @@ var SectionOverview = React.createClass({
     return (
       <section className='page__content section--stats'>
         <div className='inner'>
+          {!this.props.fetched && this.props.fetching ? this.renderLoading() : (
           <div className='stats__intro'>
             <h1 className='stats__intro-title'>{this.props.data.content.title}</h1>
             <div className='stats__intro-text' dangerouslySetInnerHTML={{__html: this.props.data.content.content}} />
           </div>
-          {!this.props.fetched && this.props.fetching ? this.renderLoading() : null}
+          )}
           {this.props.fetched && !this.props.fetching ? this.props.data.data.map(this.renderStat) : null}
         </div>
       </section>
