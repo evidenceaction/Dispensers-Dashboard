@@ -45,7 +45,7 @@ var Home = React.createClass({
     this.props._fetchSection('access');
     this.props._fetchSection('reliability');
     this.props._fetchSection('usage');
-    this.props._fetchSection('carbon');
+    //this.props._fetchSection('carbon');
   },
 
   render: function () {
