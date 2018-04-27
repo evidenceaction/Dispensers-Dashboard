@@ -48,7 +48,7 @@ var Country = React.createClass({
     this.props._fetchSection('access', country);
     this.props._fetchSection('reliability', country);
     this.props._fetchSection('usage', country);
-    this.props._fetchSection('carbon', country);
+    //this.props._fetchSection('carbon', country);
   },
 
   checkParams: function (params) {
