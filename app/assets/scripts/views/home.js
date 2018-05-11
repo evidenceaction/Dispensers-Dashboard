@@ -5,7 +5,6 @@ import SectionOverview from '../components/section-stats';
 import SectionAccess from '../components/section-access';
 import SectionReliability from '../components/section-reliability';
 import SectionUsage from '../components/section-usage';
-import SectionCarbon from '../components/section-carbon';
 import { fetchSection } from '../actions/action-creators';
 
 var Home = React.createClass({
@@ -32,11 +31,6 @@ var Home = React.createClass({
       fetched: React.PropTypes.bool,
       fetching: React.PropTypes.bool,
       data: React.PropTypes.object
-    }),
-    sectionCarbon: React.PropTypes.shape({
-      fetched: React.PropTypes.bool,
-      fetching: React.PropTypes.bool,
-      data: React.PropTypes.object
     })
   },
 
@@ -45,7 +39,6 @@ var Home = React.createClass({
     this.props._fetchSection('access');
     this.props._fetchSection('reliability');
     this.props._fetchSection('usage');
-    //this.props._fetchSection('carbon');
   },
 
   render: function () {
@@ -83,12 +76,6 @@ var Home = React.createClass({
             country='overview'
             data={this.props.sectionReliability.data} />
 
-          <SectionCarbon
-            fetched={this.props.sectionCarbon.fetched}
-            fetching={this.props.sectionCarbon.fetching}
-            country='overview'
-            data={this.props.sectionCarbon.data} />
-
         </div>
       </section>
     );
@@ -103,8 +90,7 @@ function selector (state) {
     sectionOverview: state.sectionOverview,
     sectionAccess: state.sectionAccess,
     sectionReliability: state.sectionReliability,
-    sectionUsage: state.sectionUsage,
-    sectionCarbon: state.sectionCarbon
+    sectionUsage: state.sectionUsage
   };
 }
 

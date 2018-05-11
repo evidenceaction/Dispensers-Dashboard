@@ -6,7 +6,6 @@ import SectionOverview from '../components/section-stats';
 import SectionAccess from '../components/section-access';
 import SectionReliability from '../components/section-reliability';
 import SectionUsage from '../components/section-usage';
-import SectionCarbon from '../components/section-carbon';
 import { fetchSection } from '../actions/action-creators';
 
 var Country = React.createClass({
@@ -35,11 +34,6 @@ var Country = React.createClass({
       fetched: React.PropTypes.bool,
       fetching: React.PropTypes.bool,
       data: React.PropTypes.object
-    }),
-    sectionCarbon: React.PropTypes.shape({
-      fetched: React.PropTypes.bool,
-      fetching: React.PropTypes.bool,
-      data: React.PropTypes.object
     })
   },
 
@@ -48,7 +42,6 @@ var Country = React.createClass({
     this.props._fetchSection('access', country);
     this.props._fetchSection('reliability', country);
     this.props._fetchSection('usage', country);
-    //this.props._fetchSection('carbon', country);
   },
 
   checkParams: function (params) {
@@ -106,11 +99,6 @@ var Country = React.createClass({
             country={this.props.params.country}
             data={this.props.sectionReliability.data} />
 
-          <SectionCarbon
-            fetched={this.props.sectionCarbon.fetched}
-            fetching={this.props.sectionCarbon.fetching}
-            country={this.props.params.country}
-            data={this.props.sectionCarbon.data} />
         </div>
       </section>
     );
@@ -125,8 +113,7 @@ function selector (state) {
     sectionOverview: state.sectionOverview,
     sectionAccess: state.sectionAccess,
     sectionReliability: state.sectionReliability,
-    sectionUsage: state.sectionUsage,
-    sectionCarbon: state.sectionCarbon
+    sectionUsage: state.sectionUsage
   };
 }
 
