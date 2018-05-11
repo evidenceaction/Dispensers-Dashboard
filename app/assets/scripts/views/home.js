@@ -1,4 +1,5 @@
 'use strict';
+
 import React from 'react';
 import { connect } from 'react-redux';
 import SectionOverview from '../components/section-stats';
