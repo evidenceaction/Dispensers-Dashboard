@@ -23,16 +23,16 @@ var SectionOverview = React.createClass({
   formatStatValue: function (stat) {
     switch (stat.format) {
       case 'percent':
-        return formatThousands(stat.value, 1) + '%';
+        return formatThousands(stat.value, 0) + '%';
       default:
-        return formatThousands(stat.value, 1);
+        return formatThousands(stat.value, 0);
     }
   },
 
   renderStat: function (stat) {
     return (
-      <div className='stats__entry' key={stat.kpi}>
-        <h3 className='stats__title'>{this.formatStatValue(stat)}</h3>
+      <div className='site-headline' key={stat.kpi}>
+        <h7 className='stats__title'>{this.formatStatValue(stat)}</h7>
         <p className='stats__description'>{stat.description}</p>
       </div>
     );
