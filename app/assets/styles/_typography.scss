@@ -69,6 +69,7 @@ p {
   color: $base-color;
   font-family: $display-font-family;
   font-size: 0.8125rem;
+  text-align: center;
   @include media(medium-up) {
     font-size: 1.125rem;
   }
@@ -235,6 +236,19 @@ hr {
   font-weight: $base-font-bold;
   margin-top: 0;
   margin-bottom: $global-spacing;
+  small {
+    font-size: 80%;
+    font-weight: normal;
+    vertical-align: top;
+  }
+}
+
+h7 {
+  font-family: $display-font-family;
+  font-weight: $base-font-bold;
+  margin-top: 0;
+  margin-bottom: $global-spacing;
+  margin-left: 7rem;
   small {
     font-size: 80%;
     font-weight: normal;
