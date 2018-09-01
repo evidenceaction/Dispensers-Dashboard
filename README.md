@@ -37,5 +37,3 @@ Compile the sass files, javascript... Use this instead of ```npm run serve``` if
 ```
 $ npm run build
 ```
-
-
